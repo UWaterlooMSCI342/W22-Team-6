@@ -1,0 +1,40 @@
+<h1>Teams</h1>
+
+<% if @teams.size == 0 %>
+  <p>No teams yet!</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Team Code</th>
+        <th>Created By</th>
+        <th>Team Members</th>
+        <th colspan="4"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @teams.each do |team| %>
+        <tr id=team<%= team.id %> >
+          <td><%= team.team_name %></td>
+          <td><%= team.team_code %></td>
+          <td><%= team.user.name %></td>
+          <td><%= team.student_names.join(", ") %></td>
+          <td><%= link_to 'Show', team %></td>
+          <td><%= link_to 'Edit', edit_team_path(team) %></td>
+
+
+          <td><%= link_to 'Delete Team', team_confirm_delete_path(team.id) %></td>
+
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<br>
+<%# Use id to prevent capybara getting confused about which "new team" link to click %>
+<%= link_to 'New Team', new_team_path, id: "new-team-link" %> |
+<%= link_to 'Back', :back %>

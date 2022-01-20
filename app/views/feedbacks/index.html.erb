@@ -1,0 +1,50 @@
+<h1>Feedbacks</h1>
+<p>You can find a history of all feedbacks submitted below.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Student Name</th>
+      <th>Team</th>
+      <th>Rating</th>
+      <th>Priority</th>
+      <th>Comments</th>
+      <th>Timestamp</th>
+      <th colspan="7"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @feedbacks.each do |feedback| %>
+      <tr>
+        <td><%= feedback.user.name %></td>
+        <td><%= feedback.team.team_name %></td>
+        <td><%= feedback.rating %></td>
+        <%if feedback.priority == 2%>
+          <td><%='Low'%></td>
+        <%elsif feedback.priority == 1%>
+          <td><%='Medium'%></td>
+        <%else%>
+          <td><%='Urgent'%></td>
+        <%end%>
+        <%if feedback.comments.size == 0%>
+          <td>Students Has Not Submitted Comments!</td>
+        <%else%>
+          <td><%= feedback.comments %></td>
+        <%end%>
+        <td><%= feedback.timestamp.strftime('%Y-%m-%d %H:%M EST') %></td>
+        <td><%= link_to 'Show', feedback %></td>
+        <td><%= link_to 'Edit', edit_feedback_path(feedback) %></td>
+        <td>
+          <%= form_with model: feedback, local: true, method: 'delete' do |f| %>
+            <%= f.submit "Delete Feedback", class: "table-btn" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
+<%= link_to 'Back', :back %>

@@ -1,0 +1,52 @@
+<%= form_with(model: feedback, local: true) do |form| %>
+  <% if feedback.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(feedback.errors.count, "error") %> prohibited this feedback from being saved:</h2>
+
+      <ul>
+        <% feedback.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <% if flag == true %>
+      <div class="field">
+        Student Name:
+        <%= user.name %>
+      </div>
+    <% end %>
+  <div class="field">
+    Your Current Team:
+    <% user.team_names.each do |tm| %>
+      <%= tm %>
+    <% end %>   
+  </div>
+
+  <div class="field">
+    Current System Time: 
+    <%= @feedback.format_time(now) %>    
+  </div> 
+
+  <div class="field">
+    <% choices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] %>
+    <%= form.label :rating %>
+    <%= form.select :rating, choices, :include_blank => true %>
+  </div>
+
+  <div class="field">  
+    <% choices = [["Urgent", 0],["Medium", 1],["Low", 2]] %>
+    <%= form.label :priority%>
+    <%= form.select :priority, choices%>
+  </div>
+
+  <div class="field">
+    <%= form.label :comments %>
+    <%= form.text_area :comments %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,27 @@
+<p>
+  <strong>User:</strong>
+  <%= @feedback.user.name %>
+</p>
+
+<p>
+  <strong>Team:</strong>
+  <%= @feedback.team_id %>
+</p>
+
+<p>
+  <strong>Rating:</strong>
+  <%= @feedback.rating %>
+</p>
+
+<p>
+  <strong>Comments:</strong>
+  <%= @feedback.comments %>
+</p>
+
+<p>
+  <strong>Timestamp:</strong>
+  <%= @feedback.timestamp %>
+</p>
+
+<%= link_to 'Edit', edit_feedback_path(@feedback) %> |
+<%= link_to 'Back', :back %>

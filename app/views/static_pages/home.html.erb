@@ -17,7 +17,9 @@
         <tr>
           <th></th>
           <th>Urgency/Intervention Level</th>
-          <th>Average Rating (Out of 10)</th>
+          <th>Avg. Participation Rating (Out of 10)</th>
+          <th>Avg. Effort Rating (Out of 10)</th>
+          <th>Avg. Punctuality Rating (Out of 10)</th>
           <th>Team Name</th>
           <th>Team Code</th>
           <th>Team Members</th>
@@ -32,8 +34,12 @@
             <td><span class=<%= 'dot-' + team.status(@week_range[:start_date], @week_range[:end_date]) %>></span></td>
             <% priority = team.find_priority_weighted(@week_range[:start_date], @week_range[:end_date]) %>
             <td><%= priority ? priority : "No feedback" %></td>
-            <% average_rating = Team.feedback_average_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
-            <td><%= average_rating ? average_rating : "No feedback" %></td>
+            <% average_participation_rating = Team.feedback_average_participation_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+            <td><%= average_participation_rating ? average_participation_rating : "No feedback" %></td>
+            <% average_effort_rating = Team.feedback_average_effort_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+            <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
+            <% average_punctuality_rating = Team.feedback_average_punctuality_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+            <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
             <td><%= team.team_name %></td>
             <td><%= team.team_code %></td>
             <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
@@ -57,7 +63,9 @@
         <tr>
           <th></th>
           <th>Urgency/Intervention Level</th>
-          <th>Average Rating (Out of 10)</th>
+          <th>Avg. Participation Rating (Out of 10)</th>
+          <th>Avg. Effort Rating (Out of 10)</th>
+          <th>Avg. Punctuality Rating (Out of 10)</th>
           <th>Team Name</th>
           <th>Team Code</th>
           <th>Team Members</th>
@@ -72,8 +80,12 @@
             <td><span class=<%= 'dot-' + team.status(@week_range[:start_date] - 7, @week_range[:end_date] - 7) %>></span></td>
             <% priority = team.find_priority_weighted((@week_range[:start_date] - 7.days), (@week_range[:end_date] - 7.days)) %>
             <td><%= priority ? priority : "No feedback" %></td>
-            <% average_rating = Team.feedback_average_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
-            <td><%= average_rating ? average_rating : "No feedback" %></td>
+            <% average_participation_rating = Team.feedback_average_participation_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+            <td><%= average_participation_rating ? average_participation_rating : "No feedback" %></td>
+            <% average_effort_rating = Team.feedback_average_effort_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+            <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
+            <% average_punctuality_rating = Team.feedback_average_punctuality_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+            <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
             <td><%= team.team_name %></td>
             <td><%= team.team_code %></td>
             <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
@@ -119,7 +131,9 @@
           <tr>
             <th></th>
             <th>Urgency/Intervention Level</th>
-            <th>Average Rating (Out of 10)</th>
+            <th>Avg. Participation Rating (Out of 10)</th>
+            <th>Avg. Effort Rating (Out of 10)</th>
+            <th>Avg. Punctuality Rating (Out of 10)</th>
             <th>Team Name</th>
             <th>Team Members</th>
             <th colspan="4"></th>
@@ -134,8 +148,12 @@
               </td>
               <% priority = team.find_priority_weighted(@week_range[:start_date], @week_range[:end_date]) %>
               <td><%= priority ? priority : "No feedback" %></td>
-              <% average_rating = Team.feedback_average_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
-              <td><%= average_rating ? average_rating : "No feedback" %></td>
+              <% average_participation_rating = Team.feedback_average_participation_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+              <td><%= average_participation_rating ? average_participation_rating : "No feedback" %></td>
+              <% average_effort_rating = Team.feedback_average_effort_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+              <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
+              <% average_punctuality_rating = Team.feedback_average_punctuality_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+              <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
               <td><%= team.team_name %></td>
               <td><%= team.student_names.join(", ") %></td>
               <%if team.feedbacks.size > 0%>
@@ -155,7 +173,9 @@
           <tr>
             <th></th>
             <th>Urgency/Intervention Level</th>
-            <th>Average Rating (Out of 10)</th>
+            <th>Avg. Participation Rating (Out of 10)</th>
+            <th>Avg. Effort Rating (Out of 10)</th>
+            <th>Avg. Punctuality Rating (Out of 10)</th>
             <th>Team Name</th>
             <th>Team Members</th>
             <th colspan="4"></th>
@@ -168,8 +188,12 @@
               <td><span class=<%= 'dot-' + team.status(@week_range[:start_date] - 7, @week_range[:end_date] - 7) %>></span></td>
               <% priority = team.find_priority_weighted((@week_range[:start_date] - 7.days), (@week_range[:end_date] - 7.days)) %>
               <td><%= priority ? priority : "No feedback" %></td>
-              <% average_rating = Team.feedback_average_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
-              <td><%= average_rating ? average_rating : "No feedback" %></td>
+              <% average_participation_rating = Team.feedback_average_participation_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+              <td><%= average_participation_rating ? average_participation_rating : "No feedback" %></td>
+              <% average_effort_rating = Team.feedback_average_effort_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+              <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
+              <% average_punctuality_rating = Team.feedback_average_punctuality_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+              <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
               <td><%= team.team_name %></td>
               <td><%= team.student_names.join(", ") %></td>
 

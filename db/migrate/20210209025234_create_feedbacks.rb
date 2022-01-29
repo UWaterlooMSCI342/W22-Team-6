@@ -3,7 +3,10 @@ class CreateFeedbacks < ActiveRecord::Migration[6.0]
     create_table :feedbacks do |t|
       t.integer :user_id
       t.integer :team_id
-      t.integer :rating, null: false
+      #t.integer :rating, null: false
+      t.integer :participation_rating, null: false
+      t.integer :effort_rating, null: false
+      t.integer :punctuality_rating, null: false
       t.string :comments, limit: 255
       t.datetime :timestamp
 

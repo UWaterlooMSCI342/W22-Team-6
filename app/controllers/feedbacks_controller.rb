@@ -70,6 +70,7 @@ class FeedbacksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def feedback_params
-      params.require(:feedback).permit(:rating, :comments, :priority)
+      #removed :rating and replaced it with the individual rating fields to match the updated model
+      params.require(:feedback).permit(:participation_rating, :effort_rating, :punctuality_rating, :comments, :priority)
     end
 end

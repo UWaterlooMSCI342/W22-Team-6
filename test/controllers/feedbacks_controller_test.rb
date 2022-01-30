@@ -16,7 +16,7 @@ class FeedbacksControllerTest < ActionDispatch::IntegrationTest
     @user3.save
       
     #create new feedback from student with comment and priority of 2 (low)
-    @feedback = Feedback.new(rating: 9, comments: "This team is disorganized", priority: 2)
+    @feedback = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is disorganized", priority: 2)
     @feedback.timestamp = @feedback.format_time(DateTime.now)
     @feedback.user = @user
     @feedback.team = @user.teams.first
@@ -54,7 +54,7 @@ class FeedbacksControllerTest < ActionDispatch::IntegrationTest
     
     assert_difference('Feedback.count') do
         #not passing in a priority value results in default value of 2, which represents low priority
-        post feedbacks_url, params: { feedback: { comments: "test comment", rating: 5 } }
+        post feedbacks_url, params: { feedback: { comments: "test comment", participation_rating: 3, effort_rating: 9, punctuality_rating: 4 } }
     end
     assert_redirected_to root_url
   end
@@ -65,7 +65,7 @@ class FeedbacksControllerTest < ActionDispatch::IntegrationTest
     
     assert_difference('Feedback.count') do
         #student selects a priority of 0, meaning it's urgent
-        post feedbacks_url, params: { feedback: { comments: "test comment", rating: 5, priority: 0 } }
+        post feedbacks_url, params: { feedback: { comments: "test comment", participation_rating: 3, effort_rating: 9, punctuality_rating: 4, priority: 0 } }
     end
     assert_redirected_to root_url
   end
@@ -87,7 +87,7 @@ class FeedbacksControllerTest < ActionDispatch::IntegrationTest
   test "should update feedback" do
     # login professor
     post('/login', params: { email: 'msmucker@gmail.com', password: 'professor'})
-    patch feedback_url(@feedback), params: { feedback: { comments: "test comment2", rating: 2, priority: 1} }
+    patch feedback_url(@feedback), params: { feedback: { comments: "test comment2", participation_rating: 3, effort_rating: 9, punctuality_rating: 4, priority: 1} }
     assert_redirected_to feedback_url(@feedback)
   end
 

@@ -14,7 +14,7 @@ class DeleteFeedbackTest < ApplicationSystemTestCase
     @user.teams << @team
 
     #create new feedback from student with comment and priority of 2 (low)
-    @feedback = Feedback.new(rating: 9, comments: "This team is disorganized", priority: 2)
+    @feedback = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is disorganized", priority: 2)
     @feedback.timestamp = @feedback.format_time(DateTime.now)
     @feedback.user = @user
     @feedback.team = @user.teams.first

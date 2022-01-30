@@ -34,7 +34,9 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     assert_current_path root_url
     
     Feedback.all.each{ |feedback| 
-      assert_equal(5 , feedback.rating)
+      assert_equal(5 , feedback.participation_rating)
+      assert_equal(3 , feedback.effort_rating)
+      assert_equal(4 , feedback.punctuality_rating)
       assert_equal(0 , feedback.priority)
       assert_equal('This week has gone okay.', feedback.comments)
       assert_equal(@bob, feedback.user)
@@ -44,7 +46,7 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
   
   # Test that feedback that is added can be viewed (1, 3)
   def test_view_feedback 
-    feedback = Feedback.new(rating: 9, comments: "This team is disorganized", priority: 0)
+    feedback = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is disorganized", priority: 0)
     datetime = Time.current
     feedback.timestamp = feedback.format_time(datetime)
     feedback.user = @bob

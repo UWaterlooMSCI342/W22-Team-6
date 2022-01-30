@@ -27,7 +27,7 @@ class CreateSummaryPageViewOfTeamsTest < ApplicationSystemTestCase
   
   # Test all feedback can be viewed (1)
   def test_view_feedback 
-    feedback = Feedback.new(rating: 9, comments: "This team is disorganized")
+    feedback = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is disorganized")
     datetime = Time.current
     feedback.timestamp = feedback.format_time(datetime)
     feedback.user = @bob
@@ -55,13 +55,13 @@ class CreateSummaryPageViewOfTeamsTest < ApplicationSystemTestCase
     feedbackBob.team = @bob.teams.first
     feedbackBob.save
     
-    feedbackAndy = Feedback.new(rating: 10, comments: "This team is lovely")
+    feedbackAndy = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is lovely")
     feedbackAndy.timestamp = feedbackAndy.format_time(datetime)
     feedbackAndy.user = @andy
     feedbackAndy.team = @andy.teams.first
     feedbackAndy.save
     
-    feedbackSarah = Feedback.new(rating: 3, comments: "This team is horrible")
+    feedbackSarah = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is horrible")
     feedbackSarah.timestamp = feedbackSarah.format_time(datetime)
     feedbackSarah.user = @sarah
     feedbackSarah.team = @sarah.teams.first

@@ -30,19 +30,19 @@ class TimeZoneTests
     travel_to datetime
     
     #Create Bob's feedback
-    feedbackBob = Feedback.new(rating: 5, comments: "This team is OK")
+    feedbackBob = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is OK")
     feedbackBob.timestamp = feedbackBob.format_time(feedback_time)
     feedbackBob.user = @bob
     feedbackBob.team = @bob.teams.first
     feedbackBob.save
     
-    feedbackAndy = Feedback.new(rating: 10, comments: "This team is lovely")
+    feedbackAndy = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is lovely")
     feedbackAndy.timestamp = feedbackAndy.format_time(feedback_time)
     feedbackAndy.user = @andy
     feedbackAndy.team = @andy.teams.first
     feedbackAndy.save
     
-    feedbackSarah = Feedback.new(rating: 3, comments: "This team is horrible")
+    feedbackSarah = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is horrible")
     feedbackSarah.timestamp = feedbackSarah.format_time(feedback_time)
     feedbackSarah.user = @sarah
     feedbackSarah.team = @sarah.teams.first

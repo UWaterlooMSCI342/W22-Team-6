@@ -42,7 +42,7 @@ class UserTest < ActiveSupport::TestCase
     team.user = @prof
     team.save
     user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott F', is_admin: false, teams: [team])
-    save_feedback(5, 'Test', user1, Time.zone.now, team, 1)
+    save_feedback(5,3,4, 'Test', user1, Time.zone.now, team, 1)
     assert_equal([team], user1.one_submission_teams)
   end
   

@@ -16,7 +16,7 @@ class OneFeedbackPerWeekTest < ApplicationSystemTestCase
       end
   
     def button_gone_test
-        feedback = save_feedback(10, "Team1", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team, 0)
+        feedback = save_feedback(5,5,5, "Team1", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team, 0)
         visit root_url 
         login 'test@gmail.com', '123456789'
         assert_current_path root_url 
@@ -24,7 +24,7 @@ class OneFeedbackPerWeekTest < ApplicationSystemTestCase
     end
 
     def alreadysubmitted_message_test
-        feedback = save_feedback(10, "Team1", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team, 0)
+        feedback = save_feedback(5,5,5, "Team1", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team, 0)
         visit root_url 
         login 'test@gmail.com', '123456789'
         assert_current_path root_url 

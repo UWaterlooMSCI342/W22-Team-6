@@ -26,6 +26,7 @@ class FeedbackTest < ActiveSupport::TestCase
     feedback2.team = @user.teams.first
     feedback2.save
     assert feedback2.valid?
+  end
     
   test 'valid feedback default priority rating' do
     #student does not select a priority, default value 'low' is automatically selected
@@ -69,7 +70,7 @@ class FeedbackTest < ActiveSupport::TestCase
     assert_not_nil feedback.errors[:rating]
   end 
   
-  def test_average_punctuality_rating
+  def test_average_participation_rating
     user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
@@ -80,11 +81,11 @@ class FeedbackTest < ActiveSupport::TestCase
     feedbacks = []
     
     ratings_participation.each do |participation_rating|
-      feedbacks << Feedback.new(rating: participation_rating, comments: "None", user: user1, timestamp: DateTime.now, team: team)
+      feedbacks << Feedback.new(participation_rating: participation_rating,effort_rating: 0, punctuality_rating: 0, comments: "None", user: user1, timestamp: DateTime.now, team: team)
     end 
 
     average_rating = Feedback::average_participation_rating(feedbacks)
-    assert_in_delta((ratings.sum.to_f/ratings.count.to_f).round(2), average_rating)
+    assert_in_delta((ratings_participation.sum.to_f/ratings_participation.count.to_f).round(2), average_rating)
   end
 
   def test_average_effort_rating
@@ -98,14 +99,14 @@ class FeedbackTest < ActiveSupport::TestCase
     feedbacks = []
     
     ratings_effort.each do |effort_rating|
-      feedbacks << Feedback.new(rating: effort_rating, comments: "None", user: user1, timestamp: DateTime.now, team: team)
+      feedbacks << Feedback.new(participation_rating: 0, effort_rating: effort_rating, punctuality_rating: 0, comments: "None", user: user1, timestamp: DateTime.now, team: team)
     end 
       
     average_rating = Feedback::average_effort_rating(feedbacks)
-    assert_in_delta((ratings.sum.to_f/ratings.count.to_f).round(2), average_rating)
+    assert_in_delta((ratings_effort.sum.to_f/ratings_effort.count.to_f).round(2), average_rating)
   end
 
-  def test_average_effort_rating
+  def test_average_punctuality_rating
     user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
@@ -116,10 +117,11 @@ class FeedbackTest < ActiveSupport::TestCase
     feedbacks = []
     
     ratings_punctuality.each do |punctuality_rating|
-      feedbacks << Feedback.new(rating: punctuality_rating, comments: "None", user: user1, timestamp: DateTime.now, team: team)
+      feedbacks << Feedback.new(participation_rating: 0, effort_rating: 0,punctuality_rating: punctuality_rating, comments: "None", user: user1, timestamp: DateTime.now, team: team)
     end 
       
     average_rating = Feedback::average_punctuality_rating(feedbacks)
-    assert_in_delta((ratings.sum.to_f/ratings.count.to_f).round(2), average_rating)
+    assert_in_delta((ratings_punctuality.sum.to_f/ratings_punctuality.count.to_f).round(2), average_rating)
   end
+
 end

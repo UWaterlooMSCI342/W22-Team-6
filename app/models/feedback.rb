@@ -14,7 +14,7 @@ class Feedback < ApplicationRecord
       return current_time
   end
   
-  # takes list of feedbacks and returns average punctuality rating
+  # takes list of feedbacks and returns average rating
   def self.average_participation_rating(feedbacks)
     (feedbacks.sum{|feedback| feedback.participation_rating}.to_f/feedbacks.count.to_f).round(2)
   end

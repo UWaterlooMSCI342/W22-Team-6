@@ -16,7 +16,9 @@ ActiveRecord::Schema.define(version: 2021_04_04_164701) do
   enable_extension "plpgsql"
 
   create_table "feedbacks", force: :cascade do |t|
-    t.integer "rating", null: false
+    t.integer "participation_rating", null: false
+    t.integer "effort_rating", null: false
+    t.integer "punctuality_rating", null: false
     t.string "comments", limit: 2048
     t.datetime "timestamp", null: false
     t.datetime "created_at", precision: 6, null: false

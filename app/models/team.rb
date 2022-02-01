@@ -51,9 +51,25 @@ class Team < ApplicationRecord
   end 
   
   #gets the average team rating for the professor's team summary view
-  def self.feedback_average_rating(feedbacks)
+  def self.feedback_average_participation_rating(feedbacks)
     if feedbacks.count > 0
-      (feedbacks.sum{|feedback| feedback.rating}.to_f/feedbacks.count.to_f).round(2)
+      (feedbacks.sum{|feedback| feedback.participation_rating}.to_f/feedbacks.count.to_f).round(2)
+    else
+      return nil
+    end
+  end
+  
+  def self.feedback_average_effort_rating(feedbacks)
+    if feedbacks.count > 0
+      (feedbacks.sum{|feedback| feedback.effort_rating}.to_f/feedbacks.count.to_f).round(2)
+    else
+      return nil
+    end
+  end
+
+  def self.feedback_average_punctuality_rating(feedbacks)
+    if feedbacks.count > 0
+      (feedbacks.sum{|feedback| feedback.punctuality_rating}.to_f/feedbacks.count.to_f).round(2)
     else
       return nil
     end
@@ -105,14 +121,18 @@ class Team < ApplicationRecord
   def status(start_date, end_date)
     priority = self.find_priority_weighted(start_date, end_date)
     feedbacks = self.feedbacks.where(:timestamp => start_date..end_date)
-    rating = Team::feedback_average_rating(feedbacks)
-    rating = rating.nil? ? 10 : rating
+    participation_rating = Team::feedback_average_participation_rating(feedbacks)
+    participation_rating = participation_rating.nil? ? 10 : participation_rating
+    effort_rating = Team::feedback_average_effort_rating(feedbacks)
+    effort_rating = effort_rating.nil? ? 10 : effort_rating
+    punctuality_rating = Team::feedback_average_punctuality_rating(feedbacks)
+    punctuality_rating = punctuality_rating.nil? ? 10 : punctuality_rating
     users_not_submitted = self.users_not_submitted(feedbacks)
     users_not_submitted = self.users.to_ary.size == 0 ? 0 : users_not_submitted.size.to_f / self.users.to_ary.size
     
-    if priority == 'High' or rating <= 5
+    if priority == 'High' or participation_rating <= 5 or effort_rating <= 5 or punctuality_rating <= 5
       return 'red'
-    elsif priority == 'Medium' or rating <= 7 or users_not_submitted >= 0.5
+    elsif priority == 'Medium' or participation_rating <= 7 or effort_rating <= 7 or punctuality_rating <= 7 or users_not_submitted >= 0.5
       return 'yellow'
     else 
       return 'green'

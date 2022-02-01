@@ -171,7 +171,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
   
   def test_student_team_detailed_view_back_to_landing_page
     #Students can go back to their landing page after clicking on their team summary view per period  
-    feedback = save_feedback(10, "Week 9 data 1", @user1, DateTime.civil_from_format(:local, 2021, 3, 1), @team1, 0)
+    feedback = save_feedback(5,5,5, "Week 9 data 1", @user1, DateTime.civil_from_format(:local, 2021, 3, 1), @team1, 0)
     visit root_url
     login 'adam@gmail.com', '123456789'
     assert_current_path root_url

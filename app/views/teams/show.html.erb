@@ -46,7 +46,7 @@
   <% if @team.feedbacks.size == 0 %>
     <p>Team has no feedbacks yet!</p>
   <% else %>
-        <% @periods.each do |key, period, range, rating, missing, priority| %>
+        <% @periods.each do |key, period, range, participation_rating, effort_rating, punctuality_rating, missing, priority| %>
           <div id=<%= key[:year] %>-<%= key[:week] %> >
             <div style="display: inline">
               <span class=<%= 'dot-' + @team.status(range[:start_date], range[:end_date]) %> style="vertical-align: middle" ></span>
@@ -54,14 +54,18 @@
                 <%= range[:start_date].strftime('%b %e, %Y') %> to <%= range[:end_date].strftime('%b %e, %Y') %>
               </h3>
             </div>
-            <p>Average Rating of Period (Out of 10): <%= rating %></p>
+            <p>Avg. Participation Rating of Period (Out of 10): <%= participation_rating %></p>
+            <p>Avg. Effort Rating of Period (Out of 10): <%= effort_rating %></p>
+            <p>Avg. Punctuality Rating of Period (Out of 10): <%= punctuality_rating %></p>
             <p>Weighted Priority: <%= priority %></p>
             <p>Missing Feedback: <%= missing.join(", ") %></p>
             <table>
               <thead>
                 <tr>
                   <th>Student's Name</th>
-                  <th>Rating (Out of 10)</th>
+                  <th>Participation Rating (Out of 10)</th>
+                  <th>Effort Rating (Out of 10)</th>
+                  <th>Punctuality Rating (Out of 10)</th>
                   <th>Priority</th>
                   <th>Comments</th>
                   <th>Time Submitted</th>
@@ -72,7 +76,9 @@
                 <% period.each do |fb| %>
                   <tr>
                     <td><%= fb.user.name %></td>
-                    <td><%= fb.rating %></td>
+                    <td><%= fb.participation_rating %></td>
+                    <td><%= fb.effort_rating %></td>
+                    <td><%= fb.punctuality_rating %></td>
                     <%if fb.priority == 2%>
                       <td><%='Low'%></td>
                     <%elsif fb.priority == 1%>
@@ -103,7 +109,7 @@
     <p>Team has no feedbacks yet!</p>
   <%else%>
     
-    <% @periods.each do |key, period, range, rating, missing, priority| %>
+    <% @periods.each do |key, period, range, participation_rating, effort_rating, punctuality_rating, missing, priority| %>
       <div id=<%= key[:year] %>-<%= key[:week] %> >
         <div style="display: inline">
           <span class=<%= 'dot-' + @team.status(range[:start_date], range[:end_date]) %> style="vertical-align: middle" ></span>
@@ -111,7 +117,9 @@
             <%= range[:start_date].strftime('%b %e, %Y') %> to <%= range[:end_date].strftime('%b %e, %Y') %>
           </h3>
         </div>
-        <p>Average Rating of Period (Out of 10): <%= rating %></p>
+        <p>Avg. Participation Rating of Period (Out of 10): <%= participation_rating %></p>
+        <p>Avg. Effort Rating of Period (Out of 10): <%= effort_rating %></p>
+        <p>Avg. Punctuality Rating of Period (Out of 10): <%= punctuality_rating %></p>
         <p>Weighted Priority: <%= priority %></p>
       </div>
       <br/>

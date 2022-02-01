@@ -26,7 +26,7 @@ class HelpPageTest < ApplicationSystemTestCase
     team.save!
     user = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false, teams: [team])
     user.save!
-    feedback = Feedback.new(rating: 9, comments: "This team is disorganized", priority: 2)
+    feedback = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is disorganized", priority: 2)
     feedback.timestamp = feedback.format_time(DateTime.now)
     feedback.user = user
     feedback.team = user.teams.first

@@ -14,8 +14,8 @@ class TeamIdBugsTest < ApplicationSystemTestCase
     team.user = prof 
     team.save!
     
-    feedback1 = save_feedback(8, "Data1", user1, DateTime.civil_from_format(:local, 2021, 02, 15), team, 2)
-    feedback2 = save_feedback(7, "Data2", user2, DateTime.civil_from_format(:local, 2021, 02, 16), team, 2)
+    feedback1 = save_feedback(4,4,4, "Data1", user1, DateTime.civil_from_format(:local, 2021, 02, 15), team, 2)
+    feedback2 = save_feedback(3,3,3, "Data2", user2, DateTime.civil_from_format(:local, 2021, 02, 16), team, 2)
 
     # log professor in
     visit root_url

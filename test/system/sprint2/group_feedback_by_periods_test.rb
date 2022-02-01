@@ -58,13 +58,13 @@ class GroupFeedbackByPeriodsTest < ApplicationSystemTestCase
     team.user = prof 
     team.save!
 
-    feedback = save_feedback(10, "Week 9 data 1", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
-    feedback2 = save_feedback(9, "Week 9 data 2", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team)
-    feedback3 = save_feedback(8, "Week 7 data 1", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team)
-    feedback4 = save_feedback(7, "Week 7 data 2", user2, DateTime.civil_from_format(:local, 2021, 2, 16), team)
+    feedback = save_feedback(5,5,5, "Week 9 data 1", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    feedback2 = save_feedback(4,4,4, "Week 9 data 2", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team)
+    feedback3 = save_feedback(3,3,3, "Week 7 data 1", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team)
+    feedback4 = save_feedback(2,2,2, "Week 7 data 2", user2, DateTime.civil_from_format(:local, 2021, 2, 16), team)
     
-    average_rating_1 = ((10+9).to_f/2).round(2)
-    average_rating_2 = ((8+7).to_f/2).round(2)
+    average_rating_1 = ((5+5+5).to_f/2).round(2)
+    average_rating_2 = ((4+4+4).to_f/2).round(2)
     
     visit root_url 
     login 'msmucker@gmail.com', 'banana'

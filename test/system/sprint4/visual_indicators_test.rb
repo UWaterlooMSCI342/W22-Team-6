@@ -18,9 +18,9 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
     @team.user = @prof 
     @team.save!     
 
-    @feedback = save_feedback(10, "This team is disorganized", @user1, Time.zone.now.to_datetime - 30, @team, 2)
-    @feedback2 = save_feedback(2, "This team is disorganized", @user2, Time.zone.now, @team, 2)
-    @feedback3 = save_feedback(5, "This team is disorganized", @user1, Time.zone.now, @team, 2)
+    @feedback = save_feedback(5,5,5, "This team is disorganized", @user1, Time.zone.now.to_datetime - 30, @team, 2)
+    @feedback2 = save_feedback(1,1,1, "This team is disorganized", @user2, Time.zone.now, @team, 2)
+    @feedback3 = save_feedback(2,2,2, "This team is disorganized", @user1, Time.zone.now, @team, 2)
   end 
   
   def test_student_view 

@@ -125,15 +125,17 @@
     <% else %>
       <br>
       <h2>Team Summary View</h2>
+      </br>
       <h2>Current Week: <%= @week_range[:start_date].strftime('%b %e, %Y')%> to <%= @week_range[:end_date].strftime('%b %e, %Y')%></h2>
+      <h2>Your Feedback This Week:</h2>
       <table>
         <thead>
           <tr>
             <th></th>
             <th>Urgency/Intervention Level</th>
-            <th>Avg. Participation Rating (Out of 10)</th>
-            <th>Avg. Effort Rating (Out of 10)</th>
-            <th>Avg. Punctuality Rating (Out of 10)</th>
+            <th>Ind. Participation Rating (Out of 10)</th>
+            <th>Ind. Effort Rating (Out of 10)</th>
+            <th>Ind. Punctuality Rating (Out of 10)</th>
             <th>Team Name</th>
             <th>Team Members</th>
             <th colspan="4"></th>
@@ -168,6 +170,7 @@
 
       <div class="line"></div>
       <h2>Previous Week: <%= (@week_range[:start_date] - 7.days).strftime('%b %e, %Y')%> to <%= (@week_range[:end_date] - 7.days).strftime('%b %e, %Y')%></h2>
+      <h2>Team Feedback:</h2>
       <table>
         <thead>
           <tr>

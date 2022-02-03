@@ -14,8 +14,8 @@ class GroupFeedbackByPeriodsTest < ApplicationSystemTestCase
     travel_to Time.new(2021, 02, 15, 06, 04, 44)
   end 
   
-  def save_feedback(rating, comments, user, timestamp, team)
-    feedback = Feedback.new(rating: rating, comments: comments)
+  def save_feedback(participation_rating, effort_rating, punctuality_rating, comments, user, timestamp, team)
+    feedback = Feedback.new(participation_rating: 1, effort_rating: 2, punctuality_rating: 3, comments: comments)
     feedback.user = user
     feedback.timestamp = feedback.format_time(timestamp)
     feedback.team = team
@@ -74,7 +74,7 @@ class GroupFeedbackByPeriodsTest < ApplicationSystemTestCase
     assert_current_path team_path(team)
     within('#2021-7') do
       assert_text 'Feb 15, 2021 to Feb 21, 2021'
-      assert_text 'Average Rating of Period (Out of 10): ' + average_rating_2.to_s
+      assert_text 'Average Rating of Period (Out of 5): ' + average_rating_2.to_s
       assert_text 'Week 7 data 1'
       assert_text 'Week 7 data 2'
       assert_text '2021-02-15'
@@ -82,7 +82,7 @@ class GroupFeedbackByPeriodsTest < ApplicationSystemTestCase
     end
     within('#2021-9') do
       assert_text 'Mar 1, 2021 to Mar 7, 2021'
-      assert_text 'Average Rating of Period (Out of 10): ' + average_rating_1.to_s
+      assert_text 'Average Rating of Period (Out of 5): ' + average_rating_1.to_s
       assert_text 'Week 9 data 1'
       assert_text 'Week 9 data 2'
       assert_text '2021-03-01'

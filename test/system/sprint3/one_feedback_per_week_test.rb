@@ -29,7 +29,9 @@ class OneFeedbackPerWeekTest < ApplicationSystemTestCase
         login 'test@gmail.com', '123456789'
         assert_current_path root_url 
         visit new_feedback_url
-        select "5", from: "Rating"
+        select 5, :from => "Participation rating"
+        select 5, :from => "Effort rating"
+        select 3, :from => "Punctuality rating"
         select "Urgent", from: "Priority"
         fill_in "Comments", with: "This week has gone okay."
         click_on "Create Feedback"

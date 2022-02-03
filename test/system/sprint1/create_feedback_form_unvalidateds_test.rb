@@ -26,7 +26,9 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     assert_current_path new_feedback_url
     assert_text "Your Current Team: Test Team"
     
-    select "5", from: "Rating"
+    select 5, :from => "Participation rating"
+    select 5, :from => "Effort rating"
+    select 3, :from => "Punctuality rating"
     select "Urgent", from: "Priority"
     fill_in "Comments", with: "This week has gone okay."
     click_on "Create Feedback"

@@ -1,3 +1,5 @@
+require 'test_helper'
+
 class FeedbacksHelperTest < ActionView::TestCase
   include FeedbacksHelper
  

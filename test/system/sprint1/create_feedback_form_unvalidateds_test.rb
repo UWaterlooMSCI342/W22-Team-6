@@ -46,7 +46,7 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
   
   # Test that feedback that is added can be viewed (1, 3)
   def test_view_feedback 
-    feedback = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is disorganized", priority: 0)
+    feedback = Feedback.new(participation_rating: 1, effort_rating: 5, punctuality_rating: 2, comments: "This team is disorganized", priority: 0)
     datetime = Time.current
     feedback.timestamp = feedback.format_time(datetime)
     feedback.user = @bob
@@ -59,7 +59,9 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     click_on "Details"
     assert_current_path team_url(@team)
     assert_text "This team is disorganized"
-    assert_text "9"
+    assert_text "1"
+    assert_text "5"
+    assert_text "2"
     assert_text "Urgent"
     assert_text "Test Team"
     assert_text datetime.strftime("%Y-%m-%d %H:%M")

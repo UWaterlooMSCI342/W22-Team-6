@@ -26,7 +26,9 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     assert_current_path new_feedback_url
     assert_text "Your Current Team: Test Team"
     
-    select "5", from: "Rating"
+    select "5", from: "Participation rating"
+    select "3", from: "Effort rating"
+    select "1", from: "Punctuality rating"
     select "Urgent", from: "Priority"
     fill_in "Comments", with: "This week has gone okay."
     click_on "Create Feedback"
@@ -36,7 +38,7 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     Feedback.all.each{ |feedback| 
       assert_equal(5 , feedback.participation_rating)
       assert_equal(3 , feedback.effort_rating)
-      assert_equal(4 , feedback.punctuality_rating)
+      assert_equal(1 , feedback.punctuality_rating)
       assert_equal(0 , feedback.priority)
       assert_equal('This week has gone okay.', feedback.comments)
       assert_equal(@bob, feedback.user)

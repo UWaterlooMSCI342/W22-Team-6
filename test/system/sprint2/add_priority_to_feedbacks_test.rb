@@ -33,7 +33,9 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     
     click_on "Submit for"
     
-    select 5, :from => "Rating"
+    select 5, :from => "Participation rating"
+    select 5, :from => "Effort rating"
+    select 5, :from => "Punctuality rating"
     fill_in "Comments", with: "I did not select a priority, default of low set"
     click_on "Create Feedback"
     assert_current_path root_url
@@ -48,7 +50,9 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     
     click_on "Submit for"
     
-    select 5, :from => "Rating"
+    select 5, :from => "Participation rating"
+    select 5, :from => "Effort rating"
+    select 5, :from => "Punctuality rating"
     select "Urgent", :from => "Priority"
     fill_in "Comments", with: "I selected a priority, it's URGENT"
     click_on "Create Feedback"

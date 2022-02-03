@@ -43,7 +43,7 @@
             <td><%= team.team_name %></td>
             <td><%= team.team_code %></td>
             <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
-            <td><%= @unsubmitted[:current_week][team.id].size == 0 ? 'All submitted!' : @unsubmitted[:current_week][team.id].join(", ") %></td>
+            <td><%= @unsubmitted[:current_week][team.id].size == 0 ? '' : @unsubmitted[:current_week][team.id].join(", ") %></td>
             <td><%= link_to "Details", team %></td>
           </tr>
         <% end %>
@@ -89,7 +89,7 @@
             <td><%= team.team_name %></td>
             <td><%= team.team_code %></td>
             <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
-            <td><%= @unsubmitted[:previous_week][team.id].size == 0 ? 'All submitted!' : @unsubmitted[:previous_week][team.id].join(", ") %></td>
+            <td><%= @unsubmitted[:previous_week][team.id].size == 0 ? '' : @unsubmitted[:previous_week][team.id].join(", ") %></td>
             
           </tr>
         <% end %>

@@ -77,8 +77,10 @@ class DisplayErrorsValidationsTest < ApplicationSystemTestCase
     click_on "Submit for"
     click_on "Create Feedback"
       
-    assert_text "1 error prohibited this feedback from being saved:"
-    assert_text "Rating can't be blank"
+    assert_text "3 errors prohibited this feedback from being saved:"
+    assert_text "Participation rating can't be blank"
+    assert_text "Effort rating can't be blank"
+    assert_text "Punctuality rating can't be blank"
   end
     
 end

@@ -39,19 +39,19 @@ class StudentViewAggregateHealthsTest < ApplicationSystemTestCase
     
     assert_text 'Current Week: ' + @week_range[:start_date].strftime('%b %-e, %Y').to_s + " to " + @week_range[:end_date].strftime('%b %-e, %Y').to_s
     assert_text average_rating.to_s
-    assert_text 'Low'
+    assert_text 'Medium'
   end 
   
   # (1)
   def test_view_weekly_team_health
     #Passes Acceptance Criteria 1: As a student, I should only be to allowed to see their team's detailed weekly health
     feedback = save_feedback(5,5,5, "Week 9 data 1", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team)
-    feedback2 = save_feedback(4,4,4, "Week 9 data 2", @user2, DateTime.civil_from_format(:local, 2021, 3, 3), @team)
+    feedback2 = save_feedback(5,5,5, "Week 9 data 2", @user2, DateTime.civil_from_format(:local, 2021, 3, 3), @team)
     feedback3 = save_feedback(3,3,3, "Week 7 data 1", @user, DateTime.civil_from_format(:local, 2021, 2, 15), @team)
-    feedback4 = save_feedback(2,2,2, "Week 7 data 2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
+    feedback4 = save_feedback(1,1,1, "Week 7 data 2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
     
-    average_ratingFeb = ((2+3).to_f/2).round(2)
-    average_ratingMarch = ((4+5).to_f/2).round(2)
+    average_ratingFeb = ((3+1).to_f/2).round(2)
+    average_ratingMarch = ((5+5).to_f/2).round(2)
     
     visit root_url 
     login 'test@gmail.com', '123456789'
@@ -61,13 +61,13 @@ class StudentViewAggregateHealthsTest < ApplicationSystemTestCase
     
     within('#2021-7') do
       assert_text 'Feb 15, 2021 to Feb 21, 2021'
-      assert_text 'Medium'
+      assert_text 'High'
       assert_text average_ratingFeb.to_s
     end
     
     within('#2021-9') do
       assert_text 'Mar 1, 2021 to Mar 7, 2021'
-      assert_text 'High'
+      assert_text 'Low'
       assert_text average_ratingMarch.to_s
     end
   end 

@@ -42,7 +42,41 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     assert_text "Feedback was successfully created."
   end 
   
-  def test_create_feedback_with_selected_priority
+  def test_create_feedback_with_high_priority
+    #Passes acceptance criteria 1: Student submits a feedback with a selected priority
+    visit root_url
+    login 'test@gmail.com', '123456789'
+    assert_current_path root_url
+    
+    click_on "Submit for"
+    
+    select 1, :from => "Participation rating"
+    select 1, :from => "Effort rating"
+    select 1, :from => "Punctuality rating"
+    fill_in "Comments", with: "I selected a priority, it's URGENT"
+    click_on "Create Feedback"
+    assert_current_path root_url
+    assert_text "Feedback was successfully created."
+  end
+
+  def test_create_feedback_with_medium_priority
+    #Passes acceptance criteria 1: Student submits a feedback with a selected priority
+    visit root_url
+    login 'test@gmail.com', '123456789'
+    assert_current_path root_url
+    
+    click_on "Submit for"
+    
+    select 3, :from => "Participation rating"
+    select 3, :from => "Effort rating"
+    select 3, :from => "Punctuality rating"
+    fill_in "Comments", with: "I selected a priority, it's URGENT"
+    click_on "Create Feedback"
+    assert_current_path root_url
+    assert_text "Feedback was successfully created."
+  end
+
+  def test_create_feedback_with_low_priority
     #Passes acceptance criteria 1: Student submits a feedback with a selected priority
     visit root_url
     login 'test@gmail.com', '123456789'
@@ -53,7 +87,6 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     select 5, :from => "Participation rating"
     select 5, :from => "Effort rating"
     select 5, :from => "Punctuality rating"
-    select "Urgent", :from => "Priority"
     fill_in "Comments", with: "I selected a priority, it's URGENT"
     click_on "Create Feedback"
     assert_current_path root_url
@@ -77,7 +110,7 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     within('#2021-7') do
       assert_text 'Feb 15, 2021 to Feb 21, 2021'
       assert_text 'Medium'
-      assert_text 'Low'
+      assert_text 'Medium'
       assert_text 'Week 7 data 1'
       assert_text 'Week 7 data 2'
       assert_text '2021-02-15'
@@ -85,7 +118,7 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     end
     within('#2021-9') do
       assert_text 'Mar 1, 2021 to Mar 7, 2021'
-      assert_text 'Urgent'
+      assert_text 'Low'
       assert_text 'Low'
       assert_text 'Week 9 data 1'
       assert_text 'Week 9 data 2'
@@ -100,7 +133,7 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     
     feedback1 = save_feedback(4,4,4, "Data1", @user, DateTime.civil_from_format(:local, 2021, 2, 15), @team)
     feedback2 = save_feedback(3,3,3, "Data2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
-    feedback3 = save_feedback(2,2,2, "Data2", @user10, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
+    feedback3 = save_feedback(1,1,1, "Data2", @user10, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
     
     visit root_url 
     login 'msmucker@gmail.com', 'professor'
@@ -115,7 +148,7 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     #Case 2, professor should see a team's overall priority as "Medium" under team Urgency/Intervention column if the average ratings are at the middle of the scale.
     
     feedback4 = save_feedback(3,3,3, "Data1", @user, DateTime.civil_from_format(:local, 2021, 2, 15), @team)
-    feedback5 = save_feedback(2,2,2, "Data2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
+    feedback5 = save_feedback(4,4,4, "Data2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
     feedback6 = save_feedback(3,3,3, "Data3", @user10, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
     
     visit root_url 
@@ -131,7 +164,7 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     #Case 3, professor should see a team's overall priority as "Low" under team Urgency/Intervention column if the average ratings are at the good end of the scale.
     
     feedback4 = save_feedback(5,5,5, "Data1", @user, DateTime.civil_from_format(:local, 2021, 2, 15), @team)
-    feedback5 = save_feedback(4,4,4, "Data2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
+    feedback5 = save_feedback(5,5,5, "Data2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
     feedback6 = save_feedback(4,4,4, "Data3", @user10, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
     
     visit root_url 

@@ -18,9 +18,9 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
     @team.user = @prof 
     @team.save!     
 
-    @feedback = save_feedback(5,5,5, "This team is disorganized", @user1, Time.zone.now.to_datetime - 30, @team)
-    @feedback2 = save_feedback(1,1,1, "This team is disorganized", @user2, Time.zone.now, @team)
-    @feedback3 = save_feedback(2,2,2, "This team is disorganized", @user1, Time.zone.now, @team)
+    @feedback = save_feedback(1,1,1, "This team is disorganized", @user1, DateTime.civil_from_format(:local, 2021, 1, 20) - 7, @team)
+    @feedback2 = save_feedback(5,5,5, "This team is disorganized", @user2, DateTime.civil_from_format(:local, 2021, 1, 20), @team)
+    @feedback3 = save_feedback(5,5,5, "This team is disorganized", @user1, DateTime.civil_from_format(:local, 2021, 1, 20), @team)
   end 
   
   def test_student_view 
@@ -28,15 +28,17 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
     login 'charles2@gmail.com', 'banana'
     
     within('#' + @team.id.to_s + '-status') do
-      assert find('.dot-red')
+      assert find('.dot.red')
     end
     
-    assert find('.dot-yellow')
-    
     click_on 'View Historical Data'
-    
-    assert find('.dot .red')
-    assert find('.dot .yellow')
+
+    within('#2021-3') do 
+      assert find('.dot.green')
+    end
+    within('#2021-2') do 
+      assert find('.dot.red')
+    end
   end
   
   def test_professor_view 
@@ -44,14 +46,16 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
     login 'charles@gmail.com', 'banana'
     
     within('#' + @team.id.to_s) do 
-      assert find('.dot-red')
+      assert find('.dot.red')
     end 
-    
-    assert find('.dot-yellow')
     
     click_on 'Details'
     
-    assert find('.dot-red')
-    assert find('.dot-yellow')
+    within('#2021-3') do 
+      assert find('.dot.green')
+    end
+    within('#2021-2') do 
+      assert find('.dot.red')
+    end
   end
 end

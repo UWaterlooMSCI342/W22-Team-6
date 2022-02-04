@@ -56,15 +56,14 @@ class Team < ApplicationRecord
     avg_participation = Team.average_participation_rating(feedbacks)
     avg_effort = Team.average_effort_rating(feedbacks)
     avg_punctuality = Team.average_punctuality_rating(feedbacks)
+    avg_ratings = [avg_participation, avg_effort, avg_punctuality]
     
     # Boolean variable confirming if at least one member individually submitted 'High' priority.
     is_any_feedback_high_priority = feedbacks.where(:priority => Feedback::HIGH).count > 0
 
     # Boolean variables determining what interval the rating categories falls under.
-    bad = Feedback::BAD_RATING
-    okay = Feedback::OKAY_RATING
-    any_rating_is_bad = avg_participation <= bad or avg_effort <= bad or avg_punctuality <= bad
-    any_rating_is_okay = avg_participation <= okay or avg_effort <= okay or avg_punctuality <= okay
+    any_rating_is_bad = avg_ratings.any?{ |rating| rating <= Feedback::BAD_RATING }
+    any_rating_is_okay = avg_ratings.any?{ |rating| rating <= Feedback::OKAY_RATING }
 
     # Boolean variable checking the fraction of users who haven't submitted yet.
     fraction_of_users_not_submitted = self.fraction_of_users_not_submitted(feedbacks)

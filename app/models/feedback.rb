@@ -8,7 +8,7 @@ class Feedback < ApplicationRecord
   PRIORITY_COLOURS = { HIGH => 'red', NO_FEEDBACK => 'blue', MEDIUM => 'yellow', LOW => 'green' }.freeze
   CHOICES = [1, 2, 3, 4, 5].freeze
   BAD_RATING = (Feedback::CHOICES.min + ((Feedback::CHOICES.max - Feedback::CHOICES.min)  / Feedback::PRIORITY_LEVEL.size.to_f)).freeze
-  OKAY_RATING = (2 * Feedback::BAD_RATING).freeze
+  OKAY_RATING = ((2 * Feedback::BAD_RATING) - Feedback::CHOICES.min).freeze
 
   belongs_to :user
   belongs_to :team
@@ -27,19 +27,11 @@ class Feedback < ApplicationRecord
 
   # Calculates the priority for this feedback by using the participation, effort, and punctuality ratings.
   def calculate_priority
-    participation = self.participation_rating
-    effort = self.effort_rating
-    punctuality = self.punctuality_rating
-
-    # Compares ratings values to specified rating being a Boolean.
-    bad = Feedback::BAD_RATING
-    okay = Feedback::OKAY_RATING
-    any_rating_is_bad = participation <= bad or effort <= bad or punctuality <= bad
-    any_rating_is_okay = participation <= okay or effort <= okay or punctuality <= okay
-
-    if any_rating_is_bad
+    ratings = [self.participation_rating, self.effort_rating, self.punctuality_rating]
+    
+    if ratings.any?{ |rating| rating.nil? } or ratings.any?{ |rating| rating <= Feedback::BAD_RATING }
       return Feedback::HIGH
-    elsif any_rating_is_okay
+    elsif ratings.any?{ |rating| rating <= Feedback::OKAY_RATING }
       return Feedback::MEDIUM
     else
       return Feedback::LOW

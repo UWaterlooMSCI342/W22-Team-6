@@ -24,7 +24,7 @@ class AddPrioritiesToReportsTest < ApplicationSystemTestCase
     
     # Create report with urgent priority
     select "Steve", from: "Reportee"
-    select "Urgent", from: "Priority"
+    select "High", from: "Priority"
     fill_in "Description", with: "URGENT"
     click_on "Submit report"
     

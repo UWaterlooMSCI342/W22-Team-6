@@ -59,20 +59,16 @@ class Team < ApplicationRecord
     end
   end
   
-  def self.feedback_average_effort_rating(feedbacks)
-    if feedbacks.count > 0
-      (feedbacks.sum{|feedback| feedback.effort_rating}.to_f/feedbacks.count.to_f).round(2)
-    else
-      return nil
-    end
+  def self.average_participation_rating(feedbacks)
+    return Team.calculate_average_rating(feedbacks, :participation_rating)
+  end
+  
+  def self.average_effort_rating(feedbacks)    
+    return Team.calculate_average_rating(feedbacks, :effort_rating)
   end
 
-  def self.feedback_average_punctuality_rating(feedbacks)
-    if feedbacks.count > 0
-      (feedbacks.sum{|feedback| feedback.punctuality_rating}.to_f/feedbacks.count.to_f).round(2)
-    else
-      return nil
-    end
+  def self.average_punctuality_rating(feedbacks)
+    return Team.calculate_average_rating(feedbacks, :punctuality_rating)
   end
   
   # return a multidimensional array that is sorted by time (most recent first)
@@ -147,5 +143,15 @@ class Team < ApplicationRecord
     end
     
     return team_code.upcase
+  end
+
+
+  private
+
+  def self.calculate_average_rating(ratings, type_of_rating)
+    if ratings.count == 0
+      return nil
+    end
+    return (ratings.sum{ |rating| rating[type_of_rating] } / ratings.count.to_f).round(2)
   end
 end

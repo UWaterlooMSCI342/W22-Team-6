@@ -41,10 +41,6 @@
   <div class="field">
     <%= form.label :punctuality_rating %>
     <%= form.select :punctuality_rating, Feedback::CHOICES, :include_blank => true %>
-  <div class="field">  
-    <% choices = [["Urgent", 0],["Medium", 1],["Low", 2]] %>
-    <%= form.label :priority%>
-    <%= form.select :priority, choices%>
   </div>
 
   <div class="field">

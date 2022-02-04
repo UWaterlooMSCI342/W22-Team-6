@@ -24,17 +24,29 @@ class Feedback < ApplicationRecord
       current_time = given_date.strftime('%Y/%m/%d %H:%M')
       return current_time
   end
-  
-  # takes list of feedbacks and returns average punctuality rating
-  def self.average_participation_rating(feedbacks)
-    (feedbacks.sum{|feedback| feedback.participation_rating}.to_f/feedbacks.count.to_f).round(2)
+
+  # Calculates the priority for this feedback by using the participation, effort, and punctuality ratings.
+  def calculate_priority
+    participation = self.participation_rating
+    effort = self.effort_rating
+    punctuality = self.punctuality_rating
+
+    # Compares ratings values to specified rating being a Boolean.
+    bad = Feedback::BAD_RATING
+    okay = Feedback::OKAY_RATING
+    any_rating_is_bad = participation <= bad or effort <= bad or punctuality <= bad
+    any_rating_is_okay = participation <= okay or effort <= okay or punctuality <= okay
+
+    if any_rating_is_bad
+      return Feedback::HIGH
+    elsif any_rating_is_okay
+      return Feedback::MEDIUM
+    else
+      return Feedback::LOW
+    end
   end
 
-  def self.average_effort_rating(feedbacks)
-    (feedbacks.sum{|feedback| feedback.effort_rating}.to_f/feedbacks.count.to_f).round(2)
-  end
-
-  def self.average_punctuality_rating(feedbacks)
-    (feedbacks.sum{|feedback| feedback.punctuality_rating}.to_f/feedbacks.count.to_f).round(2)
+  def get_priority_word
+    return Feedback::PRIORITY_LEVEL[self.priority]
   end
 end

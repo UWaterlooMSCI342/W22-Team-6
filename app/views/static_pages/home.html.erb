@@ -140,39 +140,26 @@
             <th>Participation Rating (Out of 10) </th>
             <th>Effort Rating (Out of 10) </th>
             <th>Punctuality Rating (Out of 10) </th>
-            <%# <th>Team Name</th> 
-            <th>Team Members</th> %> 
             <th colspan="4"></th>
           </tr>
         </thead>
 
         <tbody>
-          <% @current_user.teams.each do |team| %>
-            <tr id=<%= team.id %>>
+          <% feedback = @current_user.get_user_feedback(@week_range[:start_date], @week_range[:end_date]) %>
+            <tr>
 
-              <td id=<%= team.id %>-status>
-                <span class=<%= 'dot-' + team.status(@week_range[:start_date], @week_range[:end_date]) %>></span>
+              <td>
+                <span class=<%= 'dot-green'%>></span>
               </td>
 
-              <% priority = team.find_priority_weighted(@week_range[:start_date], @week_range[:end_date]) %>
-              <td><%= priority ? priority : "No feedback" %></td>
+              
+              <td><%= feedback.priority %></td>
+              <td><%= feedback.participation_rating %></td>
+              <td><%= feedback.effort_rating %></td>
+              <td><%= feedback.punctuality_rating %></td>
 
-              <% average_participation_rating = Team.feedback_average_participation_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
-              <td><%= average_participation_rating ? average_participation_rating : "No feedback" %></td>
-
-              <% average_effort_rating = Team.feedback_average_effort_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
-              <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
-
-              <% average_punctuality_rating = Team.feedback_average_punctuality_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
-              <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
-
-              <%if team.feedbacks.size > 0%>
-                <td><%= link_to "View Historical Data", team %></td>
-              <% else %>
-                <td>Team Does Not Have Any Ratings!</td>
-              <%end%>
+              
             </tr>
-          <% end %>
         </tbody>
       </table>
 

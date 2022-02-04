@@ -148,24 +148,8 @@ class Team < ApplicationRecord
   end 
   
   def status(start_date, end_date)
-    priority = self.find_priority_weighted(start_date, end_date)
-    feedbacks = self.feedbacks.where(:timestamp => start_date..end_date)
-    participation_rating = Team::feedback_average_participation_rating(feedbacks)
-    participation_rating = participation_rating.nil? ? 10 : participation_rating
-    effort_rating = Team::feedback_average_effort_rating(feedbacks)
-    effort_rating = effort_rating.nil? ? 10 : effort_rating
-    punctuality_rating = Team::feedback_average_punctuality_rating(feedbacks)
-    punctuality_rating = punctuality_rating.nil? ? 10 : punctuality_rating
-    users_not_submitted = self.users_not_submitted(feedbacks)
-    users_not_submitted = self.users.to_ary.size == 0 ? 0 : users_not_submitted.size.to_f / self.users.to_ary.size
-    
-    if priority == 'High' or participation_rating <= 5 or effort_rating <= 5 or punctuality_rating <= 5
-      return 'red'
-    elsif priority == 'Medium' or participation_rating <= 7 or effort_rating <= 7 or punctuality_rating <= 7 or users_not_submitted >= 0.5
-      return 'yellow'
-    else 
-      return 'green'
-    end  
+    priority = self.calculate_overall_priority(start_date, end_date)
+    return Feedback::PRIORITY_COLOURS[priority]
   end
   
   def self.generate_team_code(length = 6)

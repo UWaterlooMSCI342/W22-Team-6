@@ -31,7 +31,7 @@
       <tbody>
         <% @teams.each do |team| %>
           <tr id=<%= team.id %>>
-            <td><span class=<%= 'dot-' + team.status(@week_range[:start_date], @week_range[:end_date]) %>></span></td>
+            <td><span class="dot <%= team.status(@week_range[:start_date], @week_range[:end_date]) %>"></span></td>
             <% priority = team.find_priority_weighted(@week_range[:start_date], @week_range[:end_date]) %>
             <td><%= priority ? priority : "No feedback" %></td>
             <% average_participation_rating = Team.average_participation_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
@@ -77,7 +77,7 @@
       <tbody>
         <% @teams.each do |team| %>
           <tr>
-            <td><span class=<%= 'dot-' + team.status(@week_range[:start_date] - 7, @week_range[:end_date] - 7) %>></span></td>
+            <td><span class="dot <%= team.status(@week_range[:start_date] - 7, @week_range[:end_date] - 7) %>"></span></td>
             <% priority = team.find_priority_weighted((@week_range[:start_date] - 7.days), (@week_range[:end_date] - 7.days)) %>
             <td><%= priority ? priority : "No feedback" %></td>
             <% average_participation_rating = Team.average_participation_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
@@ -144,7 +144,7 @@
           <% @current_user.teams.each do |team| %>
             <tr id=<%= team.id %>>
               <td id=<%= team.id %>-status>
-                <span class=<%= 'dot-' + team.status(@week_range[:start_date], @week_range[:end_date]) %>></span>
+                <span class="dot <%= team.status(@week_range[:start_date], @week_range[:end_date]) %>"></span>
               </td>
               <% priority = team.find_priority_weighted(@week_range[:start_date], @week_range[:end_date]) %>
               <td><%= priority ? priority : "No feedback" %></td>
@@ -185,7 +185,7 @@
         <tbody>
           <% @current_user.teams.each do |team| %>
             <tr>
-              <td><span class=<%= 'dot-' + team.status(@week_range[:start_date] - 7, @week_range[:end_date] - 7) %>></span></td>
+              <td><span class="dot <%= team.status(@week_range[:start_date] - 7, @week_range[:end_date] - 7) %>"></span></td>
               <% priority = team.find_priority_weighted((@week_range[:start_date] - 7.days), (@week_range[:end_date] - 7.days)) %>
               <td><%= priority ? priority : "No feedback" %></td>
               <% average_participation_rating = Team.average_participation_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>

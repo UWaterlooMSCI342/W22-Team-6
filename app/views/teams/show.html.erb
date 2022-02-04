@@ -49,7 +49,7 @@
         <% @periods.each do |key, period, range, participation_rating, effort_rating, punctuality_rating, missing, priority| %>
           <div id=<%= key[:year] %>-<%= key[:week] %> >
             <div style="display: inline">
-              <span class=<%= 'dot-' + @team.status(range[:start_date], range[:end_date]) %> style="vertical-align: middle" ></span>
+              <span class="dot <%= @team.status(range[:start_date], range[:end_date]) %>" style="vertical-align: middle" ></span>
               <h3 style="display: inline">  
                 <%= range[:start_date].strftime('%b %e, %Y') %> to <%= range[:end_date].strftime('%b %e, %Y') %>
               </h3>
@@ -106,7 +106,7 @@
     <% @periods.each do |key, period, range, participation_rating, effort_rating, punctuality_rating, missing, priority| %>
       <div id=<%= key[:year] %>-<%= key[:week] %> >
         <div style="display: inline">
-          <span class=<%= 'dot-' + @team.status(range[:start_date], range[:end_date]) %> style="vertical-align: middle" ></span>
+          <span class="dot <%= @team.status(range[:start_date], range[:end_date]) %>" style="vertical-align: middle" ></span>
           <h3 style="display: inline">  
             <%= range[:start_date].strftime('%b %e, %Y') %> to <%= range[:end_date].strftime('%b %e, %Y') %>
           </h3>

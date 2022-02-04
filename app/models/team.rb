@@ -25,39 +25,66 @@ class Team < ApplicationRecord
     end 
     return students
   end
-  
-  def find_priority_weighted(start_date, end_date)
-    #if AT LEAST ONE of the feedbacks have a priority score of 0, meaning "urgent", the professor will see a status of "Urgent" for the respective team
-    #if at least 1/3 of the feedbacks submitted have a priority score of 1, meaning "medium", the professor will see a status of "Urgent" for the respective team, used float division
-    #every other case is considered a priority of low since it was the default score submitted per feedback
-    #array index 0 represents number of "urgent" priorities that a team has, index 1 represents number of "medium" priorities, index 2 represents number of "low" priorities
-    priority_holder = Array.new(3)
-    #gets all feedbacks for a given week
+
+  # Returns the number version of the priority level (e.g. 0).
+  def calculate_overall_priority(start_date, end_date)
+    # nil = 'No feedback' = 'blue':
+    #   - If no users on team and no feedback.
+
+    # 0 = 'High':
+    #   - If more than 1/2 of team did not submit.
+    #   - If at least one member has an individual priority of 'High'.
+    #   - If any of the average ratings are on the lower end of the scale.
+
+    # 1 = 'Medium':
+    #   - If less than 1/2 of team did not submit, but at least 1 member still hasn't submitted.
+    #   - If any of the average ratings are in the middle of the scale.
+
+    # 2 = 'Low':
+    #   - Any other case.
+
+    # Gets all feedbacks for a given week.
     feedbacks = self.feedbacks.where(:timestamp => start_date..end_date)
     
-    if feedbacks.count == 0
-      return nil
+    if feedbacks.empty? and self.users.empty?
+      return Feedback::NO_FEEDBACK
+    elsif feedbacks.empty?
+      return Feedback::HIGH
     end
-    
-    priority_holder.each_with_index {|val, index| priority_holder[index] = feedbacks.where(priority: index).count}
 
-    if priority_holder[0] > 0
-      return "High" 
-    elsif priority_holder[1] >= feedbacks.count/3.0
-      return "Medium" 
-    else
-      return "Low"
-    end 
+    # Calculate the team's average rating for each of the categories.
+    avg_participation = Team.average_participation_rating(feedbacks)
+    avg_effort = Team.average_effort_rating(feedbacks)
+    avg_punctuality = Team.average_punctuality_rating(feedbacks)
+    
+    # Boolean variable confirming if at least one member individually submitted 'High' priority.
+    is_any_feedback_high_priority = feedbacks.where(:priority => Feedback::HIGH).count > 0
+
+    # Boolean variables determining what interval the rating categories falls under.
+    bad = Feedback::BAD_RATING
+    okay = Feedback::OKAY_RATING
+    any_rating_is_bad = avg_participation <= bad or avg_effort <= bad or avg_punctuality <= bad
+    any_rating_is_okay = avg_participation <= okay or avg_effort <= okay or avg_punctuality <= okay
+
+    # Boolean variable checking the fraction of users who haven't submitted yet.
+    fraction_of_users_not_submitted = self.fraction_of_users_not_submitted(feedbacks)
+    half_of_team = 0.5
+    more_than_half_not_submitted = fraction_of_users_not_submitted >= half_of_team
+    less_than_half_not_submitted = fraction_of_users_not_submitted > 0
+
+    if is_any_feedback_high_priority or any_rating_is_bad or more_than_half_not_submitted
+      return Feedback::HIGH
+    elsif less_than_half_not_submitted or any_rating_is_okay
+      return Feedback::MEDIUM
+    else 
+      return Feedback::LOW
+    end  
   end 
-  
-  #gets the average team rating for the professor's team summary view
-  def self.feedback_average_participation_rating(feedbacks)
-    if feedbacks.count > 0
-      (feedbacks.sum{|feedback| feedback.participation_rating}.to_f/feedbacks.count.to_f).round(2)
-    else
-      return nil
-    end
-  end
+
+  # Returns the word version of the priority level (e.g. 'High').
+  def find_priority_weighted(start_date, end_date)
+    return Feedback::PRIORITY_LEVEL[calculate_overall_priority(start_date, end_date)]
+  end 
   
   def self.average_participation_rating(feedbacks)
     return Team.calculate_average_rating(feedbacks, :participation_rating)
@@ -95,12 +122,18 @@ class Team < ApplicationRecord
   end
   
   def users_not_submitted(feedbacks)
-    submitted = Array.new
-    feedbacks.each do |feedback|
-      submitted << feedback.user
+    submitted_users = feedbacks.map{ |feedback| feedback.user }
+    return self.users - submitted_users
+  end
+
+  def fraction_of_users_not_submitted(feedbacks)
+    users_on_team = self.users.size.to_f
+    no_users = 0
+    if users_on_team == no_users
+      return no_users
     end
-    
-    self.users.to_ary - submitted
+
+    return self.users_not_submitted(feedbacks).size / users_on_team
   end
   
   def current_feedback(d=now)

@@ -79,13 +79,7 @@
                     <td><%= fb.participation_rating %></td>
                     <td><%= fb.effort_rating %></td>
                     <td><%= fb.punctuality_rating %></td>
-                    <%if fb.priority == 2%>
-                      <td><%='Low'%></td>
-                    <%elsif fb.priority == 1%>
-                      <td><%='Medium'%></td>
-                    <%else%>
-                      <td><%='Urgent'%></td>
-                    <%end%>
+                    <td><%= fb.get_priority_word %></td>
                     <%if fb.comments.nil? || fb.comments.size == 0 %>
                       <td> No Comments Submitted!</td>
                     <%else%>

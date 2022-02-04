@@ -34,11 +34,11 @@
             <td><span class=<%= 'dot-' + team.status(@week_range[:start_date], @week_range[:end_date]) %>></span></td>
             <% priority = team.find_priority_weighted(@week_range[:start_date], @week_range[:end_date]) %>
             <td><%= priority ? priority : "No feedback" %></td>
-            <% average_participation_rating = Team.feedback_average_participation_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+            <% average_participation_rating = Team.average_participation_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
             <td><%= average_participation_rating ? average_participation_rating : "No feedback" %></td>
-            <% average_effort_rating = Team.feedback_average_effort_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+            <% average_effort_rating = Team.average_effort_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
             <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
-            <% average_punctuality_rating = Team.feedback_average_punctuality_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+            <% average_punctuality_rating = Team.average_punctuality_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
             <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
             <td><%= team.team_name %></td>
             <td><%= team.team_code %></td>
@@ -80,11 +80,11 @@
             <td><span class=<%= 'dot-' + team.status(@week_range[:start_date] - 7, @week_range[:end_date] - 7) %>></span></td>
             <% priority = team.find_priority_weighted((@week_range[:start_date] - 7.days), (@week_range[:end_date] - 7.days)) %>
             <td><%= priority ? priority : "No feedback" %></td>
-            <% average_participation_rating = Team.feedback_average_participation_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+            <% average_participation_rating = Team.average_participation_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
             <td><%= average_participation_rating ? average_participation_rating : "No feedback" %></td>
-            <% average_effort_rating = Team.feedback_average_effort_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+            <% average_effort_rating = Team.average_effort_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
             <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
-            <% average_punctuality_rating = Team.feedback_average_punctuality_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+            <% average_punctuality_rating = Team.average_punctuality_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
             <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
             <td><%= team.team_name %></td>
             <td><%= team.team_code %></td>
@@ -148,11 +148,11 @@
               </td>
               <% priority = team.find_priority_weighted(@week_range[:start_date], @week_range[:end_date]) %>
               <td><%= priority ? priority : "No feedback" %></td>
-              <% average_participation_rating = Team.feedback_average_participation_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+              <% average_participation_rating = Team.average_participation_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
               <td><%= average_participation_rating ? average_participation_rating : "No feedback" %></td>
-              <% average_effort_rating = Team.feedback_average_effort_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+              <% average_effort_rating = Team.average_effort_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
               <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
-              <% average_punctuality_rating = Team.feedback_average_punctuality_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
+              <% average_punctuality_rating = Team.average_punctuality_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
               <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
               <td><%= team.team_name %></td>
               <td><%= team.student_names.join(", ") %></td>
@@ -188,11 +188,11 @@
               <td><span class=<%= 'dot-' + team.status(@week_range[:start_date] - 7, @week_range[:end_date] - 7) %>></span></td>
               <% priority = team.find_priority_weighted((@week_range[:start_date] - 7.days), (@week_range[:end_date] - 7.days)) %>
               <td><%= priority ? priority : "No feedback" %></td>
-              <% average_participation_rating = Team.feedback_average_participation_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+              <% average_participation_rating = Team.average_participation_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
               <td><%= average_participation_rating ? average_participation_rating : "No feedback" %></td>
-              <% average_effort_rating = Team.feedback_average_effort_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+              <% average_effort_rating = Team.average_effort_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
               <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
-              <% average_punctuality_rating = Team.feedback_average_punctuality_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
+              <% average_punctuality_rating = Team.average_punctuality_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
               <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
               <td><%= team.team_name %></td>
               <td><%= team.student_names.join(", ") %></td>

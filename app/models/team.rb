@@ -130,9 +130,9 @@ class Team < ApplicationRecord
     users_not_submitted = self.users_not_submitted(feedbacks)
     users_not_submitted = self.users.to_ary.size == 0 ? 0 : users_not_submitted.size.to_f / self.users.to_ary.size
     
-    if priority == 'High' or participation_rating <= 5 or effort_rating <= 5 or punctuality_rating <= 5
+    if priority == 'High' or participation_rating <= 2 or effort_rating <= 2 or punctuality_rating <= 2
       return 'red'
-    elsif priority == 'Medium' or participation_rating <= 7 or effort_rating <= 7 or punctuality_rating <= 7 or users_not_submitted >= 0.5
+    elsif priority == 'Medium' or participation_rating <= 3 or effort_rating <= 3 or punctuality_rating <= 3 or users_not_submitted >= 0.5
       return 'yellow'
     else 
       return 'green'

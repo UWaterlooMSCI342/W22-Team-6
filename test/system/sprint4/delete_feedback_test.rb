@@ -39,7 +39,9 @@ class DeleteFeedbackTest < ApplicationSystemTestCase
     assert_current_path root_url
     click_on "Feedback & Ratings"
     click_on "Edit"
-    select 5, :from => "Rating"
+    select 5, :from => "Participation rating"
+    select 5, :from => "Effort rating"
+    select 5, :from => "Punctuality rating"
     fill_in "Comments", with: "New Comment"
     click_on "Update Feedback"
     assert_text "New Comment"

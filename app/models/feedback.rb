@@ -1,4 +1,15 @@
 class Feedback < ApplicationRecord
+  # When creating a Feedback object, the default priority is set to 2 = 'Low'.
+  HIGH = 0.freeze
+  NO_FEEDBACK = nil.freeze
+  MEDIUM = 1.freeze
+  LOW = 2.freeze
+  PRIORITY_LEVEL = { HIGH => 'High', MEDIUM => 'Medium', LOW => 'Low' }.freeze
+  PRIORITY_COLOURS = { HIGH => 'red', NO_FEEDBACK => 'blue', MEDIUM => 'yellow', LOW => 'green' }.freeze
+  CHOICES = [1, 2, 3, 4, 5].freeze
+  BAD_RATING = (Feedback::CHOICES.min + ((Feedback::CHOICES.max - Feedback::CHOICES.min)  / Feedback::PRIORITY_LEVEL.size.to_f)).freeze
+  OKAY_RATING = (2 * Feedback::BAD_RATING).freeze
+
   belongs_to :user
   belongs_to :team
 

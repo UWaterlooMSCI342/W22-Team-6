@@ -22,7 +22,6 @@ class CreateFeedbackValidationsTest < ApplicationSystemTestCase
     assert_current_path root_url
     
     click_on "Submit for"
-    select "Urgent", :from => "Priority"
     fill_in "Comments", with: "I did not select a rating"
     
     click_on "Create Feedback"

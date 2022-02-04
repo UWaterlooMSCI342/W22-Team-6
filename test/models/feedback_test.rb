@@ -69,59 +69,34 @@ class FeedbackTest < ActiveSupport::TestCase
     refute feedback.valid?, "Rating can't be blank"
     assert_not_nil feedback.errors[:rating]
   end 
-  
-  def test_average_participation_rating
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
-    user1.save!
-    team = Team.new(team_code: 'Code', team_name: 'Team 1')
-    team.user = @prof 
-    team.save!  
-    
-    ratings_participation = [10, 5, 7, 2, 1, 6, 9]
-    feedbacks = []
-    
-    ratings_participation.each do |participation_rating|
-      feedbacks << Feedback.new(participation_rating: participation_rating,effort_rating: 0, punctuality_rating: 0, comments: "None", user: user1, timestamp: DateTime.now, team: team)
-    end 
 
-    average_rating = Feedback::average_participation_rating(feedbacks)
-    assert_in_delta((ratings_participation.sum.to_f/ratings_participation.count.to_f).round(2), average_rating)
+  def test_calculate_priority_high
+    feedback = Feedback.create(participation_rating: 1, effort_rating: 1, punctuality_rating: 1, comments: "Bad rating", user: @user, timestamp: DateTime.now, team: @team)
+    assert_equal(0, feedback.calculate_priority)
   end
 
-  def test_average_effort_rating
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
-    user1.save!
-    team = Team.new(team_code: 'Code', team_name: 'Team 1')
-    team.user = @prof 
-    team.save!  
-
-    ratings_effort = [10, 5, 7, 2, 1, 6, 9]
-    feedbacks = []
-    
-    ratings_effort.each do |effort_rating|
-      feedbacks << Feedback.new(participation_rating: 0, effort_rating: effort_rating, punctuality_rating: 0, comments: "None", user: user1, timestamp: DateTime.now, team: team)
-    end 
-      
-    average_rating = Feedback::average_effort_rating(feedbacks)
-    assert_in_delta((ratings_effort.sum.to_f/ratings_effort.count.to_f).round(2), average_rating)
+  def test_calculate_priority_medium
+    feedback = Feedback.create(participation_rating: 3, effort_rating: 3, punctuality_rating: 3, comments: "Okay rating", user: @user, timestamp: DateTime.now, team: @team)
+    assert_equal(1, feedback.calculate_priority)
   end
 
-  def test_average_punctuality_rating
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
-    user1.save!
-    team = Team.new(team_code: 'Code', team_name: 'Team 1')
-    team.user = @prof 
-    team.save!  
-    
-    ratings_punctuality = [10, 5, 7, 2, 1, 6, 9]
-    feedbacks = []
-    
-    ratings_punctuality.each do |punctuality_rating|
-      feedbacks << Feedback.new(participation_rating: 0, effort_rating: 0,punctuality_rating: punctuality_rating, comments: "None", user: user1, timestamp: DateTime.now, team: team)
-    end 
-      
-    average_rating = Feedback::average_punctuality_rating(feedbacks)
-    assert_in_delta((ratings_punctuality.sum.to_f/ratings_punctuality.count.to_f).round(2), average_rating)
+  def test_calculate_priority_low
+    feedback = Feedback.create(participation_rating: 5, effort_rating: 5, punctuality_rating: 5, comments: "Good rating", user: @user, timestamp: DateTime.now, team: @team)
+    assert_equal(2, feedback.calculate_priority)
   end
 
+  def test_get_priority_word_high
+    feedback = save_feedback(1, 1, 1, "Bad rating", @user, DateTime.now, @team)
+    assert_equal('High', feedback.get_priority_word)
+  end
+
+  def test_get_priority_word_medium
+    feedback = save_feedback(3, 3, 3, "Okay rating", @user, DateTime.now, @team)
+    assert_equal('Medium', feedback.get_priority_word)
+  end
+
+  def test_get_priority_word_low
+    feedback = save_feedback(5, 5, 5, "Good rating", @user, DateTime.now, @team)
+    assert_equal('Low', feedback.get_priority_word)
+  end
 end

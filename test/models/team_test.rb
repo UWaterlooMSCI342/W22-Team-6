@@ -123,6 +123,111 @@ class TeamTest < ActiveSupport::TestCase
     students.sort!
     assert_equal ['Charles1', 'Charles2'], students
   end
+
+  def test_average_participation_rating_many_feedbacks
+    user = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
+    user.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.user = @prof 
+    team.save!
+
+    ratings_participation = [5, 4, 2, 4, 5]
+    feedbacks = []
+    ratings_participation.each do |participation_rating|
+      feedbacks << save_feedback(participation_rating, 1, 1, "None", user, DateTime.now, team)
+    end 
+
+    average_rating = Team.average_participation_rating(feedbacks)
+    assert_equal(4.0, average_rating)
+  end
+
+  def test_average_participation_rating_single_feedback
+    user = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
+    user.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.user = @prof 
+    team.save!
+    
+    single_feedback = [save_feedback(3, 1, 1, "None", user, DateTime.now, team)]
+    average_rating = Team.average_participation_rating(single_feedback)
+    assert_equal(3.0, average_rating)
+  end
+
+  def test_average_participation_rating_no_feedback
+    feedbacks = []
+    average_rating = Team.average_participation_rating(feedbacks)
+    assert_nil(average_rating)
+  end
+
+  def test_average_effort_rating_many_feedbacks
+    user = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
+    user.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.user = @prof 
+    team.save!
+
+    ratings_effort = [5, 4, 2, 4, 5]
+    feedbacks = []
+    ratings_effort.each do |ratings_effort|
+      feedbacks << save_feedback(1, ratings_effort, 1, "None", user, DateTime.now, team)
+    end 
+
+    average_rating = Team.average_effort_rating(feedbacks)
+    assert_equal(4.0, average_rating)
+  end
+
+  def test_average_effort_rating_single_feedback
+    user = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
+    user.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.user = @prof 
+    team.save!
+    
+    single_feedback = [save_feedback(1, 3, 1, "None", user, DateTime.now, team)]
+    average_rating = Team.average_effort_rating(single_feedback)
+    assert_equal(3.0, average_rating)
+  end
+
+  def test_average_effort_rating_no_feedback
+    feedbacks = []
+    average_rating = Team.average_effort_rating(feedbacks)
+    assert_nil(average_rating)
+  end
+
+  def test_average_punctuality_rating_many_feedbacks
+    user = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
+    user.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.user = @prof 
+    team.save!
+
+    ratings_punctuality = [5, 4, 2, 4, 5]
+    feedbacks = []
+    ratings_punctuality.each do |ratings_punctuality|
+      feedbacks << save_feedback(1, 1, ratings_punctuality, "None", user, DateTime.now, team)
+    end 
+
+    average_rating = Team.average_punctuality_rating(feedbacks)
+    assert_equal(4.0, average_rating)
+  end
+
+  def test_average_punctuality_rating_single_feedback
+    user = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
+    user.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.user = @prof 
+    team.save!
+    
+    single_feedback = [save_feedback(1, 1, 3, "None", user, DateTime.now, team)]
+    average_rating = Team.average_punctuality_rating(single_feedback)
+    assert_equal(3.0, average_rating)
+  end
+
+  def test_average_punctuality_rating_no_feedback
+    feedbacks = []
+    average_rating = Team.average_punctuality_rating(feedbacks)
+    assert_nil(average_rating)
+  end
   
   def test_feedback_by_period_no_feedback 
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
@@ -141,8 +246,8 @@ class TeamTest < ActiveSupport::TestCase
     team.user = @prof 
     team.save!     
     
-    feedback = save_feedback(5,5,5, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 2)
-    feedback2 = save_feedback(3,3,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team, 2)
+    feedback = save_feedback(5,5,5, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    feedback2 = save_feedback(3,3,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team)
     
     periods = team.feedback_by_period 
     assert_equal({year: 2021, week: 9}, periods[0][0])
@@ -160,10 +265,10 @@ class TeamTest < ActiveSupport::TestCase
     team.user = @prof 
     team.save!     
     
-    feedback = save_feedback(5,4,2, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 2)
-    feedback2 = save_feedback(5,5,5, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team, 2)
-    feedback3 = save_feedback(4,4,4, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team, 2)
-    feedback4 = save_feedback(5,5,5, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 2, 16), team, 2)
+    feedback = save_feedback(5,4,2, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    feedback2 = save_feedback(5,5,5, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team)
+    feedback3 = save_feedback(4,4,4, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team)
+    feedback4 = save_feedback(5,5,5, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 2, 16), team)
     
     periods = team.feedback_by_period 
     assert_equal({year: 2021, week: 9}, periods[0][0])
@@ -175,126 +280,266 @@ class TeamTest < ActiveSupport::TestCase
     assert_equal( 2, periods[0][1].length )
     assert_equal( 2, periods[1][1].length )
   end
-  
-  def test_find_priority_weighted_team_summary_high_status
-    week_range = week_range(2021, 7)
-    
-    user1 = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
-    user1.save!
-    user2 = User.create(email: 'adam2@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam2', is_admin: false)
-    user2.save!
-    user3 = User.create(email: 'adam3@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam3', is_admin: false)
-    user3.save!
+
+  def test_calculate_overall_priority_no_users 
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.user = @prof 
-    team.save!
-    
-    feedback1 = save_feedback(1,1,1, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team, 0)
-    feedback2 = save_feedback(1,1,1, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 2, 16), team, 1)
-    feedback3 = save_feedback(1,1,1, "This team is disorganized", user3, DateTime.civil_from_format(:local, 2021, 2, 17), team, 2)
-    
-    team_weighted_priority = team.find_priority_weighted(week_range[:start_date], week_range[:end_date])
-    assert_equal "High", team_weighted_priority
+    team.save!     
+
+    team_priority = team.calculate_overall_priority(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_nil(team_priority)
   end
   
-  def test_find_priority_weighted_team_summary_medium_status
-    week_range = week_range(2021, 7)
-    
-    user1 = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
+  def test_calculate_overall_priority_no_feedback_with_users
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
-    user2 = User.create(email: 'adam2@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam2', is_admin: false)
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
     user2.save!
-    user3 = User.create(email: 'adam3@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam3', is_admin: false)
-    user3.save!
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
-    team.user = @prof 
+    team.users = [user1, user2]
+    team.user = @prof
     team.save!
-    
-    feedback1 = save_feedback(1,1,1, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team, 2)
-    feedback2 = save_feedback(1,1,1, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 2, 16), team, 1)
-    feedback3 = save_feedback(1,1,1, "This team is disorganized", user3, DateTime.civil_from_format(:local, 2021, 2, 17), team, 2)
-    
-    team_weighted_priority = team.find_priority_weighted(week_range[:start_date], week_range[:end_date])
-    assert_equal "Medium", team_weighted_priority
-  end
-  
-  def test_find_priority_weighted_team_summary_low_status
-    week_range = week_range(2021, 7)
-    
-    user1 = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
-    user1.save!
-    user2 = User.create(email: 'adam2@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam2', is_admin: false)
-    user2.save!
-    user3 = User.create(email: 'adam3@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam3', is_admin: false)
-    user3.save!
-    team = Team.new(team_code: 'Code', team_name: 'Team 1')
-    team.user = @prof 
-    team.save!
-    
-    feedback1 = save_feedback(1,2,1, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team, 2)
-    feedback2 = save_feedback(1,1,1, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 2, 16), team, 2)
-    feedback3 = save_feedback(1,1,1, "This team is disorganized", user3, DateTime.civil_from_format(:local, 2021, 2, 17), team, 2)
-    
-    team_weighted_priority = team.find_priority_weighted(week_range[:start_date], week_range[:end_date])
-    assert_equal "Low", team_weighted_priority
+
+    team_priority = team.calculate_overall_priority(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal(0, team_priority)
   end
 
-  
-  def test_single_feedback_average_participation_rating_team_summary
-    week_range = week_range(2021, 7)
-    
-    user1 = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
+  def test_calculate_overall_priority_when_all_users_submit_with_high_average_ratings
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    user3 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3.save!
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2, user3]
     team.user = @prof 
-    team.save!
+    team.save!     
+
+    feedback1 = save_feedback(5, 5, 5, "I submitted", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(5, 5, 5, "I submitted", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    feedback3 = save_feedback(5, 5, 5, "I submitted", user3, DateTime.civil_from_format(:local, 2021, 4, 2), team)
     
-    feedback1 = save_feedback(3,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team, 2)
+    team_priority = team.calculate_overall_priority(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal(2, team_priority)
+  end
+  
+  def test_calculate_overall_priority_when_less_than_half_of_team_does_not_submit
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    user3 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2, user3]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(5, 5, 5, "I submitted", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(5, 5, 5, "I submitted", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
     
-    current_week_average = Team.feedback_average_participation_rating(team.feedback_by_period.first[1])
-    assert_equal 3.0, current_week_average
+    team_priority = team.calculate_overall_priority(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal(1, team_priority)
+  end
+  
+  def test_calculate_overall_priority_when_okay_average_rating
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(3, 3, 3, "This team is okay", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(3, 3, 3, "This team is okay", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    
+    team_priority = team.calculate_overall_priority(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal(1, team_priority)
   end
 
-  def test_single_feedback_average_effort_rating_team_summary
-    week_range = week_range(2021, 7)
-    
-    user1 = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
+  def test_calculate_overall_priority_when_more_than_half_of_team_does_not_submit
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2]
     team.user = @prof 
-    team.save!
-    
-    feedback1 = save_feedback(3,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team, 2)
-    
-    current_week_average = Team.feedback_average_effort_rating(team.feedback_by_period.first[1])
-    assert_equal 2.0, current_week_average
+    team.save!     
+
+    feedback1 = save_feedback(5, 5, 5, "I have a Low priority", user1, DateTime.civil_from_format(:local, 2021, 4, 2), team)\
+
+    team_priority = team.calculate_overall_priority(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal(0, team_priority)
   end
 
-  def test_single_feedback_average_punctuality_rating_team_summary
-    week_range = week_range(2021, 7)
-    
-    user1 = User.create(email: 'adam1@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'adam1', is_admin: false)
+  def test_calculate_overall_priority_when_one_member_submits_high_priority
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(1, 1, 1, "I have a High priority", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(5, 5, 5, "I have a Low priority", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    
+    team_priority = team.calculate_overall_priority(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal(0, team_priority)
+  end
+
+  def test_calculate_overall_priority_when_bad_average_rating
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(1, 5, 3, "This team has bad participation", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(1, 5, 5, "This team has bad participation", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    
+    team_priority = team.calculate_overall_priority(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal(0, team_priority)
+  end
+
+  def test_find_priority_weighted_no_users 
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.user = @prof 
-    team.save!
-    
-    feedback1 = save_feedback(3,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team, 2)
-    
-    current_week_average = Team.feedback_average_punctuality_rating(team.feedback_by_period.first[1])
-    assert_equal 3.0, current_week_average
+    team.save!     
+
+    team_priority = team.find_priority_weighted(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_nil(team_priority)
   end
   
-  def test_find_priority_weighted_no_feedbacks 
+  def test_find_priority_weighted_no_feedback_with_users
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
-    team.user = @prof 
+    team.users = [user1, user2]
+    team.user = @prof
     team.save!
+
+    team_priority = team.find_priority_weighted(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('High', team_priority)
+  end
+
+  def test_find_priority_weighted_when_all_users_submit_with_high_average_ratings
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    user3 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2, user3]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(5, 5, 5, "I submitted", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(5, 5, 5, "I submitted", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    feedback3 = save_feedback(5, 5, 5, "I submitted", user3, DateTime.civil_from_format(:local, 2021, 4, 2), team)
     
-    team_weighted_priority = team.find_priority_weighted(DateTime.civil_from_format(:local, 2021, 2, 15), DateTime.civil_from_format(:local, 2021, 2, 21))
-    assert_nil team_weighted_priority
+    team_priority = team.find_priority_weighted(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('Low', team_priority)
   end
   
-   def test_find_students_not_submitted_no_submissions
+  def test_find_priority_weighted_when_less_than_half_of_team_does_not_submit
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    user3 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2, user3]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(5, 5, 5, "I submitted", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(5, 5, 5, "I submitted", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    
+    team_priority = team.find_priority_weighted(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('Medium', team_priority)
+  end
+  
+  def test_find_priority_weighted_when_okay_average_rating
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(3, 3, 3, "This team is okay", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(3, 3, 3, "This team is okay", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    
+    team_priority = team.find_priority_weighted(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('Medium', team_priority)
+  end
+
+  def test_find_priority_weighted_when_more_than_half_of_team_does_not_submit
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(5, 5, 5, "I have a Low priority", user1, DateTime.civil_from_format(:local, 2021, 4, 2), team)\
+
+    team_priority = team.find_priority_weighted(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('High', team_priority)
+  end
+
+  def test_find_priority_weighted_when_one_member_submits_high_priority
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(1, 1, 1, "I have a High priority", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(5, 5, 5, "I have a Low priority", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    
+    team_priority = team.find_priority_weighted(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('High', team_priority)
+  end
+
+  def test_find_priority_weighted_when_bad_average_rating
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(1, 5, 3, "This team has bad participation", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(1, 5, 5, "This team has bad participation", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    
+    team_priority = team.find_priority_weighted(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('High', team_priority)
+  end
+  
+  def test_find_students_not_submitted_no_submissions
     user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
     user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
@@ -315,31 +560,18 @@ class TeamTest < ActiveSupport::TestCase
   end 
 
   def test_find_students_not_submitted_partial_submissions
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
-    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
     user2.save!
-    user3 = User.create(email: 'charles4@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
-
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.users = [user1, user2]
     team.user = @prof 
     team.save!   
-    team2 = Team.new(team_code: 'Code2', team_name: 'Team 2')
-    team2.users = [user3]
-    team2.user = @prof 
-    team2.save 
 
-    feedback = save_feedback(2,3,4, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 2)
+    feedback = save_feedback(2,3,4, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
 
-
-    # No submissions made yet 
     assert_equal([user2], team.users_not_submitted([feedback]))
-
-    feedback = save_feedback(3,3,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 2)
-    feedback2 = save_feedback(5,3,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team, 2)
-    feedback3 = save_feedback(2,3,2, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 2, 15), team, 2)
-    feedback4 = save_feedback(5,2,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 2, 16), team, 2)
   end
 
   def test_find_students_not_submitted_all_submitted
@@ -358,8 +590,8 @@ class TeamTest < ActiveSupport::TestCase
     team2.user = @prof 
     team2.save
 
-    feedback = save_feedback(3,5,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 2)
-    feedback2 = save_feedback(5,4,2, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team, 2)
+    feedback = save_feedback(3,5,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    feedback2 = save_feedback(5,4,2, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team)
     assert_equal([], team.users_not_submitted([feedback, feedback2]))
   end
 
@@ -379,9 +611,9 @@ class TeamTest < ActiveSupport::TestCase
     team2.user = @prof 
     team2.save
 
-    feedback = save_feedback(3,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 2)
-    feedback2 = save_feedback(5,2,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team, 2)
-    feedback3 = save_feedback(3,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 2), team, 2)
+    feedback = save_feedback(3,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    feedback2 = save_feedback(5,2,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team)
+    feedback3 = save_feedback(3,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 2), team)
     assert_equal([], team.users_not_submitted([feedback, feedback2, feedback3]))
   end 
 
@@ -400,10 +632,84 @@ class TeamTest < ActiveSupport::TestCase
     team2.user = @prof 
     team2.save
 
-    feedback = save_feedback(2,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 2)
-    feedback2 = save_feedback(5,4,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team, 2)
-    feedback3 = save_feedback(2,3,3, "This team is disorganized", user3, DateTime.civil_from_format(:local, 2021, 3, 2), team2, 2)
+    feedback = save_feedback(2,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    feedback2 = save_feedback(5,4,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team)
+    feedback3 = save_feedback(2,3,3, "This team is disorganized", user3, DateTime.civil_from_format(:local, 2021, 3, 2), team2)
     assert_equal([], team.users_not_submitted([feedback, feedback2, feedback3]))
+  end
+
+  def test_fraction_of_users_not_submitted_with_no_submissions_and_no_users
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = []
+    team.user = @prof
+    team.save!
+
+    assert_equal(0, team.fraction_of_users_not_submitted([]))
+  end
+
+  def test_fraction_of_users_not_submitted_with_no_submissions_and_users
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2]
+    team.user = @prof
+    team.save!
+
+    # 100% of team did not submit.
+    assert_equal(1.0, team.fraction_of_users_not_submitted([]))
+  end
+
+  def test_fraction_of_users_not_submitted_less_than_half_of_team_submitted
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    user3 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2, user3]
+    team.user = @prof
+    team.save!
+
+    feedback = save_feedback(2, 2, 3, "I submitted!", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    assert_in_delta(0.6666, team.fraction_of_users_not_submitted([feedback]))
+  end
+
+  def test_fraction_of_users_not_submitted_more_than_half_of_team_submitted
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    user3 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2, user3]
+    team.user = @prof
+    team.save!
+
+    feedback1 = save_feedback(2, 2, 3, "I submitted!", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    feedback2 = save_feedback(2, 2, 3, "I submitted!", user2, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    assert_in_delta(0.3333, team.fraction_of_users_not_submitted([feedback1, feedback2]))
+  end
+
+  def test_fraction_of_users_not_submitted_all_of_team_submitted
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
+    user3 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2, user3]
+    team.user = @prof
+    team.save!
+
+    feedback1 = save_feedback(2, 2, 3, "I submitted!", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    feedback2 = save_feedback(2, 2, 3, "I submitted!", user2, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    feedback3 = save_feedback(2, 2, 3, "I submitted!", user3, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    assert_in_delta(0.0, team.fraction_of_users_not_submitted([feedback1, feedback2, feedback3]))
   end
 
   def test_find_current_feedback 
@@ -417,9 +723,9 @@ class TeamTest < ActiveSupport::TestCase
     team.user = @prof 
     team.save!     
 
-    feedback = save_feedback(4,3,2, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 2)
-    feedback2 = save_feedback(5,4,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team, 2)
-    feedback3 = save_feedback(4,4,3, "This team is disorganized", user3, DateTime.civil_from_format(:local, 2021, 4, 2), team, 2)
+    feedback = save_feedback(4,3,2, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team)
+    feedback2 = save_feedback(5,4,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team)
+    feedback3 = save_feedback(4,4,3, "This team is disorganized", user3, DateTime.civil_from_format(:local, 2021, 4, 2), team)
     result = team.current_feedback(d=Date.new(2021, 3, 2))
     assert_includes( result, feedback )
     assert_includes( result, feedback2 )
@@ -432,122 +738,131 @@ class TeamTest < ActiveSupport::TestCase
   end
   
   def test_status_no_users 
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
-    user1.save!
-    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
-    user2.save!
-    user3 = User.create(email: 'charles4@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.user = @prof 
     team.save!     
 
-    assert_equal('green', team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3)))
+    status = team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('blue', status)
   end
   
-  def test_status_no_feedback 
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+  def test_status_no_feedback_with_users
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
-    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
     user2.save!
-    user3 = User.create(email: 'charles4@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.users = [user1, user2]
-    team.user = @prof 
-    team.save!     
+    team.user = @prof
+    team.save!
 
-    feedback = save_feedback(3,5,2, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 2)
-    feedback2 = save_feedback(5,3,2, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 3), team, 2)
-
-    assert_equal('yellow', team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3)))
+    status = team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('red', status)
   end
-  
-  def test_green_status
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+
+  def test_status_when_all_users_submit_with_good_average_ratings
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
-    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
     user2.save!
-    user3 = User.create(email: 'charles4@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3.save!
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
-    team.users = [user1, user2]
+    team.users = [user1, user2, user3]
     team.user = @prof 
     team.save!     
 
-    feedback = save_feedback(2,3,2, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 0)
-    feedback2 = save_feedback(3,4,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 27), team, 2)
-    feedback3 = save_feedback(3,4,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 4, 2), team, 2)
+    feedback1 = save_feedback(5, 5, 5, "I submitted", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(5, 5, 5, "I submitted", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    feedback3 = save_feedback(5, 5, 5, "I submitted", user3, DateTime.civil_from_format(:local, 2021, 4, 2), team)
     
-    assert_equal('green', team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3)))
+    status = team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('green', status)
   end
   
-  def test_yellow_status_rating
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+  def test_status_when_less_than_half_of_team_does_not_submit
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
-    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
     user2.save!
-    user3 = User.create(email: 'charles4@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
+    user3.save!
+    team = Team.new(team_code: 'Code', team_name: 'Team 1')
+    team.users = [user1, user2, user3]
+    team.user = @prof 
+    team.save!     
+
+    feedback1 = save_feedback(5, 5, 5, "I submitted", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(5, 5, 5, "I submitted", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
+    
+    status = team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('yellow', status)
+  end
+  
+  def test_status_when_okay_average_rating
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    user1.save!
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2.save!
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.users = [user1, user2]
     team.user = @prof 
     team.save!     
 
-    feedback = save_feedback(2,3,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 0)
-    feedback2 = save_feedback(3,5,3, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 27), team, 2)
-    feedback3 = save_feedback(4,4,2, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 4, 2), team, 2)
+    feedback1 = save_feedback(3, 3, 3, "This team is okay", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(3, 3, 3, "This team is okay", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
     
-    assert_equal('yellow', team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3)))
+    status = team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('yellow', status)
   end
-  
-  def test_yellow_status_priority
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+
+  def test_status_when_more_than_half_of_team_does_not_submit
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
-    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
     user2.save!
-    user3 = User.create(email: 'charles4@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.users = [user1, user2]
     team.user = @prof 
     team.save!     
 
-    feedback = save_feedback(2,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 0)
-    feedback2 = save_feedback(1,3,4, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 27), team, 1)
-    feedback3 = save_feedback(1,2,3, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 4, 2), team, 2)
-    
-    assert_equal('yellow', team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3)))
+    feedback1 = save_feedback(5, 5, 5, "I have a Low priority", user1, DateTime.civil_from_format(:local, 2021, 4, 2), team)\
+
+    status = team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('red', status)
   end
-  
-  def test_red_status_priority
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+
+  def test_status_when_one_member_submits_high_priority
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
-    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
     user2.save!
-    user3 = User.create(email: 'charles4@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.users = [user1, user2]
     team.user = @prof 
     team.save!     
 
-    feedback = save_feedback(2,2,1, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 0)
-    feedback2 = save_feedback(4,3,1, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 27), team, 0)
-    feedback3 = save_feedback(3,4,2, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 4, 2), team, 2)
+    feedback1 = save_feedback(1, 1, 1, "I have a High priority", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(5, 5, 5, "I have a Low priority", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
     
-    assert_equal('red', team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3)))
+    status = team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('red', status)
   end
-  
-  def test_red_status_rating
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+
+  def test_status_when_bad_average_rating
+    user1 = User.create(email: 'charles1@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
     user1.save!
-    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
     user2.save!
-    user3 = User.create(email: 'charles4@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles3', is_admin: false)
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.users = [user1, user2]
     team.user = @prof 
     team.save!     
 
-    feedback = save_feedback(2,2,1, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 3, 1), team, 0)
-    feedback2 = save_feedback(2,3,2, "This team is disorganized", user2, DateTime.civil_from_format(:local, 2021, 3, 27), team, 2)
-    feedback3 = save_feedback(5,2,2, "This team is disorganized", user1, DateTime.civil_from_format(:local, 2021, 4, 2), team, 2)
+    feedback1 = save_feedback(1, 5, 3, "This team has bad participation", user1, DateTime.civil_from_format(:local, 2021, 3, 27), team)
+    feedback2 = save_feedback(1, 5, 5, "This team has bad participation", user2, DateTime.civil_from_format(:local, 2021, 4, 2), team)
     
-    assert_equal('red', team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3)))
+    status = team.status(DateTime.civil_from_format(:local, 2021, 3, 25), DateTime.civil_from_format(:local, 2021, 4, 3))
+    assert_equal('red', status)
   end
 end

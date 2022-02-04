@@ -28,8 +28,8 @@ class StudentViewAggregateHealthsTest < ApplicationSystemTestCase
   # (2)
   def test_view_overall_team_health
     #Passes Acceptance Criteria 2: As a student, I should be able to see my team's overall health
-    feedback1 = save_feedback(4,4,4, "Data1", @user, DateTime.civil_from_format(:local, 2021, 2, 15), @team, 2)
-    feedback2 = save_feedback(3,3,3, "Data2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team, 2)
+    feedback1 = save_feedback(4,4,4, "Data1", @user, DateTime.civil_from_format(:local, 2021, 2, 15), @team)
+    feedback2 = save_feedback(3,3,3, "Data2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
     
     average_rating = ((4+3).to_f/2).round(2)
     
@@ -45,10 +45,10 @@ class StudentViewAggregateHealthsTest < ApplicationSystemTestCase
   # (1)
   def test_view_weekly_team_health
     #Passes Acceptance Criteria 1: As a student, I should only be to allowed to see their team's detailed weekly health
-    feedback = save_feedback(5,5,5, "Week 9 data 1", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team, 0)
-    feedback2 = save_feedback(4,4,4, "Week 9 data 2", @user2, DateTime.civil_from_format(:local, 2021, 3, 3), @team, 2)
-    feedback3 = save_feedback(3,3,3, "Week 7 data 1", @user, DateTime.civil_from_format(:local, 2021, 2, 15), @team, 1)
-    feedback4 = save_feedback(2,2,2, "Week 7 data 2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team, 2)
+    feedback = save_feedback(5,5,5, "Week 9 data 1", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team)
+    feedback2 = save_feedback(4,4,4, "Week 9 data 2", @user2, DateTime.civil_from_format(:local, 2021, 3, 3), @team)
+    feedback3 = save_feedback(3,3,3, "Week 7 data 1", @user, DateTime.civil_from_format(:local, 2021, 2, 15), @team)
+    feedback4 = save_feedback(2,2,2, "Week 7 data 2", @user2, DateTime.civil_from_format(:local, 2021, 2, 16), @team)
     
     average_ratingFeb = ((2+3).to_f/2).round(2)
     average_ratingMarch = ((4+5).to_f/2).round(2)
@@ -75,8 +75,8 @@ class StudentViewAggregateHealthsTest < ApplicationSystemTestCase
   # (1)
   def test_only_view_current_team_weekly_feedback
     #Passes Acceptance Criteria 1: As a student, I should not be able to view another team's weekly health that they're not a part of
-    feedback = save_feedback(5,5,5, "Team1", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team, 0)
-    feedback2 = save_feedback(4,4,4, "Team2", @user3, DateTime.civil_from_format(:local, 2021, 3, 3), @team2, 2)
+    feedback = save_feedback(5,5,5, "Team1", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team)
+    feedback2 = save_feedback(4,4,4, "Team2", @user3, DateTime.civil_from_format(:local, 2021, 3, 3), @team2)
     
     visit root_url 
     #user1 should not be able to view user3's weekly team health data

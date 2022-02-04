@@ -60,7 +60,7 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     assert_current_path team_url(@team)
     assert_text "This team is disorganized"
     assert_text "9"
-    assert_text "Urgent"
+    assert_text "High"
     assert_text "Test Team"
     assert_text datetime.strftime("%Y-%m-%d %H:%M")
   end

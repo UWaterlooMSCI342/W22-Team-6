@@ -17,7 +17,7 @@
         <td><%= User.find(report.reportee_id).name %></td>
         <td><%= report.description %></td>
         <% if report.priority == 0 %>
-          <td><%= 'Urgent' %></td>
+          <td><%= 'High' %></td>
         <% elsif report.priority == 1 %>
           <td><%= 'Medium' %></td>
         <% else %>

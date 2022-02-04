@@ -68,7 +68,7 @@ class AddPrioritiesToReportsTest < ApplicationSystemTestCase
 
     click_on "Reports"
     assert_current_path reports_url
-    assert_text 'Urgent'
+    assert_text 'High'
     assert_text 'Medium'
     assert_text 'Low'
   end

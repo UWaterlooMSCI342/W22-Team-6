@@ -1,4 +1,15 @@
 class Feedback < ApplicationRecord
+  # When creating a Feedback object, the default priority is set to 2 = 'Low'.
+  HIGH = 0.freeze
+  NO_FEEDBACK = nil.freeze
+  MEDIUM = 1.freeze
+  LOW = 2.freeze
+  PRIORITY_LEVEL = { HIGH => 'High', MEDIUM => 'Medium', LOW => 'Low' }.freeze
+  PRIORITY_COLOURS = { HIGH => 'red', NO_FEEDBACK => 'blue', MEDIUM => 'yellow', LOW => 'green' }.freeze
+  CHOICES = [1, 2, 3, 4, 5].freeze
+  BAD_RATING = (Feedback::CHOICES.min + ((Feedback::CHOICES.max - Feedback::CHOICES.min)  / Feedback::PRIORITY_LEVEL.size.to_f)).freeze
+  OKAY_RATING = ((2 * Feedback::BAD_RATING) - Feedback::CHOICES.min).freeze
+
   belongs_to :user
   belongs_to :team
 
@@ -13,17 +24,21 @@ class Feedback < ApplicationRecord
       current_time = given_date.strftime('%Y/%m/%d %H:%M')
       return current_time
   end
-  
-  # takes list of feedbacks and returns average punctuality rating
-  def self.average_participation_rating(feedbacks)
-    (feedbacks.sum{|feedback| feedback.participation_rating}.to_f/feedbacks.count.to_f).round(2)
+
+  # Calculates the priority for this feedback by using the participation, effort, and punctuality ratings.
+  def calculate_priority
+    ratings = [self.participation_rating, self.effort_rating, self.punctuality_rating]
+    
+    if ratings.any?{ |rating| rating.nil? } or ratings.any?{ |rating| rating <= Feedback::BAD_RATING }
+      return Feedback::HIGH
+    elsif ratings.any?{ |rating| rating <= Feedback::OKAY_RATING }
+      return Feedback::MEDIUM
+    else
+      return Feedback::LOW
+    end
   end
 
-  def self.average_effort_rating(feedbacks)
-    (feedbacks.sum{|feedback| feedback.effort_rating}.to_f/feedbacks.count.to_f).round(2)
-  end
-
-  def self.average_punctuality_rating(feedbacks)
-    (feedbacks.sum{|feedback| feedback.punctuality_rating}.to_f/feedbacks.count.to_f).round(2)
+  def get_priority_word
+    return Feedback::PRIORITY_LEVEL[self.priority]
   end
 end

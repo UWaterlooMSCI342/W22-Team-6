@@ -27,7 +27,7 @@ class CreateSummaryPageViewOfTeamsTest < ApplicationSystemTestCase
   
   # Test all feedback can be viewed (1)
   def test_view_feedback 
-    feedback = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is disorganized")
+    feedback = Feedback.new(participation_rating: 1, effort_rating: 5, punctuality_rating: 2, comments: "This team is disorganized")
     datetime = Time.current
     feedback.timestamp = feedback.format_time(datetime)
     feedback.user = @bob
@@ -40,7 +40,9 @@ class CreateSummaryPageViewOfTeamsTest < ApplicationSystemTestCase
     click_on "Feedback & Ratings"
     assert_current_path feedbacks_url
     assert_text "This team is disorganized"
-    assert_text "9"
+    assert_text "1"
+    assert_text "5"
+    assert_text "2"
     assert_text datetime.strftime("%Y-%m-%d %H:%M")
   end
   
@@ -49,19 +51,19 @@ class CreateSummaryPageViewOfTeamsTest < ApplicationSystemTestCase
     datetime = Time.zone.now
     
     #Create Bob's feedback
-    feedbackBob = Feedback.new(rating: 5, comments: "This team is OK")
+    feedbackBob = Feedback.new(participation_rating: 3, effort_rating: 3, punctuality_rating: 3, comments: "This team is OK")
     feedbackBob.timestamp = feedbackBob.format_time(datetime)
     feedbackBob.user = @bob
     feedbackBob.team = @bob.teams.first
     feedbackBob.save
     
-    feedbackAndy = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is lovely")
+    feedbackAndy = Feedback.new(participation_rating: 5, effort_rating: 5, punctuality_rating: 5, comments: "This team is lovely")
     feedbackAndy.timestamp = feedbackAndy.format_time(datetime)
     feedbackAndy.user = @andy
     feedbackAndy.team = @andy.teams.first
     feedbackAndy.save
     
-    feedbackSarah = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is horrible")
+    feedbackSarah = Feedback.new(participation_rating: 1, effort_rating: 1, punctuality_rating: 1, comments: "This team is horrible")
     feedbackSarah.timestamp = feedbackSarah.format_time(datetime)
     feedbackSarah.user = @sarah
     feedbackSarah.team = @sarah.teams.first
@@ -76,7 +78,9 @@ class CreateSummaryPageViewOfTeamsTest < ApplicationSystemTestCase
     assert_text "Bob"
     assert_text "Andy"
     assert_text "Sarah"
-    assert_text "6"
+    assert_text "3"
+    assert_text "3"
+    assert_text "3"
     
     #checks all aggregated feedback of a team
     
@@ -91,20 +95,26 @@ class CreateSummaryPageViewOfTeamsTest < ApplicationSystemTestCase
     #Bob's feedback
 
     assert_text "Bob"
-    assert_text "5"
+    assert_text "3"
+    assert_text "3"
+    assert_text "3"
     assert_text "This team is OK"
     assert_text datetime.strftime("%Y-%m-%d %H:%M")
     
     #Andy's Feedback 
 
     assert_text "Andy"
-    assert_text "10"
+    assert_text "5"
+    assert_text "5"
+    assert_text "5"
     assert_text "This team is lovely"
     
     #Sarah's Feedback
 
     assert_text "Sarah"
-    assert_text "3"
+    assert_text "1"
+    assert_text "1"
+    assert_text "1"
     assert_text "This team is horrible"
   end
   

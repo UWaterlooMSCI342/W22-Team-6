@@ -23,13 +23,7 @@
         <td><%= feedback.participation_rating %></td>
         <td><%= feedback.effort_rating %></td>
         <td><%= feedback.punctuality_rating %></td>
-        <%if feedback.priority == 2%>
-          <td><%='Low'%></td>
-        <%elsif feedback.priority == 1%>
-          <td><%='Medium'%></td>
-        <%else%>
-          <td><%='Urgent'%></td>
-        <%end%>
+        <td><%= feedback.get_priority_word %></td>
         <%if feedback.comments.size == 0%>
           <td>Students Has Not Submitted Comments!</td>
         <%else%>

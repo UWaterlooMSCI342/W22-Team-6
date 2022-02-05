@@ -29,8 +29,9 @@ class FeebackTimeDisplayTest < ApplicationSystemTestCase
     
     click_on "Submit for"
     assert_text "Current System Time: 2021/03/21 23:30" #Acceptance criteria #1
-    select 5, :from => "Rating"
-    select "Urgent", :from => "Priority"
+    select 5, :from => "Participation rating"
+    select 5, :from => "Effort rating"
+    select 5, :from => "Punctuality rating"
     click_on "Create Feedback"
     assert_current_path root_url
     assert_text "Feedback was successfully created. Time created: 2021-03-21 23:30:00" #Acceptance criteria #2

@@ -24,9 +24,9 @@ class AddDeleteTeamsTest < ApplicationSystemTestCase
     @user2.teams = [@team2]
     @user2.save
     
-    @feedback = save_feedback(5,4,2, "This team is disorganized", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team1, 2)
-    @feedback2 = save_feedback(5,3,4, "This team is disorganized", @user, DateTime.civil_from_format(:local, 2021, 3, 3), @team1, 2)
-    @feedback3 = save_feedback(5,2,3, "This team is disorganized", @user2, DateTime.civil_from_format(:local, 2021, 3, 3), @team2, 2)
+    @feedback = save_feedback(5,4,2, "This team is disorganized", @user, DateTime.civil_from_format(:local, 2021, 3, 1), @team1)
+    @feedback2 = save_feedback(5,3,4, "This team is disorganized", @user, DateTime.civil_from_format(:local, 2021, 3, 3), @team1)
+    @feedback3 = save_feedback(5,2,3, "This team is disorganized", @user2, DateTime.civil_from_format(:local, 2021, 3, 3), @team2)
   end 
   
   # (1)

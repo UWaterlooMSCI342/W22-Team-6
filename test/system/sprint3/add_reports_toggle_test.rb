@@ -43,7 +43,7 @@ class AddReportsTogglesTest < ApplicationSystemTestCase
     
     # Create report 
     select "Steve", from: "Reportee"
-    select "Urgent", from: "Priority"
+    select "High", from: "Priority"
     fill_in "Description", with: "Testing"
     
     click_on "Submit report"

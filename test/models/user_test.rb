@@ -42,7 +42,7 @@ class UserTest < ActiveSupport::TestCase
     team.user = @prof
     team.save
     user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott F', is_admin: false, teams: [team])
-    save_feedback(5,3,4, 'Test', user1, Time.zone.now, team, 1)
+    save_feedback(5,3,4, 'Test', user1, Time.zone.now, team)
     assert_equal([team], user1.one_submission_teams)
   end
   
@@ -98,7 +98,7 @@ class UserTest < ActiveSupport::TestCase
 
     # create feeedback for team
     datetime = Time.zone.now
-    feedback = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is disorganized")
+    feedback = Feedback.new(participation_rating: 1, effort_rating: 4, punctuality_rating: 2, comments: "This team is disorganized")
     feedback.timestamp = feedback.format_time(datetime)
     feedback.user = user
     feedback.team = team
@@ -106,7 +106,7 @@ class UserTest < ActiveSupport::TestCase
 
     # ensure that feedback created in previous week does not stop warning from displaying 
     datetime2 = DateTime.new(1990,2,3)
-    feedback2 = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is disorganized")
+    feedback2 = Feedback.new(participation_rating: 1, effort_rating: 4, punctuality_rating: 2, comments: "This team is disorganized")
     feedback2.timestamp = feedback2.format_time(datetime2)
     feedback2.user = user
     feedback2.team = team2

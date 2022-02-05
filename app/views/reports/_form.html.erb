@@ -26,8 +26,8 @@
   </div>
 
   <div class="field">
-      <!-- Priorities: 0 = urgent, 1 = medium, 2 = low -->   
-      <% priorityOptions = [["Urgent", 0],["Medium", 1],["Low",2]] %>
+      <!-- Priorities: 0 = high, 1 = medium, 2 = low -->   
+      <% priorityOptions = [["High", 0],["Medium", 1],["Low",2]] %>
       <%= form.label :priority %>
       <%= form.select :priority, priorityOptions, :selected => "Low"%>
   </div>

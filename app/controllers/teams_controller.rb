@@ -21,9 +21,9 @@ class TeamsController < ApplicationController
     if !@periods.nil?
       @periods.each do |period| 
         period << week_range(period[0][:year], period[0][:week])
-        period << Feedback::average_participation_rating(period[1])
-        period << Feedback::average_effort_rating(period[1])
-        period << Feedback::average_punctuality_rating(period[1])
+        period << Team::average_participation_rating(period[1])
+        period << Team::average_effort_rating(period[1])
+        period << Team::average_punctuality_rating(period[1])
         period << @team.users_not_submitted(period[1]).map{|user| user.name}
 
         wk_range = week_range(period[0][:year], period[0][:week])

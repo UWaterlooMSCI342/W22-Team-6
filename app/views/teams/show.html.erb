@@ -49,7 +49,7 @@
         <% @periods.each do |key, period, range, participation_rating, effort_rating, punctuality_rating, missing, priority| %>
           <div id=<%= key[:year] %>-<%= key[:week] %> >
             <div style="display: inline">
-              <span class=<%= 'dot-' + @team.status(range[:start_date], range[:end_date]) %> style="vertical-align: middle" ></span>
+              <span class="dot <%= @team.status(range[:start_date], range[:end_date]) %>" style="vertical-align: middle" ></span>
               <h3 style="display: inline">  
                 <%= range[:start_date].strftime('%b %e, %Y') %> to <%= range[:end_date].strftime('%b %e, %Y') %>
               </h3>
@@ -79,13 +79,7 @@
                     <td><%= fb.participation_rating %></td>
                     <td><%= fb.effort_rating %></td>
                     <td><%= fb.punctuality_rating %></td>
-                    <%if fb.priority == 2%>
-                      <td><%='Low'%></td>
-                    <%elsif fb.priority == 1%>
-                      <td><%='Medium'%></td>
-                    <%else%>
-                      <td><%='Urgent'%></td>
-                    <%end%>
+                    <td><%= fb.get_priority_word %></td>
                     <%if fb.comments.nil? || fb.comments.size == 0 %>
                       <td> No Comments Submitted!</td>
                     <%else%>
@@ -112,7 +106,7 @@
     <% @periods.each do |key, period, range, participation_rating, effort_rating, punctuality_rating, missing, priority| %>
       <div id=<%= key[:year] %>-<%= key[:week] %> >
         <div style="display: inline">
-          <span class=<%= 'dot-' + @team.status(range[:start_date], range[:end_date]) %> style="vertical-align: middle" ></span>
+          <span class="dot <%= @team.status(range[:start_date], range[:end_date]) %>" style="vertical-align: middle" ></span>
           <h3 style="display: inline">  
             <%= range[:start_date].strftime('%b %e, %Y') %> to <%= range[:end_date].strftime('%b %e, %Y') %>
           </h3>

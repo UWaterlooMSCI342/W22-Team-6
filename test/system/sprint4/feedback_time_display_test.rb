@@ -32,7 +32,6 @@ class FeebackTimeDisplayTest < ApplicationSystemTestCase
     select 5, :from => "Participation rating"
     select 5, :from => "Effort rating"
     select 5, :from => "Punctuality rating"
-    select "Urgent", :from => "Priority"
     click_on "Create Feedback"
     assert_current_path root_url
     assert_text "Feedback was successfully created. Time created: 2021-03-21 23:30:00" #Acceptance criteria #2

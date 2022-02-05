@@ -112,13 +112,17 @@
     <% if warn_user && days_till_end_week > 2 %>
       <p class="warning"><%= days_till_end_week %> days left to submit feedback:</p>
     <% end %>
+    
     <ul class="btns">
-      <% team_array.each do |team| %>
-        <li><%= link_to 'Submit for: ' + team.team_name, new_feedback_path, class: "btn" %></li>
+      <% if @has_submitted == false %>
+          <% team_array.each do |team| %>
+            <li><%= link_to 'Submit for: ' + team.team_name, new_feedback_path, class: "btn" %></li>
+          <% end %>
+      <% else %>
+          <li><%= link_to "Edit Rating", feedback_edit_url(@current_user.feedback_ids), class: "btn" %></li>
       <% end %>
     </ul>
-    
-    
+
     <div class="line"></div>
     <% if current_user.teams.size == 0 %>
       <p>No teams yet!</p>
@@ -161,8 +165,6 @@
               <% else %>
                 <td>Team Does Not Have Any Ratings!</td>
               <%end%>
-              <td>   <%= link_to "Edit Rating", feedback_edit_url(@current_user.feedback_ids) %>
-      </td>
             </tr>
           <% end %>
         </tbody>

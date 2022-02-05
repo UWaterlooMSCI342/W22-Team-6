@@ -56,7 +56,34 @@ class User < ApplicationRecord
     # teams
     return teams
   end
+
+  # Checks if the current user (for the current week) has submitted a feedback
+  def has_submitted()
+
+    # this method only works for users
+    if self.is_admin
+      return false
+    end
+
+    # getting the current team
+    @teams = Team.where(id: self.teams.ids)
+    users_arr = []
+
+    #getting users who haven't submitted current feedback, and appending to arr
+    @teams.each do |team| 
+      users_arr.append(team.users_not_submitted(team.current_feedback).map{|user| user.id})
+    end
     
+    #for loop to see if the user is in the list of not submited students
+    users_arr[0].each do |user_i|
+      if self.id == user_i
+        return false
+      end
+    end
+
+    return true
+  end 
+
   def one_submission_teams()
     teams = []
     d = now

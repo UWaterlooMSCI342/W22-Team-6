@@ -161,11 +161,15 @@
               <% else %>
                 <td>Team Does Not Have Any Ratings!</td>
               <%end%>
+              <td>   <%= link_to "Edit Rating", feedback_edit_url(@current_user.feedback_ids) %>
+      </td>
             </tr>
           <% end %>
         </tbody>
       </table>
 
+
+   
       <div class="line"></div>
       <h2>Previous Week: <%= (@week_range[:start_date] - 7.days).strftime('%b %e, %Y')%> to <%= (@week_range[:end_date] - 7.days).strftime('%b %e, %Y')%></h2>
       <table>

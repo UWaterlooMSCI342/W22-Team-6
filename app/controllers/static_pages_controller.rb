@@ -1,7 +1,7 @@
 class StaticPagesController < ApplicationController
 
   before_action :get_teams, :current_week
-  helper_method :rating_reminders
+  helper_method :rating_reminders, :has_submitted
   helper_method :days_till_end_week
 
   
@@ -11,6 +11,7 @@ class StaticPagesController < ApplicationController
     else
       @user = current_user
       @rating_reminders = @user.rating_reminders
+      @has_submitted = @user.has_submitted
       @days_till_end_week = days_till_end(@now, @cweek, @cwyear)
       render :home
     end

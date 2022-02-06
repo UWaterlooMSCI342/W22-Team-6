@@ -1,6 +1,7 @@
 class FeedbacksController < ApplicationController
   before_action :require_login
-  before_action :require_admin, only: [:index, :show, :destroy, :update]
+  # we no longer want feedbacks :show, :edit, :update for just the admin (teacher)
+  before_action :require_admin, only: [:index, :destroy] 
   before_action :get_user_detail
   before_action :set_feedback, only: [:show, :edit, :update, :destroy]
    
@@ -24,11 +25,12 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks/1/edit
   def edit
+    @feedback = Feedback.find(params[:id])
+    render :edit
   end
 
   # POST /feedbacks
   def create
-      
       
     team_submissions = @user.one_submission_teams
       

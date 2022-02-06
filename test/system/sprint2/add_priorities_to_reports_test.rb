@@ -24,7 +24,7 @@ class AddPrioritiesToReportsTest < ApplicationSystemTestCase
     
     # Create report with urgent priority
     select "Steve", from: "Reportee"
-    select "Urgent", from: "Priority"
+    select "High", from: "Priority"
     fill_in "Description", with: "URGENT"
     click_on "Submit report"
     
@@ -68,7 +68,7 @@ class AddPrioritiesToReportsTest < ApplicationSystemTestCase
 
     click_on "Reports"
     assert_current_path reports_url
-    assert_text 'Urgent'
+    assert_text 'High'
     assert_text 'Medium'
     assert_text 'Low'
   end

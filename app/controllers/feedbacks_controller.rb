@@ -37,10 +37,11 @@ class FeedbacksController < ApplicationController
     @feedback.timestamp = @feedback.format_time(now)
     @feedback.user = @user
     @feedback.team = @user.teams.first
+    @feedback.priority = @feedback.calculate_priority
     if team_submissions.include?(@feedback.team)
         redirect_to root_url, notice: 'You have already submitted feedback for this team this week.'
     elsif @feedback.save
-      redirect_to root_url, notice: "Feedback was successfully created. Time created: #{@feedback.timestamp}"
+      redirect_to root_url, notice: "Feedback was successfully created. Time created: #{@feedback.timestamp}. Priority Level: #{@feedback.get_priority_word}."
     else
       render :new
     end
@@ -71,6 +72,6 @@ class FeedbacksController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def feedback_params
       #removed :rating and replaced it with the individual rating fields to match the updated model
-      params.require(:feedback).permit(:participation_rating, :effort_rating, :punctuality_rating, :comments, :priority)
+      params.require(:feedback).permit(:participation_rating, :effort_rating, :punctuality_rating, :comments)
     end
 end

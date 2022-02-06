@@ -20,9 +20,10 @@ class ActiveSupport::TestCase
     click_on "Login"
   end 
   
-  def save_feedback(participation_rating, effort_rating, punctuality_rating, comments, user, timestamp, team, priority)
-    feedback = Feedback.new(participation_rating: participation_rating, effort_rating: effort_rating, punctuality_rating: punctuality_rating, comments: comments, priority: priority)
+  def save_feedback(participation_rating, effort_rating, punctuality_rating, comments, user, timestamp, team)
+    feedback = Feedback.new(participation_rating: participation_rating, effort_rating: effort_rating, punctuality_rating: punctuality_rating, comments: comments)
     feedback.user = user
+    feedback.priority = feedback.calculate_priority
     feedback.timestamp = feedback.format_time(timestamp)
     feedback.team = team
     feedback.save

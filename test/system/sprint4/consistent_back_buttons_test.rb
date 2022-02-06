@@ -176,11 +176,11 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     login 'adam@gmail.com', '123456789'
     assert_current_path root_url
   
-    click_on 'View Historical Data'
-    assert_current_path team_path(@team1)
+    # click_on 'View Historical Data'
+    # assert_current_path team_path(@team1)
     
-    click_on "Back"
-    assert_current_path root_url
+    # click_on "Back"
+    # assert_current_path root_url
   end
   
   def test_help_page_back_to_landing_professor

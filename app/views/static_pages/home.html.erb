@@ -129,11 +129,9 @@
     <% if current_user.teams.size == 0 %>
       <p>No teams yet!</p>
     <% else %>
-      
-      <h2>Team Summary View</h2>
-      <br>
+       <h2>Your Feedback This Week:</h2>  
        <h2>Current Week: <%= @week_range[:start_date].strftime('%b %e, %Y')%> to <%= @week_range[:end_date].strftime('%b %e, %Y')%></h2>
-       <h2>Your Feedback This Week:</h2>
+    
        <table>
         <thead>
           <tr>
@@ -163,6 +161,7 @@
       </table>
 
       <div class="line"></div>
+      <h2>Team Feedback:</h2>
       <h2>Previous Week: <%= (@week_range[:start_date] - 7.days).strftime('%b %e, %Y')%> to <%= (@week_range[:end_date] - 7.days).strftime('%b %e, %Y')%></h2>
       <table>
         <thead>

@@ -1,7 +1,7 @@
 class FeedbacksController < ApplicationController
   before_action :require_login
   # we no longer want feedbacks :show, :edit, :update for just the admin (teacher)
-  before_action :require_admin, only: [:destroy] 
+  before_action :require_admin, only: [:show, :destroy, :edit, :update] 
   before_action :get_user_detail
   before_action :set_feedback, only: [:show, :edit, :update, :destroy]
    

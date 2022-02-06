@@ -26,21 +26,20 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
   def test_student_view 
     visit root_url 
     login 'charles2@gmail.com', 'banana'
+  
+    # assert_text "status"
+    within('#' + '-status') do
+      assert find('.dot.red')
+    end
     
-    # commented this test out because we no longer have View Historical Data
+    click_on 'View Historical Data'
 
-    # within('#' + @team.id.to_s + '-status') do
-    #   assert find('.dot.red')
-    # end
-    
-    # click_on 'View Historical Data'
-
-    # within('#2021-3') do 
-    #   assert find('.dot.green')
-    # end
-    # within('#2021-2') do 
-    #   assert find('.dot.red')
-    # end
+    within('#2021-3') do 
+      assert find('.dot.green')
+    end
+    within('#2021-2') do 
+      assert find('.dot.red')
+    end
   end
   
   def test_professor_view 

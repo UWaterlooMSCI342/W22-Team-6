@@ -3,14 +3,14 @@
 <table>
   <thead>
     <tr>
-      <th>Student Name</th>
-      <th>Team</th>
-      <th>Participation Rating</th>
-      <th>Effort Rating</th>
-      <th>Punctuality Rating</th>
-      <th>Priority</th>
-      <th>Comments</th>
-      <th>Timestamp</th>
+      <th><%= sortable "name" %></th>
+      <th><%= sortable "team_name", "Team" %></th>
+      <th><%= sortable "participation_rating" %></th>
+      <th><%= sortable "effort_rating" %></th>
+      <th><%= sortable "punctuality_rating" %></th>
+      <th><%= sortable "priority" %></th>
+      <th><%= sortable "comments" %></th>
+      <th><%= sortable "timestamp" %></th>
       <th colspan="7"></th>
     </tr>
   </thead>

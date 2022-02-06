@@ -1,4 +1,6 @@
 class FeedbacksController < ApplicationController
+  helper_method :sort_column, :sort_direction
+
   before_action :require_login
   before_action :require_admin, only: [:index, :show, :destroy, :update]
   before_action :get_user_detail
@@ -8,9 +10,10 @@ class FeedbacksController < ApplicationController
   def get_user_detail
     @user = current_user
   end
+
   # GET /feedbacks
   def index
-    @feedbacks = Feedback.all
+    @feedbacks = Feedback.left_joins(:user, :team).order("#{sort_column} #{sort_direction}")
   end
 
   # GET /feedbacks/1
@@ -73,5 +76,16 @@ class FeedbacksController < ApplicationController
     def feedback_params
       #removed :rating and replaced it with the individual rating fields to match the updated model
       params.require(:feedback).permit(:participation_rating, :effort_rating, :punctuality_rating, :comments)
+    end
+
+    # Sanitizes the sorting direction to stop user from sorting by unknown values (defaults by ascending).
+    def sort_direction
+      return ApplicationHelper::SORTABLE_DIRECTIONS.include?(params[:direction]) ? params[:direction] : ApplicationHelper::ASCENDING
+    end
+
+    # Sanitizes the sorting column to stop user from sorting by unknown columns (defaults by student name).
+    def sort_column
+      allowable_columns = ["name", "team_name"].concat(Feedback.column_names)
+      return allowable_columns.include?(params[:sort]) ? params[:sort] : "name"
     end
 end

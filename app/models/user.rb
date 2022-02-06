@@ -74,7 +74,7 @@ class User < ApplicationRecord
       users_arr.append(team.users_not_submitted(team.current_feedback).map{|user| user.id})
     end
     
-    if users_arr == []
+    if users_arr.empty?
       return false
     end 
 

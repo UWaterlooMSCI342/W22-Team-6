@@ -156,15 +156,15 @@
               <td><%= feedback ? feedback.punctuality_rating : "No feedback" %></td>
             </tr>
 
-              <%if @current_user.teams.first.feedbacks.size > 0%>
-                <td><%= link_to "View Historical Data", @current_user.teams.first %></td>
-              <% else %>
-                <td>Team Does Not Have Any Ratings!</td>
-              <%end%>
         </tbody>
       </table>
 
       <div class="line"></div>
+      <%if @current_user.teams.first.feedbacks.size > 0%>
+                <td><%= link_to "View Historical Data", @current_user.teams.first %></td>
+              <% else %>
+                <td>Team Does Not Have Any Ratings!</td>
+              <%end%>
       <h2>Team Feedback:</h2>
       <h2>Previous Week: <%= (@week_range[:start_date] - 7.days).strftime('%b %e, %Y')%> to <%= (@week_range[:end_date] - 7.days).strftime('%b %e, %Y')%></h2>
       <table>

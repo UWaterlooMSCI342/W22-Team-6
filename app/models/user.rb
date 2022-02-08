@@ -105,4 +105,17 @@ class User < ApplicationRecord
     # teams
     return teams
   end
+
+  def get_user_feedback(start_date, end_date)
+
+    feedbacks = self.feedbacks.where(timestamp: start_date..end_date)
+
+    if feedbacks.count > 0
+      return feedbacks[0]
+    else
+      return nil
+    end
+
+  end
+
 end

@@ -1,4 +1,4 @@
-<h1>Welcome, <%=@current_user.name%></h1>
+<h1>Welcome, <%=@current_user.name%>!</h1>
 
 <% if is_admin? %>
   <br>
@@ -96,11 +96,17 @@
       </tbody>
     </table>
   <% end %>
-
     
 <% else %>
 
+<% @current_user.teams.each do |team| %>
+  <h3><%='Team: ' + team.team_name%></h3>
+  <h3><%='Team Members: ' + team.student_names.join(", ") %></h3>
+<% end %>
+</br>
+
     <% team_array = @rating_reminders %>
+
     <% days_till_end_week = @days_till_end_week %>
     <% warn_user = team_array.size > 0 %>
     <% if warn_user && days_till_end_week <= 1 %>
@@ -127,52 +133,45 @@
     <% if current_user.teams.size == 0 %>
       <p>No teams yet!</p>
     <% else %>
-      <br>
-      <h2>Team Summary View</h2>
-      <h2>Current Week: <%= @week_range[:start_date].strftime('%b %e, %Y')%> to <%= @week_range[:end_date].strftime('%b %e, %Y')%></h2>
-      <table>
+       <h2>Your Feedback This Week:</h2>  
+       <h2>Current Week: <%= @week_range[:start_date].strftime('%b %e, %Y')%> to <%= @week_range[:end_date].strftime('%b %e, %Y')%></h2>
+    
+       <table>
         <thead>
           <tr>
             <th></th>
             <th>Urgency/Intervention Level</th>
-            <th>Avg. Participation Rating (Out of 5)</th>
-            <th>Avg. Effort Rating (Out of 5)</th>
-            <th>Avg. Punctuality Rating (Out of 5)</th>
-            <th>Team Name</th>
-            <th>Team Members</th>
+            <th>Participation Rating (Out of 5)</th>
+            <th>Effort Rating (Out of 5)</th>
+            <th>Punctuality Rating (Out of 5)</th>
             <th colspan="4"></th>
           </tr>
         </thead>
 
         <tbody>
-          <% @current_user.teams.each do |team| %>
-            <tr id=<%= team.id %>>
-              <td id=<%= team.id %>-status>
-                <span class="dot <%= team.status(@week_range[:start_date], @week_range[:end_date]) %>"></span>
+         <% feedback = @current_user.get_user_feedback(@week_range[:start_date], @week_range[:end_date]) %>
+            <tr>
+             <td id="-status" >
+                <span class="<%= 'dot red'%>" ></span>
               </td>
-              <% priority = team.find_priority_weighted(@week_range[:start_date], @week_range[:end_date]) %>
-              <td><%= priority ? priority : "No feedback" %></td>
-              <% average_participation_rating = Team.average_participation_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
-              <td><%= average_participation_rating ? average_participation_rating : "No feedback" %></td>
-              <% average_effort_rating = Team.average_effort_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
-              <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
-              <% average_punctuality_rating = Team.average_punctuality_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
-              <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
-              <td><%= team.team_name %></td>
-              <td><%= team.student_names.join(", ") %></td>
-              <%if team.feedbacks.size > 0%>
-                <td><%= link_to "View Historical Data", team %></td>
-              <% else %>
-                <td>Team Does Not Have Any Ratings!</td>
-              <%end%>
+              <td><%= feedback ? feedback.get_priority_word : "No feedback" %></td>
+              <td><%= feedback ? feedback.participation_rating : "No feedback" %></td>
+              <td><%= feedback ? feedback.effort_rating : "No feedback" %></td>
+              <td><%= feedback ? feedback.punctuality_rating : "No feedback" %></td>
             </tr>
-          <% end %>
+
         </tbody>
       </table>
 
 
    
       <div class="line"></div>
+      <%if @current_user.teams.first.feedbacks.size > 0%>
+                <td><%= link_to "View Historical Data", @current_user.teams.first %></td>
+              <% else %>
+                <td>Team Does Not Have Any Ratings!</td>
+              <%end%>
+      <h2>Team Feedback:</h2>
       <h2>Previous Week: <%= (@week_range[:start_date] - 7.days).strftime('%b %e, %Y')%> to <%= (@week_range[:end_date] - 7.days).strftime('%b %e, %Y')%></h2>
       <table>
         <thead>

@@ -26,8 +26,9 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
   def test_student_view 
     visit root_url 
     login 'charles2@gmail.com', 'banana'
-    
-    within('#' + @team.id.to_s + '-status') do
+  
+    # assert_text "status"
+    within('#' + '-status') do
       assert find('.dot.red')
     end
     

@@ -18,15 +18,18 @@ class AddReportsTogglesTest < ApplicationSystemTestCase
     login 'steve@gmail.com', 'testpassword'    
     
     click_on "Submit for"
-    assert_text "Please select a rating on how well you believe your team performed this period and the priority of your feedback from the dropdowns below. These fields are mandatory.\nYou may enter optional comments in the text area below with a maximum of 2048 characters."
+    assert_text "Please select a rating on how well you believe your team performed this period. These fields are mandatory."
   end
-  
+
   def test_report_instructions
     visit root_url 
     login 'steve@gmail.com', 'testpassword'    
     
-    click_on "Submit a Report"
-    assert_text "Please select the user you wish to report and the priority of your report from the dropdowns below. Please enter a description with a maximum length of 2048 characters. These fields are mandatory."
+    click_on "Submit for"
+    assert_text "In the participation rating field, please rank how actively your team members participated in any discussions and meetings about the project that were held this week."
+    assert_text "In the effort rating field, please rank how well your team members attempted to contribute to the week's deliverables, and whether they sought out any resources they needed."
+    assert_text "In the punctuality rating field, please rank how well your team members were at being on time to meetings, and communicating any important information ahead of time."
+    assert_text "You may enter optional comments in the text area below with a maximum of 2048 characters."
   end
   
 end

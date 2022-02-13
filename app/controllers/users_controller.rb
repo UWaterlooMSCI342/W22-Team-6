@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, except: [:new, :create]
-  before_action :require_admin, except: [:new, :create]
+  before_action :require_admin, except: [:show, :new, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   # GET /users
   def index
@@ -9,6 +9,12 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
+    # if user is a student, they can access only their own profile
+    if !is_admin?
+      if @user.attributes != @current_user.attributes
+        redirect_to root_url, notice: "You do not have Admin permissions."
+      end
+    end
   end
 
   # GET /signup

@@ -40,17 +40,13 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks/1/edit
   def edit
-    @feedback = Feedback.find(params[:id])
-    render :edit
   end
 
   # POST /feedbacks
   def create
-      
     team_submissions = @user.one_submission_teams
       
     @feedback = Feedback.new(feedback_params)
-    
     @feedback.timestamp = @feedback.format_time(now)
     @feedback.user = @user
     @feedback.team = @user.teams.first
@@ -67,7 +63,8 @@ class FeedbacksController < ApplicationController
   # PATCH/PUT /feedbacks/1
   def update
     if @feedback.update(feedback_params)
-      redirect_to @feedback, notice: 'Feedback was successfully updated.'
+      @feedback.update({ timestamp: @feedback.format_time(now), priority: @feedback.calculate_priority })
+      redirect_to @feedback, notice: "Feedback was successfully updated. Time updated: #{@feedback.timestamp}. Priority Level: #{@feedback.get_priority_word}."
     else
       render :edit
     end
@@ -75,7 +72,6 @@ class FeedbacksController < ApplicationController
 
   # DELETE /feedbacks/:id
   def destroy
-    @feedback = Feedback.find(params[:id])
     @feedback.destroy
     redirect_to feedbacks_url, notice: 'Feedback was successfully destroyed.'
   end

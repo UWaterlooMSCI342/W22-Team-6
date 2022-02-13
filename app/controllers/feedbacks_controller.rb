@@ -4,12 +4,24 @@ class FeedbacksController < ApplicationController
   before_action :require_login
   # we no longer want feedbacks :show, :edit, :update for just the admin (teacher)
   before_action :require_admin, only: [:index, :destroy] 
+  before_action :require_access, only: [:show, :edit]
   before_action :get_user_detail
   before_action :set_feedback, only: [:show, :edit, :update, :destroy]
    
       
   def get_user_detail
     @user = current_user
+  end
+
+  # Students should only be able to access their own feedbacks.
+  def require_access
+    if !is_admin?
+      @feedback = Feedback.find(params[:id])
+      if !@current_user.feedbacks.include? @feedback
+        flash[:notice] = "This is not your feedback!"
+        redirect_to root_url
+      end
+    end
   end
 
   # GET /feedbacks

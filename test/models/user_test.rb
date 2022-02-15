@@ -74,11 +74,17 @@ class UserTest < ActiveSupport::TestCase
       refute user1.valid?, 'user password must have at least 6 characters'
       assert_not_nil user1.errors[:password]
   end
-  #name is too long
-  test 'invalid signup name' do
-      user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', is_admin: false)
-      refute user1.valid?, 'user name must have less than 40 characters'
-      assert_not_nil user1.errors[:name]
+  #first name is too long
+  test 'invalid signup first name' do
+      user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', last_name: 'a', is_admin: false)
+      refute user1.valid?, 'user first name must have less than 40 characters'
+      assert_not_nil user1.errors[:first_name]
+  end
+  #last name is too long
+  test 'invalid signup last name' do
+    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'test', last_name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', is_admin: false)
+    refute user1.valid?, 'user last name must have less than 40 characters'
+    assert_not_nil user1.errors[:last_name]
   end
 
   # As a student, I should be able to see the number of days until a weekly rating is due,

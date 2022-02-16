@@ -41,4 +41,11 @@ class Feedback < ApplicationRecord
   def get_priority_word
     return Feedback::PRIORITY_LEVEL[self.priority]
   end
+
+  # Determines if feedback is part of the current duration.
+  def is_from_this_week?
+    today = DateTime.now
+    week_range = self.team.week_range(today.cwyear, today.cweek)
+    return self.timestamp.between?(week_range[:start_date], week_range[:end_date]) 
+  end
 end

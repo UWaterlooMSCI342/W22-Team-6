@@ -85,6 +85,7 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     fill_in "Comments", with: "I will edit this feedback."
     click_on "Create Feedback"
     assert_current_path root_url
+    assert_text "Urgency/Intervention Level Participation Rating (Out of 5) Effort Rating (Out of 5) Punctuality Rating (Out of 5) High 1 1 1"
 
     # Edit feedback that was just created.
     click_on "Edit Rating"
@@ -102,6 +103,7 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     assert_text "Participation Rating: 5"
     assert_text "Effort Rating: 5"
     assert_text "Punctuality Rating: 5"
+    assert_text "Priority Level: Low"
     assert_text "Comments: I edited this feedback."
   end
 
@@ -117,6 +119,19 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     # Redirect when attempting to access other user's feedback.
     visit edit_feedback_path(Feedback.last)
     assert_current_path root_url
-    assert_text "This is not your feedback!"
+    assert_text "You do not have permission to access this feedback."
+  end
+
+  def test_viewing_own_feedback_not_from_this_week
+    # Create own feedback that will try to be accessed.
+    feedback = save_feedback(1,1,1, "Feedback from a while ago.", @bob, DateTime.civil_from_format(:local, 2021, 1, 20), @team)
+
+    visit root_url
+    login 'bob@gmail.com', 'testpassword'
+
+    # Redirect when attempting to access own feedback not from this week.
+    visit edit_feedback_path(Feedback.last)
+    assert_current_path root_url
+    assert_text "You do not have permission to access this feedback."
   end
 end

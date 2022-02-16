@@ -7,22 +7,6 @@ class FeedbacksController < ApplicationController
   before_action :require_access, only: [:show, :edit]
   before_action :get_user_detail
   before_action :set_feedback, only: [:show, :edit, :update, :destroy]
-   
-      
-  def get_user_detail
-    @user = current_user
-  end
-
-  # Students should only be able to access their own feedbacks.
-  def require_access
-    if !is_admin?
-      @feedback = Feedback.find(params[:id])
-      if !@current_user.feedbacks.include? @feedback
-        flash[:notice] = "This is not your feedback!"
-        redirect_to root_url
-      end
-    end
-  end
 
   # GET /feedbacks
   def index
@@ -62,7 +46,9 @@ class FeedbacksController < ApplicationController
 
   # PATCH/PUT /feedbacks/1
   def update
-    if @feedback.update(feedback_params)
+    if !(@feedback.is_from_this_week?)
+      redirect_to root_url, notice: "You cannot edit feedback from previous weeks."
+    elsif @feedback.update(feedback_params)
       @feedback.update({ timestamp: @feedback.format_time(now), priority: @feedback.calculate_priority })
       redirect_to @feedback, notice: "Feedback was successfully updated. Time updated: #{@feedback.timestamp}. Priority Level: #{@feedback.get_priority_word}."
     else
@@ -80,6 +66,22 @@ class FeedbacksController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_feedback
       @feedback = Feedback.find(params[:id])
+    end
+
+    def get_user_detail
+      @user = current_user
+    end
+
+    # Students should only be able to access their own feedback for this week.
+    def require_access
+      if !is_admin?
+        set_feedback
+
+        if (@current_user.feedbacks.exclude? @feedback) or !(@feedback.is_from_this_week?)
+          flash[:notice] = "You do not have permission to access this feedback."
+          redirect_to root_url
+        end
+      end
     end
 
     # Only allow a trusted parameter "white list" through.

@@ -5,9 +5,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     Option.destroy_all
     Option.create(reports_toggled: true, admin_code: 'ADMIN')
     # create test user
-    @user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    @user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     @user.save
-    @prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     @team = Team.new(team_code: 'Code2', team_name: 'Team 1')
   end
   
@@ -18,14 +18,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     team.save  
     
     post '/users', 
-      params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott', team_code: 'Code'}}
+      params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', team_code: 'Code'}}
     assert_redirected_to root_url
   end
   
   def test_create_prof 
     assert_difference('User.count', 1) do 
       post '/users', 
-        params: {user: {email: 'prof@gmail.com', name: 'Professor', team_code: 'ADMIN', password: 'professor', password_confirmation: 'professor'}}
+        params: {user: {email: 'prof@gmail.com', first_name: 'Mark', last_name: 'Smucker', team_code: 'ADMIN', password: 'professor', password_confirmation: 'professor'}}
       assert_redirected_to root_url 
     end 
     
@@ -53,7 +53,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott', team_code: 'Code2'}}
+        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Scott', last_name: 'hue', team_code: 'Code2'}}
       #https://stackoverflow.com/questions/2915939/rails-testing-assert-render-action/38457649
       assert_template :new
     end
@@ -70,7 +70,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_create_user_invalid_name
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', user_id: '1010', team_code: 'Code2'}}
+        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Scott', last_name: 'hue', user_id: '1010', team_code: 'Code2'}}
       assert_template :new
     end
   end
@@ -78,7 +78,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_create_user_missing_student_number
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott', team_code: 'Code2'}}
+        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Scott', last_name: 'hue', team_code: 'Code2'}}
       assert_template :new
     end
   end
@@ -86,7 +86,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_create_user_non_unique_student_number
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott', team_code: 'Code2'}}
+        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Scott', last_name: 'hue', team_code: 'Code2'}}
       assert_template :new
     end
   end
@@ -94,7 +94,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_create_user_missing_team_code
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott'}}
+        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Scott', last_name: 'hue'}}
       assert_template :new
     end
   end
@@ -102,7 +102,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_create_user_missing_email
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: { password: 'banana', password_confirmation: 'banana', name: 'Scott', team_code: 'Code2'}}
+        params: {user: { password: 'banana', password_confirmation: 'banana',first_name: 'Scott', last_name: 'hue', team_code: 'Code2'}}
       assert_template :new
     end
   end
@@ -110,7 +110,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_create_user_non_unique_email
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: {email: 'Charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott', team_code: 'Code2'}}
+        params: {user: {email: 'Charles@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Scott', last_name: 'hue', team_code: 'Code2'}}
       assert_template :new
     end
   end
@@ -118,7 +118,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_create_user_non_valid_email
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: {email: 'Charles', password: 'banana', password_confirmation: 'banana', name: 'Scott', team_code: 'Code2'}}
+        params: {user: {email: 'Charles', password: 'banana', password_confirmation: 'banana',first_name: 'Scott', last_name: 'hue', team_code: 'Code2'}}
       assert_template :new
     end
   end
@@ -126,7 +126,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_create_user_missing_password
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: {email: 'scott@gmail.com', password_confirmation: 'banana', name: 'Scott', team_code: 'Code2'}}
+        params: {user: {email: 'scott@gmail.com', password_confirmation: 'banana',first_name: 'Scott', last_name: 'hue', team_code: 'Code2'}}
       assert_template :new
     end
   end
@@ -134,7 +134,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_create_user_missing_password_confirmation
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: {email: 'scott@gmail.com', password: 'banana', name: 'Scott', team_code: 'Code2'}}
+        params: {user: {email: 'scott@gmail.com', password: 'banana',first_name: 'Scott', last_name: 'hue', team_code: 'Code2'}}
       assert_template :new
     end
   end
@@ -142,7 +142,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_create_user_nonmatching_passwords
     assert_no_difference 'User.count' do
       post '/users', 
-        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott', team_code: 'Code2'}}
+        params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Scott', last_name: 'hue', team_code: 'Code2'}}
       assert_template :new
     end
   end
@@ -175,7 +175,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should update user" do
     post('/login', params: { email: 'msmucker@gmail.com', password: 'professor'})
-    patch user_url(@user), params: { user: { email: @user.email, name: @user.name, password: @user.password, password_confirmation: @user.password_confirmation } }
+    patch user_url(@user), params: { user: { email: @user.email, first_name: @user.first_name, last_name: @user.last_name, password: @user.password, password_confirmation: @user.password_confirmation } }
     assert_redirected_to user_url(@user)
   end
   
@@ -193,7 +193,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_delete_student_as_prof
     @generated_code = Team.generate_team_code
     @team = Team.create(team_name: 'Test Team', team_code: @generated_code.to_s, user: @prof)
-    @bob = User.create(email: 'bob@gmail.com', name: 'Bob', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    @bob = User.create(email: 'bob@gmail.com', first_name: 'Charles', last_name: 'Olivera', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     @bob.teams << @team
     
     post(login_path, params: { email: 'msmucker@gmail.com', password: 'professor'})
@@ -205,18 +205,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
   
   def test_delete_admin_as_prof
-    @ta = User.create(email: 'amir@gmail.com', name: 'Amir', is_admin: true, password: 'password', password_confirmation: 'password')
+    @ta = User.create(email: 'amir@gmail.com', first_name: 'Charles', last_name: 'Olivera', is_admin: true, password: 'password', password_confirmation: 'password')
     
     post(login_path, params: { email: 'msmucker@gmail.com', password: 'professor'})
     delete(user_path(@ta.id))
     
     User.all.each { |user| 
-        assert_not_equal(@ta.name, user.name)
+        assert_not_equal(@ta.first_name, user.first_name)
     }
   end
   
   def test_delete_as_student
-    @bob = User.create(email: 'bob@gmail.com', name: 'Bob', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    @bob = User.create(email: 'bob@gmail.com', first_name: 'Charles', last_name: 'Olivera', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     
     post(login_path, params: { email: 'bob@gmail.com', password: 'testpassword'})
     delete(user_path(@prof.id))

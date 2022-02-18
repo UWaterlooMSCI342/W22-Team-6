@@ -7,6 +7,8 @@ require "application_system_test_case"
 #    appear
 # 3. When I submit the feedback form, the data shold be associated with my 
 #    team in the database
+# 4. Student edits their feedback.
+# 5. Student tries editing feedback that is not their own.
 
 class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
   setup do
@@ -66,5 +68,70 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     assert_text "High"
     assert_text "Test Team"
     assert_text datetime.strftime("%Y-%m-%d %H:%M")
+  end
+
+  def test_create_and_edit_own_feedback
+    visit root_url
+    login 'bob@gmail.com', 'testpassword'
+
+    # Create own feedback.
+    click_on "Submit for"
+    assert_current_path new_feedback_url
+    assert_text "Your Current Team: Test Team"
+
+    select "1", from: "Participation rating"
+    select "1", from: "Effort rating"
+    select "1", from: "Punctuality rating"
+    fill_in "Comments", with: "I will edit this feedback."
+    click_on "Create Feedback"
+    assert_current_path root_url
+    assert_text "Urgency/Intervention Level Participation Rating (Out of 5) Effort Rating (Out of 5) Punctuality Rating (Out of 5) High 1 1 1"
+
+    # Edit feedback that was just created.
+    click_on "Edit Rating"
+    assert_current_path edit_feedback_path(Feedback.last)
+    assert_text "Your Current Team: Test Team"
+
+    select "5", from: "Participation rating"
+    select "5", from: "Effort rating"
+    select "5", from: "Punctuality rating"
+    fill_in "Comments", with: "I edited this feedback."
+    click_on "Update Feedback"
+
+    # Confirm feedback was correctly updated.
+    assert_current_path feedback_path(Feedback.last)
+    assert_text "Participation Rating: 5"
+    assert_text "Effort Rating: 5"
+    assert_text "Punctuality Rating: 5"
+    assert_text "Priority Level: Low"
+    assert_text "Comments: I edited this feedback."
+  end
+
+  def test_try_editing_another_user_feedback
+    # Create other user with feedback that will try to be accessed.
+    other_user = User.create(email: 'fred@gmail.com', password: 'testpassword', password_confirmation: 'testpassword', name: 'Fred', is_admin: false)
+    other_user.teams << @team
+    feedback = save_feedback(1,1,1, "Other user's feedback.", other_user, DateTime.now, @team)
+
+    visit root_url
+    login 'bob@gmail.com', 'testpassword'
+
+    # Redirect when attempting to access other user's feedback.
+    visit edit_feedback_path(Feedback.last)
+    assert_current_path root_url
+    assert_text "You do not have permission to access this feedback."
+  end
+
+  def test_viewing_own_feedback_not_from_this_week
+    # Create own feedback that will try to be accessed.
+    feedback = save_feedback(1,1,1, "Feedback from a while ago.", @bob, DateTime.civil_from_format(:local, 2021, 1, 20), @team)
+
+    visit root_url
+    login 'bob@gmail.com', 'testpassword'
+
+    # Redirect when attempting to access own feedback not from this week.
+    visit edit_feedback_path(Feedback.last)
+    assert_current_path root_url
+    assert_text "You do not have permission to access this feedback."
   end
 end

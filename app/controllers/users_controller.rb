@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :require_login, except: [:new, :create]
-  before_action :require_admin, except: [:new, :create]
+  before_action :require_admin, except: [:show, :new, :create]
+  before_action :require_access, only: [:show, :edit]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   # GET /users
   def index
@@ -99,5 +100,17 @@ class UsersController < ApplicationController
     # Should use later (ignoring this for now)
     def user_params
       params.require(:user).permit(:email, :name, :password, :password_confirmation, :team_code)
+    end
+
+    def require_access
+      # if user is a student, they can access only their own profile
+      if !is_admin?
+        set_user
+
+        if @user.attributes != @current_user.attributes
+          flash[:notice] = "You do not have permission to access someone else's profile."
+          redirect_to root_url
+        end
+      end
     end
 end

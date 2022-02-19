@@ -200,7 +200,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     delete(user_path(@bob.id))
     
     User.all.each { |user| 
-        assert_not_equal(@bob.name, user.name)
+        assert_not_equal(@bob.first_name + @bob.first_name, user.first_name + user.last_name)
     }
   end
   
@@ -211,7 +211,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     delete(user_path(@ta.id))
     
     User.all.each { |user| 
-        assert_not_equal(@ta.name, user.name)
+        assert_not_equal(@ta.first_name + @ta.first_name, user.first_name + user.last_name)
     }
   end
   

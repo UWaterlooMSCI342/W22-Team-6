@@ -121,7 +121,7 @@ class TeamTest < ActiveSupport::TestCase
 
     students = team.student_names
     students.sort!
-    assert_equal ['Charles1', 'Charles2'], students
+    assert_equal ['Charles2 Olivera', 'Elon Musk'], students
   end
 
   def test_average_participation_rating_many_feedbacks

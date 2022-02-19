@@ -4,7 +4,7 @@ require 'minitest/autorun'
 class UserTest < ActiveSupport::TestCase
 
    def setup 
-    @user = User.create(email: 'scott@gmail.com', password: 'password', password_confirmation: 'password', name: 'Scott A', is_admin: false)
+    @user = User.create(email: 'scott@gmail.com', password: 'password', password_confirmation: 'password',first_name: 'Elon', last_name: 'Musk', is_admin: false)
     @prof = User.create(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: true)
    end
     
@@ -14,7 +14,7 @@ class UserTest < ActiveSupport::TestCase
   end 
   
   def test_role_function_student 
-    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott F', is_admin: false)
+    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false)
     assert_equal('Student', user1.role)
   end 
   
@@ -25,7 +25,7 @@ class UserTest < ActiveSupport::TestCase
     team2 = Team.new(team_code: 'Code2', team_name: 'Team 2')
     team2.user = @prof 
     team2.save
-    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott F', is_admin: false, teams: [team, team2])
+    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false, teams: [team, team2])
     assert_equal(['Team 1', 'Team 2'], user1.team_names)
   end
   
@@ -33,7 +33,7 @@ class UserTest < ActiveSupport::TestCase
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.user = @prof
     team.save
-    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott F', is_admin: false, teams: [team])
+    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false, teams: [team])
     assert_equal([], user1.one_submission_teams)
   end
   
@@ -41,7 +41,7 @@ class UserTest < ActiveSupport::TestCase
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.user = @prof
     team.save
-    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott F', is_admin: false, teams: [team])
+    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false, teams: [team])
     save_feedback(5,3,4, 'Test', user1, Time.zone.now, team)
     assert_equal([team], user1.one_submission_teams)
   end
@@ -51,7 +51,7 @@ class UserTest < ActiveSupport::TestCase
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.user = @prof
     team.save
-    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott F', is_admin: false, teams: [team])
+    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false, teams: [team])
     assert user1.valid?
 
   end
@@ -63,20 +63,20 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test 'invalid signup without unique email' do
-      user1 = User.new(email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott F', is_admin: false)
+      user1 = User.new(email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false)
       refute user1.valid?, 'user must have unique email'
       assert_not_nil user1.errors[:email]
   end
     
   # 4) As a user, I cannot create an account with a password less than 6 characters
   test 'invalid signup password' do
-      user1 = User.new(email: 'scottf@gmail.com', password: 'apple', password_confirmation: 'apple', name: 'Scott F', is_admin: false)
+      user1 = User.new(email: 'scottf@gmail.com', password: 'apple', password_confirmation: 'apple',first_name: 'Elon', last_name: 'Musk', is_admin: false)
       refute user1.valid?, 'user password must have at least 6 characters'
       assert_not_nil user1.errors[:password]
   end
   #name is too long
   test 'invalid signup name' do
-      user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false)
+      user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elonnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn', last_name: 'Musk', is_admin: false)
       refute user1.valid?, 'user name must have less than 40 characters'
       assert_not_nil user1.errors[:name]
   end

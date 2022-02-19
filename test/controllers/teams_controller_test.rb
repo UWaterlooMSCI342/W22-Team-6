@@ -4,9 +4,9 @@ class TeamsControllerTest < ActionDispatch::IntegrationTest
   setup do
     Option.create(reports_toggled: true)
     # create test admin
-    @prof = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: true)
+    @prof = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: true)
     @prof.save
-    @user = User.new(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    @user = User.new(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     @user.save
 
     @team = Team.new(team_code: 'Code', team_name: 'Team 1')
@@ -46,7 +46,7 @@ class TeamsControllerTest < ActionDispatch::IntegrationTest
   def test_should_not_show_team 
     get '/logout'
     
-    user2 = User.new(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    user2 = User.new(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     user2.save
     
     post('/login', params: { email: 'charles3@gmail.com', password: 'banana'})
@@ -88,7 +88,7 @@ class TeamsControllerTest < ActionDispatch::IntegrationTest
     team2.user = @prof
     team2.save
     
-    user2 = User.new(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    user2 = User.new(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     user2.teams = [team2]
     user2.save
     

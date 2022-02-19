@@ -16,10 +16,10 @@ class GroupFeedbackByPeriodsTest < ApplicationSystemTestCase
   
   # (1)
   def test_team_summary_by_period
-    prof = User.create(email: 'msmucker@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Mark Smucker', is_admin: true)
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    prof = User.create(email: 'msmucker@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Mark', last_name: 'Smucker', is_admin: true)
+    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false)
     user1.save!
-    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles2', last_name: 'Olivera', is_admin: false)
     user2.save!
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.user = prof 
@@ -44,10 +44,10 @@ class GroupFeedbackByPeriodsTest < ApplicationSystemTestCase
   
   # (2)
   def test_view_by_period
-    prof = User.create(email: 'msmucker@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Mark Smucker', is_admin: true)
-    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false)
+    prof = User.create(email: 'msmucker@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Mark', last_name: 'Smucker', is_admin: true)
+    user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false)
     user1.save!
-    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles2', is_admin: false)
+    user2 = User.create(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles2', last_name: 'Olivera', is_admin: false)
     user2.save!
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.user = prof 

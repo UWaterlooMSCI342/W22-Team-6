@@ -9,7 +9,7 @@ require "application_system_test_case"
 class CreateUserValidationsTest < ApplicationSystemTestCase
     def setup
       Option.create(reports_toggled: true)
-      prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+      prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
       team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: prof)
       user = User.create(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott F', is_admin: false, teams: [team])
     end

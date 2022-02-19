@@ -9,13 +9,13 @@ require "application_system_test_case"
 class AddStudentViewsForReportsTest < ApplicationSystemTestCase
   setup do
     # Create prof, team, and users
-    @prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     @team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: @prof)
-    @bob = User.create(email: 'bob@gmail.com', name: 'Bob', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    @bob = User.create(email: 'bob@gmail.com',first_name: 'Elon', last_name: 'Musk', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     @bob.teams << @team
-    @steve = User.create(email: 'steve@gmail.com', name: 'Steve', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    @steve = User.create(email: 'steve@gmail.com',first_name: 'Elon', last_name: 'Musk', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     @steve.teams << @team
-    @anna = User.create(email: 'anna@gmail.com', name: 'Anna', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    @anna = User.create(email: 'anna@gmail.com',first_name: 'Elon', last_name: 'Musk', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     @anna.teams << @team
     Report.create(reporter_id: @bob.id, reportee_id: @steve.id, description: 'Made fun of my shirt.', priority: 0)
     Report.create(reporter_id: @anna.id, reportee_id: @bob.id, description: 'Laughed at my haircut.', priority: 0)

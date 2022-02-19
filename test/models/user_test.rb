@@ -5,11 +5,11 @@ class UserTest < ActiveSupport::TestCase
 
    def setup 
     @user = User.create(email: 'scott@gmail.com', password: 'password', password_confirmation: 'password', name: 'Scott A', is_admin: false)
-    @prof = User.create(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: true)
+    @prof = User.create(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: true)
    end
     
   def test_role_function_professor
-    professor = User.new(email: 'azina@gmail.com', password: 'password', password_confirmation: 'password', name: 'Azin', is_admin: true) 
+    professor = User.new(email: 'azina@gmail.com', password: 'password', password_confirmation: 'password',first_name: 'Elon', last_name: 'Musk', is_admin: true) 
     assert_equal('Professor', professor.role)
   end 
   
@@ -58,7 +58,7 @@ class UserTest < ActiveSupport::TestCase
     
   #test that two professors can signup
   test 'valid prof signup' do
-     professor = User.new(email: 'azina@gmail.com', password: 'password', password_confirmation: 'password', name: 'Azin', is_admin: true) 
+     professor = User.new(email: 'azina@gmail.com', password: 'password', password_confirmation: 'password',first_name: 'Elon', last_name: 'Musk', is_admin: true) 
      assert professor.valid?
   end
   
@@ -74,23 +74,17 @@ class UserTest < ActiveSupport::TestCase
       refute user1.valid?, 'user password must have at least 6 characters'
       assert_not_nil user1.errors[:password]
   end
-  #first name is too long
-  test 'invalid signup first name' do
-      user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', last_name: 'a', is_admin: false)
-      refute user1.valid?, 'user first name must have less than 40 characters'
-      assert_not_nil user1.errors[:first_name]
-  end
-  #last name is too long
-  test 'invalid signup last name' do
-    user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'test', last_name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', is_admin: false)
-    refute user1.valid?, 'user last name must have less than 40 characters'
-    assert_not_nil user1.errors[:last_name]
+  #name is too long
+  test 'invalid signup name' do
+      user1 = User.new(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false)
+      refute user1.valid?, 'user name must have less than 40 characters'
+      assert_not_nil user1.errors[:name]
   end
 
   # As a student, I should be able to see the number of days until a weekly rating is due,
   # and I should only see that if there are ratings due.
   def test_rating_reminders
-    user = User.new(email: 'charles42@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    user = User.new(email: 'charles42@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     user.save!
 
     team = Team.new(team_name: 'Hello World', team_code: 'Code', user: user)

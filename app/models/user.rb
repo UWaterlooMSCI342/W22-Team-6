@@ -37,6 +37,10 @@ class User < ApplicationRecord
     return teams
   end
 
+  def full_name
+    return self.first_name + " " + self.last_name
+  end
+
   # Checks whether given user has submitted feedback for the current week
   # returns array containing all teams that do not have feedback submitted feedback for that
   # team during the week.

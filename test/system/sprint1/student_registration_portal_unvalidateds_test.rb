@@ -14,14 +14,15 @@ require "application_system_test_case"
 class StudentRegistrationPortalUnvalidatedsTest < ApplicationSystemTestCase
   # (1-7)
   def test_register_student  
-    prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    prof = User.create(email: 'msmucker@gmail.com', first_name: 'Elon', last_name: 'Musk', is_admin: true, password: 'professor', password_confirmation: 'professor')
     Team.create(team_name: 'Test Team', team_code: 'TEam01', user: prof)
     
     # register new student
     visit root_url
     click_on "Sign Up"
     
-    fill_in "user[name]", with: "Bob"
+    fill_in "user[first_name]", with: "Bob"
+    fill_in "user[last_name]", with: "smith"
     fill_in "user[team_code]", with: "TEam01"
     fill_in "user[email]", with: "bob@uwaterloo.ca"
     fill_in "user[password]", with: "testpassword"

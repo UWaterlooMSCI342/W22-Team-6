@@ -11,7 +11,7 @@ class CreateUserValidationsTest < ApplicationSystemTestCase
       Option.create(reports_toggled: true)
       prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
       team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: prof)
-      user = User.create(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Scott F', is_admin: false, teams: [team])
+      user = User.create(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Elon', last_name: 'Musk', is_admin: false, teams: [team])
     end
     #1) As a user, I cannot create an account with a duplicate email
     def test_create_duplicate_user_email
@@ -19,7 +19,8 @@ class CreateUserValidationsTest < ApplicationSystemTestCase
       visit root_url
       click_on "Sign Up"
 
-      fill_in "user[name]", with: "Scott"
+      fill_in "user[first_name]", with: "Elon"
+      fill_in "user[last_name]", with: "Musk"
       fill_in "user[team_code]", with: "TEAM01"
       fill_in "user[email]", with: "SCOTTF@gmail.com"
       fill_in "user[password]", with: "testpassword"
@@ -33,7 +34,8 @@ class CreateUserValidationsTest < ApplicationSystemTestCase
       visit root_url
       click_on "Sign Up"
 
-      fill_in "user[name]", with: "Scott"
+      fill_in "user[first_name]", with: "Elon"
+      fill_in "user[last_name]", with: "Musk"
       fill_in "user[team_code]", with: "TEAM01"
       fill_in "user[email]", with: "scott"
       fill_in "user[password]", with: "testpassword"
@@ -48,7 +50,8 @@ class CreateUserValidationsTest < ApplicationSystemTestCase
       visit root_url
       click_on "Sign Up"
 
-      fill_in "user[name]", with: "Scott"
+      fill_in "user[first_name]", with: "Elon"
+      fill_in "user[last_name]", with: "Musk"
       fill_in "user[team_code]", with: "qwertyu"
       fill_in "user[email]", with: "scottfraser@gmail.com"
       fill_in "user[password]", with: "testpassword"
@@ -65,7 +68,8 @@ class CreateUserValidationsTest < ApplicationSystemTestCase
       visit root_url
       click_on "Sign Up"
 
-      fill_in "user[name]", with: "Scott"
+      fill_in "user[first_name]", with: "Elon"
+      fill_in "user[last_name]", with: "Musk"
       fill_in "user[team_code]", with: "TEAM01"
       fill_in "user[email]", with: "scottfraser@gmail.com"
       fill_in "user[password]", with: "abcde"
@@ -80,7 +84,8 @@ class CreateUserValidationsTest < ApplicationSystemTestCase
       visit root_url
       click_on "Sign Up"
         
-      fill_in "user[name]", with: "Larry"
+      fill_in "user[first_name]", with: "Elon"
+      fill_in "user[last_name]", with: "Musk"
       fill_in "user[team_code]", with: "TEAM01"
       fill_in "user[email]", with: "larry@gmail.com"
       fill_in "user[password]", with: "abcdef"
@@ -88,6 +93,6 @@ class CreateUserValidationsTest < ApplicationSystemTestCase
       click_on "Create account"
       
       assert_current_path root_url
-      assert_text "Welcome, Larry"
+      assert_text "Welcome, Elon"
     end
 end

@@ -15,7 +15,7 @@ class SignInUppercasesTest < ApplicationSystemTestCase
     # Login as student
     login 'bob@gmail.com', 'testpassword'
 
-    assert_text "Welcome, Bob"
+    assert_text "Welcome, Elon"
     
   end
     
@@ -24,7 +24,7 @@ class SignInUppercasesTest < ApplicationSystemTestCase
     # Login as student
     login 'BOB@gmail.com', 'testpassword'
 
-    assert_text "Welcome, Bob"
+    assert_text "Welcome, Elon"
     
   end
 end

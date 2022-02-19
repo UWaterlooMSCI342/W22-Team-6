@@ -25,20 +25,20 @@ class ConfirmDeleteUsersTest < ApplicationSystemTestCase
     
     within('#user' + @user1.id.to_s) do
       assert_text @user1.email
-      assert_text @user1.name
+      assert_text @user1.first_name + " " +  @user1.last_name
       click_on 'Delete User'
     end
     
     assert_equal 2, User.count
     
     assert_current_path user_confirm_delete_path(@user1)
-    assert_text "Confirm Delete #{@user1.name}"
+    assert_text "Confirm Delete #{@user1.first_name + " " + @user1.last_name}"
     click_on "Delete User"
     
     assert_current_path users_url 
     assert_text "User was successfully destroyed."
     assert_equal 1, User.count
     assert_no_text @user1.email
-    assert_no_text @user1.name
+    assert_no_text @user1.first_name + " " + @user1.last_name
   end 
 end

@@ -23,11 +23,11 @@ class ConfirmDeleteUserFromTeamsTest < ApplicationSystemTestCase
     
     within('#team' + @team1.id.to_s) do
       assert_text 'Team 1'
-      assert_text 'Adam'
+      assert_text 'Elon Musk'
       click_on 'Show'
     end
 
-    assert_text 'Adam'
+    assert_text 'Elon Musk'
     click_on 'Remove User From Team'
    
     assert_equal 1, Team.count
@@ -36,12 +36,12 @@ class ConfirmDeleteUserFromTeamsTest < ApplicationSystemTestCase
       
     assert_equal([@user1], @team1.users)
    
-    assert_text 'Confirm Remove Adam from Team 1'
+    assert_text 'Confirm Remove Elon Musk from Team 1'
     click_on 'Remove User'
       
     assert_current_path root_url
     assert_text 'User removed successfully.'
-    assert_no_text 'Adam'
+    assert_no_text 'Elon Musk'
     @team = Team.find_by team_code: 'Code'
     assert_equal([], @team.users)
   end

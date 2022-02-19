@@ -10,9 +10,9 @@ class AddPrioritiesToReportsTest < ApplicationSystemTestCase
     # create prof, team, and user
     @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     @team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: @prof)
-    @bob = User.create(email: 'bob@gmail.com',first_name: 'Elon', last_name: 'Musk', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    @bob = User.create(email: 'bob@gmail.com',first_name: 'Bob', last_name: 'L', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     @bob.teams << @team
-    @steve = User.create(email: 'steve@gmail.com',first_name: 'Elon', last_name: 'Musk', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    @steve = User.create(email: 'steve@gmail.com',first_name: 'Steve', last_name: 'M', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     @steve.teams << @team
   end
   

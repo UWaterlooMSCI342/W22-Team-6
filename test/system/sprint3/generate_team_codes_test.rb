@@ -51,7 +51,8 @@ class GenerateTeamCodesTest < ApplicationSystemTestCase
     visit root_url
     click_on "Sign Up"
     
-    fill_in "user[name]", with: "Bob"
+    fill_in "user[first_name]", with: "Elon"
+    fill_in "user[last_name]", with: "Musk"
     fill_in "user[team_code]", with: @generated_code.to_s
     fill_in "user[email]", with: "bob@uwaterloo.ca"
     fill_in "user[password]", with: "testpassword"
@@ -59,7 +60,7 @@ class GenerateTeamCodesTest < ApplicationSystemTestCase
     click_on "Create account"
     
     assert_current_path root_url
-    assert_text "Welcome, Bob"
+    assert_text "Welcome, Elon"
     click_on "Logout"
     
     # check student enrollment (professor)
@@ -69,7 +70,7 @@ class GenerateTeamCodesTest < ApplicationSystemTestCase
     assert_current_path root_url
     
     click_on "Manage Teams"
-    assert_text 'Bob'
+    assert_text 'Elon'
     assert_text @generated_code.to_s
     assert_text 'Test Team'
     

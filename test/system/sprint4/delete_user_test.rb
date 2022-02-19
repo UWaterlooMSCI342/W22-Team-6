@@ -29,7 +29,7 @@ class DeleteUserTest < ApplicationSystemTestCase
     
     within('#user' + @bob.id.to_s) do
       assert_text @bob.email
-      assert_text @bob.name
+      assert_text(@bob.first_name + " " +  @bob.last_name)
       click_on 'Delete User'
     end
     
@@ -39,7 +39,7 @@ class DeleteUserTest < ApplicationSystemTestCase
     assert_text "User was successfully destroyed."
     
      User.all.each { |user| 
-        assert_not_equal(@bob.name, user.name)
+        assert_not_equal(@bob.first_name + @bob.last_name, user.first_name + user.last_name)
     }
   end
   
@@ -58,7 +58,7 @@ class DeleteUserTest < ApplicationSystemTestCase
     
     within('#user' + @ta.id.to_s) do
       assert_text @ta.email
-      assert_text @ta.name
+      assert_text (@ta.first_name + " " + @ta.last_name)
       click_on 'Delete User'
     end
     
@@ -68,7 +68,7 @@ class DeleteUserTest < ApplicationSystemTestCase
     assert_text "User was successfully destroyed."
     
      User.all.each { |user| 
-        assert_not_equal(@ta.name, user.name)
+        assert_not_equal(@ta.first_name + " " + @ta.last_name, user.first_name + user.last_name)
     }
   end
   

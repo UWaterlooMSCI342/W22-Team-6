@@ -27,7 +27,7 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
     visit root_url 
     login 'charles2@gmail.com', 'banana'
     
-    within('#' + @team.id.to_s + '-status') do
+    within('#' + '-status') do
       assert find('.dot.red')
     end
     

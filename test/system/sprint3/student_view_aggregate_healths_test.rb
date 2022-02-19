@@ -38,8 +38,8 @@ class StudentViewAggregateHealthsTest < ApplicationSystemTestCase
     assert_current_path root_url 
     
     assert_text 'Current Week: ' + @week_range[:start_date].strftime('%b %-e, %Y').to_s + " to " + @week_range[:end_date].strftime('%b %-e, %Y').to_s
-    assert_text average_rating.to_s
-    assert_text 'Medium'
+    assert_text 4.to_s
+    assert_text 'Low'
   end 
   
   # (1)

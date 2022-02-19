@@ -41,7 +41,8 @@ class CreateGenerateTeamFunctionsTest < ApplicationSystemTestCase
     visit root_url
     click_on "Sign Up"
     
-    fill_in "user[name]", with: "Bob"
+    fill_in "user[first_name]", with: "Elon"
+    fill_in "user[last_name]", with: "Musk"
     fill_in "user[team_code]", with: "TEAM01"
     fill_in "user[email]", with: "bob@uwaterloo.ca"
     fill_in "user[password]", with: "testpassword"
@@ -49,7 +50,7 @@ class CreateGenerateTeamFunctionsTest < ApplicationSystemTestCase
     click_on "Create account"
     
     assert_current_path root_url
-    assert_text "Welcome, Bob"
+    assert_text "Welcome, Elon"
     click_on "Logout"
     
     # check student enrollment (professor)
@@ -59,7 +60,7 @@ class CreateGenerateTeamFunctionsTest < ApplicationSystemTestCase
     assert_current_path root_url
     
     click_on "Manage Teams"
-    assert_text 'Bob'
+    assert_text 'Elon'
   end
   
   # Test invalid team code
@@ -71,7 +72,8 @@ class CreateGenerateTeamFunctionsTest < ApplicationSystemTestCase
     visit root_url
     click_on "Sign Up"
     
-    fill_in "user[name]", with: "Bob"
+    fill_in "user[first_name]", with: "Elon"
+    fill_in "user[last_name]", with: "Musk"
     fill_in "user[team_code]", with: "TEAM02"
     fill_in "user[email]", with: "bob@uwaterloo.ca"
     fill_in "user[password]", with: "testpassword"

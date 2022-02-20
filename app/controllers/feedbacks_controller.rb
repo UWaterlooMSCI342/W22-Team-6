@@ -87,7 +87,7 @@ class FeedbacksController < ApplicationController
 
     # Sanitizes the sorting column to stop user from sorting by unknown columns (defaults by student first name).
     def sort_column
-      allowable_columns = ["first_name", "team_name"].concat(Feedback.column_names)
+      allowable_columns = ["first_name", "last_name", "team_name"].concat(Feedback.column_names)
       return allowable_columns.include?(params[:sort]) ? params[:sort] : "first_name"
     end
 end

@@ -208,7 +208,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     click_on "Back"
     assert_current_path root_url
     
-    click_on "Logout/Account"
+    click_on "Logout"
     visit root_url
     login 'adam@gmail.com', '123456789'
     assert_current_path root_url
@@ -218,7 +218,39 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     
     click_on "Back"
     assert_current_path root_url
+  end
+
+  def test_user_profile
+    #Check that users can go to user profile via navbar and go back to home landing page
+    visit root_url
+    login 'msmucker@gmail.com', 'professor'
+    assert_current_path root_url
     
+    click_on "User Profile"
+    assert_current_path user_profile_path(@prof)
+
+    click_on "Back"
+    assert_current_path root_url
     
-  end 
+    click_on "Logout"
+    visit root_url
+    login 'adam@gmail.com', '123456789'
+    assert_current_path root_url
+
+    click_on "User Profile"
+    assert_current_path user_profile_path(@user1)
+  end
+
+  def test_team_profile
+    #Check that students can go to their team profile via navbar and go back to home landing page
+    visit root_url
+    login 'adam@gmail.com', '123456789'
+    assert_current_path root_url
+
+    click_on "Team Profile"
+    assert_current_path team_profile_path(@team1)
+
+    click_on "Back"
+    assert_current_path root_url
+  end
 end

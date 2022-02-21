@@ -21,8 +21,9 @@
           <div class="dropdown-button">Account</div>
           <div class="dropdown-content">
             <%= link_to 'User Profile', user_profile_path(current_user) %>
-            <% if !is_admin? %>
-              <%= link_to 'Team Profile', team_profile_path(current_user.teams.ids) %>
+            <% team_id = current_user.teams.ids %>
+            <% if !team_id.empty? %>
+              <%= link_to 'Team Profile', team_profile_path(team_id) %>
             <% end %>
             <%= link_to 'Change Password', reset_password_path %>
             <%= link_to 'Logout', logout_path %>

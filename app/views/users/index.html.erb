@@ -15,10 +15,10 @@
     <% @users.each do |user| %>
       <tr id=user<%= user.id %> >
         <td><%= user.email %></td>
-        <td><%= user.name %></td>
+        <td><%= link_to user.name, user %></td>
         <td><%= user.role %></td>
         <td><%= user.team_names.join(", ") %></td>
-        <td><%= link_to 'Show', user %></td>
+        <!--<td><%= link_to 'Show', user %></td> -->
         
         <td><%= link_to 'Delete User', user_confirm_delete_path(user) %></td>
       

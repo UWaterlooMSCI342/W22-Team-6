@@ -42,7 +42,21 @@
             <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
             <td><%= team.team_name %></td>
             <td><%= team.team_code %></td>
-            <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
+            <!-- <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td> -->
+            
+            <% if team.student_names.size == 0 %>
+              <td> No members </td>
+            <% else %>
+            <td>
+              <% team.users.each_with_index do |user, i| %>
+              <% if i > 0 %>
+              ,
+              <% end %>
+              <%=link_to user.name,  user %>
+              <% end %>
+            </td>
+          <% end %>
+            
             <td><%= @unsubmitted[:current_week][team.id].size == 0 ? '' : @unsubmitted[:current_week][team.id].join(", ") %></td>
             <td><%= link_to "Details", team %></td>
           </tr>
@@ -88,7 +102,20 @@
             <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
             <td><%= team.team_name %></td>
             <td><%= team.team_code %></td>
-            <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
+            <!-- <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td> -->
+            <% if team.student_names.size == 0 %>
+              <td> No members </td>
+            <% else %>
+            <td>
+              <% team.users.each_with_index do |user, i| %>
+              <% if i > 0 %>
+              , 
+              <% end %>
+              <%= link_to user.name, user %>
+              <% end %>
+            </td>
+          <% end %>
+
             <td><%= @unsubmitted[:previous_week][team.id].size == 0 ? '' : @unsubmitted[:previous_week][team.id].join(", ") %></td>
             
           </tr>

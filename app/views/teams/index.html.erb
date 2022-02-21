@@ -20,7 +20,21 @@
           <td><%= team.team_name %></td>
           <td><%= team.team_code %></td>
           <td><%= team.user.name %></td>
-          <td><%= team.student_names.join(", ") %></td>
+          <!-- <td><%= team.student_names.join(", ") %></td> -->
+          <% if team.student_names.size == 0 %>
+              <td> No members </td>
+            <% else %>
+            <td>
+              <% team.users.each_with_index do |user, i| %>
+              <% if i > 0 %>
+              , 
+              <% end %>
+              <%= link_to user.name, user %>
+              <% end %>
+            </td>
+          <% end %>
+
+
           <td><%= link_to 'Show', team %></td>
           <td><%= link_to 'Edit', edit_team_path(team) %></td>
 

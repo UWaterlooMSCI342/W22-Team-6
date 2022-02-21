@@ -18,9 +18,14 @@
           <li><%= link_to 'Home', root_path %></li>
         <% end %>
         <li class="navlast dropdown">
-          <%= link_to 'Logout/Account', logout_path %>
+          <div class="dropdown-button">Account</div>
           <div class="dropdown-content">
+            <%= link_to 'User Profile', user_profile_path(current_user) %>
+            <% if !is_admin? %>
+              <%= link_to 'Team Profile', team_profile_path(current_user.teams.ids) %>
+            <% end %>
             <%= link_to 'Change Password', reset_password_path %>
+            <%= link_to 'Logout', logout_path %>
           </div>
         </li>
         <% if is_admin? %>

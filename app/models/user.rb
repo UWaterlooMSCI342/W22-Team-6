@@ -106,6 +106,14 @@ class User < ApplicationRecord
     return teams
   end
 
+  def status()
+    if self.feedbacks.first.nil?
+      return Feedback::PRIORITY_COLOURS[nil]
+    end
+    priority = self.feedbacks.first.priority
+    return Feedback::PRIORITY_COLOURS[priority]
+  end
+
   def get_user_feedback(start_date, end_date)
 
     feedbacks = self.feedbacks.where(timestamp: start_date..end_date)

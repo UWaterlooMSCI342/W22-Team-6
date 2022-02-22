@@ -28,7 +28,7 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
     login 'charles2@gmail.com', 'banana'
   
     # assert_text "status"
-    within('#' + '-status') do
+    within('#' + @user1.id.to_s + '-status') do
       assert find('.dot.red')
     end
     

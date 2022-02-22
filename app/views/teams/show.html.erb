@@ -20,7 +20,8 @@
   <table>
     <thead>
       <tr>
-        <th><%= 'Name' %></th>
+        <th>Name</th>
+        <th>Email</th>
         <th colspan="2"></th>
       </tr>
     </thead>
@@ -29,6 +30,7 @@
       <% @team.users.each do |user| %>
         <tr>
           <td><%= user.name %></td>
+          <td><%= user.email %></td>
           <% if current_user.is_admin %>
             <td><%= link_to 'Remove User From Team', team_confirm_delete_delete_user_from_team_path(user_id: user.id, team_id: @team.id) %></td>
           <% end %>

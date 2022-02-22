@@ -100,7 +100,7 @@
 <% else %>
 
 <% @current_user.teams.each do |team| %>
-  <h3><%='Team: ' + team.team_name%></h3>
+  <h3>Team: <%= link_to team.team_name, team_path(team) %></h3>
   <h3><%='Team Members: ' + team.student_names.join(", ") %></h3>
 <% end %>
 </br>
@@ -166,11 +166,6 @@
 
    
       <div class="line"></div>
-      <%if @current_user.teams.first.feedbacks.size > 0%>
-                <td><%= link_to "View Historical Data", @current_user.teams.first %></td>
-              <% else %>
-                <td>Team Does Not Have Any Ratings!</td>
-              <%end%>
       <h2>Team Feedback:</h2>
       <h2>Previous Week: <%= (@week_range[:start_date] - 7.days).strftime('%b %e, %Y')%> to <%= (@week_range[:end_date] - 7.days).strftime('%b %e, %Y')%></h2>
       <table>

@@ -40,7 +40,7 @@
             <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
             <% average_punctuality_rating = Team.average_punctuality_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
             <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
-            <td><%= team.team_name %></td>
+            <td><%= link_to team.team_name, team_path(team) %></td>
             <td><%= team.team_code %></td>
             <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
             <td><%= @unsubmitted[:current_week][team.id].size == 0 ? '' : @unsubmitted[:current_week][team.id].join(", ") %></td>
@@ -86,7 +86,7 @@
             <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
             <% average_punctuality_rating = Team.average_punctuality_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
             <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
-            <td><%= team.team_name %></td>
+            <td><%= link_to team.team_name, team_path(team) %></td>
             <td><%= team.team_code %></td>
             <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
             <td><%= @unsubmitted[:previous_week][team.id].size == 0 ? '' : @unsubmitted[:previous_week][team.id].join(", ") %></td>

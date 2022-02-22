@@ -19,7 +19,7 @@
     <% @feedbacks.each do |feedback| %>
       <tr>
         <td><%= feedback.user.name %></td>
-        <td><%= feedback.team.team_name %></td>
+        <td><%= link_to feedback.team.team_name, team_path(feedback.team) %></td>
         <td><%= feedback.participation_rating %></td>
         <td><%= feedback.effort_rating %></td>
         <td><%= feedback.punctuality_rating %></td>

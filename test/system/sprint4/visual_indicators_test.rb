@@ -32,7 +32,7 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
       assert find('.dot.red')
     end
     
-    click_on 'View Historical Data'
+    click_on @team.team_name
 
     within('#2021-3') do 
       assert find('.dot.green')

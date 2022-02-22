@@ -24,7 +24,7 @@ class ConfirmDeleteUserFromTeamsTest < ApplicationSystemTestCase
     within('#team' + @team1.id.to_s) do
       assert_text 'Team 1'
       assert_text 'Adam'
-      click_on 'Show'
+      click_on @team1.team_name
     end
 
     assert_text 'Adam'

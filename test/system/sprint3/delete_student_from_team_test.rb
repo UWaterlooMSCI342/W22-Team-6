@@ -21,7 +21,7 @@ class DeleteStudentFromTeamTest < ApplicationSystemTestCase
     login 'msmucker@gmail.com', 'professor'
 
     click_on "Manage Teams"
-    click_on "Show"
+    click_on @team.team_name
     click_on "Remove User From Team"
     click_on "Remove User"
     

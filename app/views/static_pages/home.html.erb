@@ -181,9 +181,7 @@
             <th>Avg. Participation Rating (Out of 5)</th>
             <th>Avg. Effort Rating (Out of 5)</th>
             <th>Avg. Punctuality Rating (Out of 5)</th>
-            <th>Team Name</th>
-            <th>Team Members</th>
-            <th colspan="4"></th>
+            <th colspan="2"></th>
           </tr>
         </thead>
 
@@ -199,9 +197,6 @@
               <td><%= average_effort_rating ? average_effort_rating : "No feedback" %></td>
               <% average_punctuality_rating = Team.average_punctuality_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
               <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
-              <td><%= team.team_name %></td>
-              <td><%= team.student_names.join(", ") %></td>
-
             </tr>
           <% end %>
         </tbody>

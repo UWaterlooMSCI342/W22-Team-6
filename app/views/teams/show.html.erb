@@ -10,7 +10,7 @@
 
 <p>
   <strong>Created By:</strong>
-  <%=link_to @team.user.name,  @team.user %>
+  <%= @team.user.name %>
 </p>
 
 
@@ -28,7 +28,7 @@
     <tbody>
       <% @team.users.each do |user| %>
         <tr>
-          <td><%=link_to user.name,  user %></td>
+          <td><%=user.name %></td>
           <% if current_user.is_admin %>
             <td><%= link_to 'Remove User From Team', team_confirm_delete_delete_user_from_team_path(user_id: user.id, team_id: @team.id) %></td>
           <% end %>

@@ -113,7 +113,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     assert_current_path users_url
     
     within('#user' + @user1.id.to_s) do
-      click_on 'Show'
+      click_on @user1.name
     end
     
     assert_current_path user_path(@user1)

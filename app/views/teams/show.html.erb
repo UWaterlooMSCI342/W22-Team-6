@@ -28,7 +28,7 @@
     <tbody>
       <% @team.users.each do |user| %>
         <tr>
-          <td><%=user.name %></td>
+          <td><%=link_to user.name, user %></td>
           <% if current_user.is_admin %>
             <td><%= link_to 'Remove User From Team', team_confirm_delete_delete_user_from_team_path(user_id: user.id, team_id: @team.id) %></td>
           <% end %>

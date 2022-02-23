@@ -5,7 +5,7 @@
 
 <p>
   <strong>Team:</strong>
-  <%= @feedback.team_id %>
+  <%= link_to @feedback.team.team_name, team_path(@feedback.team) %>
 </p>
 
 <p>

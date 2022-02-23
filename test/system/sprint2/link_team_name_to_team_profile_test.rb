@@ -75,4 +75,14 @@ class LinkTeamNameToTeamProfileTest < ApplicationSystemTestCase
     assert_current_path team_path(@team)
     assert_text "Team Name: #{@team.team_name}"
   end
+
+  def test_professor_clicks_on_team_from_feedback_show
+    visit root_url
+    login 'msmucker@gmail.com', 'professor'
+
+    visit feedback_path(@feedback)
+    click_on @team.team_name
+    assert_current_path team_path(@team)
+    assert_text "Team Name: #{@team.team_name}"
+  end
 end

@@ -24,7 +24,7 @@
           <th>Team Code</th>
           <th>Team Members</th>
           <th>Missing Feedback</th>
-          <th colspan="5"></th>
+          <th colspan="4"></th>
         </tr>
       </thead>
 
@@ -44,7 +44,6 @@
             <td><%= team.team_code %></td>
             <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
             <td><%= @unsubmitted[:current_week][team.id].size == 0 ? '' : @unsubmitted[:current_week][team.id].join(", ") %></td>
-            <td><%= link_to "Details", team %></td>
           </tr>
         <% end %>
       </tbody>

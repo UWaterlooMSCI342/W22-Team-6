@@ -152,7 +152,7 @@
          <% feedback = @current_user.get_user_feedback(@week_range[:start_date], @week_range[:end_date]) %>
             <tr>
               <td id= '<%= @user.id %>-status' >
-                <span class="dot <%= @user.status %>"></span>
+                <span class="dot <%= feedback ? feedback.status : "blue" %>"></span>
               </td>
               <td><%= feedback ? feedback.get_priority_word : "No feedback" %></td>
               <td><%= feedback ? feedback.participation_rating : "No feedback" %></td>

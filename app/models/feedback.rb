@@ -48,4 +48,10 @@ class Feedback < ApplicationRecord
     week_range = self.team.week_range(today.cwyear, today.cweek)
     return self.timestamp.between?(week_range[:start_date], week_range[:end_date]) 
   end
+
+  def status()
+    priority = self.priority
+    return Feedback::PRIORITY_COLOURS[priority]
+  end
+
 end

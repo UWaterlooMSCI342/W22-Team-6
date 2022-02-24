@@ -32,7 +32,16 @@ class StaticPagesController < ApplicationController
   end
 
   def download
+    @teams = Team.all
     @feedback = Feedback.all
+    @missing = {}
+
+    @teams.each do |team| 
+      # @unsubmitted[:current_week][team.id] = team.users_not_submitted(team.current_feedback).map{|user| user.name}
+      @missing[team.id] = team.users_not_submitted(team.current_feedback(now - 7.days)).map{|user| user}
+    end
+
+    puts @missing
 
     respond_to do |format|
       format.html

@@ -1,0 +1,9 @@
+<%- headers = ['user_id', 'team_id'] -%>
+
+<%= CSV.generate_line headers %>
+
+<%- @feedback.each do |f| -%>
+
+    <%= CSV.generate_line([f.data['user_id'], f.data['team_id']]) -%>
+
+<%- end -%>

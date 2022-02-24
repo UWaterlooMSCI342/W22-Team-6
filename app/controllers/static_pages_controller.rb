@@ -1,3 +1,5 @@
+require 'csv'
+
 class StaticPagesController < ApplicationController
 
   before_action :get_teams, :current_week
@@ -28,6 +30,18 @@ class StaticPagesController < ApplicationController
        end
     end
   end
+
+  def download
+    @feedback = Feedback.all
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        response.headers['Content-Type'] = 'text/csv'
+        response.headers['Content-Disposition'] = "attachment; filename=download.csv"
+      end 
+    end 
+  end 
 
   def get_teams
     @teams = Team.all

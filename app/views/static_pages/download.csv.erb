@@ -1,9 +1,9 @@
-<%- headers = ['name', 'email', 'team_id'] -%>
+<%- headers = ['Name:', 'Email:', 'Team id:', 'Start Date:', 'End Date:'] -%>
 
 <%= CSV.generate_line headers %>
 
 <%- @missing.each do |f| -%>
     <%- f[1].each do |user_data| -%>
-         <%= CSV.generate_line([user_data.name, user_data.email, f[0]]) -%>
+         <%= CSV.generate_line([user_data.name, user_data.email, f[0], @start_date, @end_date]) -%>
     <%- end -%>
 <%- end -%>

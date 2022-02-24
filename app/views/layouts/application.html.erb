@@ -18,7 +18,8 @@
           <li><%= link_to 'Home', root_path %></li>
         <% end %>
         <li class="navlast dropdown">
-          <div class="dropdown-button">Account</div>
+          <!-- "&#9660" is unicode for the downwards arrow-->
+          <div class="dropdown-button">Account &#9660 </div>
           <div class="dropdown-content">
             <%= link_to 'User Profile', user_profile_path(current_user) %>
             <% team_id = current_user.teams.ids %>

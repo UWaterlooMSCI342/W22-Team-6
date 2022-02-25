@@ -14,8 +14,8 @@
     <% Report.all.each do |report| %>
       <% if report.reporter_id == @current_user.id %>
         <tr>
-          <td><%= User.find(report.reporter_id).name %></td>
-          <td><%= User.find(report.reportee_id).name %></td>
+          <td><%= User.find(report.reporter_id).first_name %></td>
+          <td><%= User.find(report.reportee_id).first_name %></td>
           <td><%= report.description %></td>
           <% if report.priority == 0 %>
             <td><%= 'High' %></td>

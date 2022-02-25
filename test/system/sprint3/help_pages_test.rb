@@ -8,7 +8,7 @@ require "application_system_test_case"
 
 class HelpPageTest < ApplicationSystemTestCase
   setup do
-    @prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
   end
   
   # (1)
@@ -24,7 +24,7 @@ class HelpPageTest < ApplicationSystemTestCase
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.user = @prof 
     team.save!
-    user = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles1', is_admin: false, teams: [team])
+    user = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false, teams: [team])
     user.save!
     feedback = Feedback.new(participation_rating: 3, effort_rating: 9, punctuality_rating: 4, comments: "This team is disorganized", priority: 2)
     feedback.timestamp = feedback.format_time(DateTime.now)

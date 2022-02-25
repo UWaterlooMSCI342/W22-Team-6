@@ -15,7 +15,7 @@
       <% if report.reportee_id == @current_user.id %>
         <tr>
           <td>REDACTED</td>
-          <td><%= User.find(report.reportee_id).name %></td>
+          <td><%= User.find(report.reportee_id).first_name %></td>
           <td><%= report.description %></td>
           <% if report.priority == 0 %>
             <td><%= 'High' %></td>

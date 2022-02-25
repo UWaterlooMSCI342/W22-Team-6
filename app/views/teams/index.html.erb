@@ -19,7 +19,7 @@
         <tr id=team<%= team.id %> >
           <td><%= team.team_name %></td>
           <td><%= team.team_code %></td>
-          <td><%= team.user.name %></td>
+          <td><%= team.user.full_name %> </td>
           <td><%= team.student_names.join(", ") %></td>
           <td><%= link_to 'Show', team %></td>
           <td><%= link_to 'Edit', edit_team_path(team) %></td>

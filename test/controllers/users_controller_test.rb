@@ -161,10 +161,28 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # professor checking a student profile
   test "should show user" do
     post('/login', params: { email: 'msmucker@gmail.com', password: 'professor'})
     get user_url(@user)
     assert_response :success
+  end
+
+  #student checking their own profile
+  test "should show own user" do
+    post('/login', params: { email: 'charles@gmail.com', password: 'banana'})
+    get user_url(@user)
+    assert_response :success
+  end
+
+  #student checking another student's profile
+  test "should not show user" do
+    @user2 = User.new(email: 'bob@gmail.com', password: 'strawberry', password_confirmation: 'strawberry', name: 'Bob', is_admin: false)
+    @user2.save
+
+    post('/login', params: { email: 'charles@gmail.com', password: 'banana'})
+    get user_url(@user2)
+    assert_redirected_to root_url
   end
 
   test "should get edit" do

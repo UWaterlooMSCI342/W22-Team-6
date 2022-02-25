@@ -16,6 +16,15 @@
         <%= user.full_name %>
       </div>
     <% end %>
+
+    <!-- this is my modification -->
+<p>Please select a rating on how well you believe your team performed this period. These fields are <b>mandatory.</b></p>
+<p>Each rating allows you to choose a number between 1 and 5. Note that 1 implies that the team <b>as a whole</b> performed poorly in a given category, and that 5 means that they performed exceptionally.</p>
+<p>In the <i><b>participation rating</b></i> field, please rank how actively your team members participated in any discussions and meetings about the project that were held this week.</p>
+<p>In the <i><b>effort rating</b></i> field, please rank how well your team members attempted to contribute to the week's deliverables, and whether they sought out any resources they needed.</p>
+<p>In the <i><b>punctuality rating</b></i> field, please rank how well your team members were at being on time to meetings, and communicating any important information ahead of time.</p>
+<p>You may enter <b>optional</b> comments in the text area below with a maximum of 2048 characters.</p>
+
   <div class="field">
     Your Current Team:
     <% user.team_names.each do |tm| %>

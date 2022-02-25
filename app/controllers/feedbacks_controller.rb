@@ -4,13 +4,9 @@ class FeedbacksController < ApplicationController
   before_action :require_login
   # we no longer want feedbacks :show, :edit, :update for just the admin (teacher)
   before_action :require_admin, only: [:index, :destroy] 
+  before_action :require_access, only: [:show, :edit]
   before_action :get_user_detail
   before_action :set_feedback, only: [:show, :edit, :update, :destroy]
-   
-      
-  def get_user_detail
-    @user = current_user
-  end
 
   # GET /feedbacks
   def index
@@ -28,17 +24,13 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks/1/edit
   def edit
-    @feedback = Feedback.find(params[:id])
-    render :edit
   end
 
   # POST /feedbacks
   def create
-      
     team_submissions = @user.one_submission_teams
       
     @feedback = Feedback.new(feedback_params)
-    
     @feedback.timestamp = @feedback.format_time(now)
     @feedback.user = @user
     @feedback.team = @user.teams.first
@@ -54,8 +46,11 @@ class FeedbacksController < ApplicationController
 
   # PATCH/PUT /feedbacks/1
   def update
-    if @feedback.update(feedback_params)
-      redirect_to @feedback, notice: 'Feedback was successfully updated.'
+    if !(@feedback.is_from_this_week?)
+      redirect_to root_url, notice: "You cannot edit feedback from previous weeks."
+    elsif @feedback.update(feedback_params)
+      @feedback.update({ timestamp: @feedback.format_time(now), priority: @feedback.calculate_priority })
+      redirect_to @feedback, notice: "Feedback was successfully updated. Time updated: #{@feedback.timestamp}. Priority Level: #{@feedback.get_priority_word}."
     else
       render :edit
     end
@@ -63,7 +58,6 @@ class FeedbacksController < ApplicationController
 
   # DELETE /feedbacks/:id
   def destroy
-    @feedback = Feedback.find(params[:id])
     @feedback.destroy
     redirect_to feedbacks_url, notice: 'Feedback was successfully destroyed.'
   end
@@ -72,6 +66,22 @@ class FeedbacksController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_feedback
       @feedback = Feedback.find(params[:id])
+    end
+
+    def get_user_detail
+      @user = current_user
+    end
+
+    # Students should only be able to access their own feedback for this week.
+    def require_access
+      if !is_admin?
+        set_feedback
+
+        if (@current_user.feedbacks.exclude? @feedback) or !(@feedback.is_from_this_week?)
+          flash[:notice] = "You do not have permission to access this feedback."
+          redirect_to root_url
+        end
+      end
     end
 
     # Only allow a trusted parameter "white list" through.

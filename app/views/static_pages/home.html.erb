@@ -125,7 +125,7 @@
             <li><%= link_to 'Submit for: ' + team.team_name, new_feedback_path, class: "btn" %></li>
           <% end %>
       <% else %>
-          <li><%= link_to "Edit Rating", feedback_edit_url(@current_user.feedback_ids), class: "btn" %></li>
+          <li><%= link_to "Edit Rating", edit_feedback_path(@current_user.feedbacks.last), class: "btn" %></li>
       <% end %>
     </ul>
 

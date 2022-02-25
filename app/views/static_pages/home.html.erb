@@ -151,19 +151,16 @@
         <tbody>
          <% feedback = @current_user.get_user_feedback(@week_range[:start_date], @week_range[:end_date]) %>
             <tr>
-             <td id="-status" >
-                <span class="<%= 'dot red'%>" ></span>
+              <td id= '<%= @user.id %>-status' >
+                <span class="dot <%= feedback ? feedback.status : "blue" %>"></span>
               </td>
               <td><%= feedback ? feedback.get_priority_word : "No feedback" %></td>
               <td><%= feedback ? feedback.participation_rating : "No feedback" %></td>
               <td><%= feedback ? feedback.effort_rating : "No feedback" %></td>
               <td><%= feedback ? feedback.punctuality_rating : "No feedback" %></td>
             </tr>
-
         </tbody>
       </table>
-
-
    
       <div class="line"></div>
       <%if @current_user.teams.first.feedbacks.size > 0%>

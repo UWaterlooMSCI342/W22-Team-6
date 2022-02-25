@@ -109,7 +109,7 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
 
   def test_try_editing_another_user_feedback
     # Create other user with feedback that will try to be accessed.
-    other_user = User.create(email: 'fred@gmail.com', password: 'testpassword', password_confirmation: 'testpassword', name: 'Fred', is_admin: false)
+    other_user = User.create(email: 'fred@gmail.com', password: 'testpassword', password_confirmation: 'testpassword', first_name: 'Fred', last_name: 'F', is_admin: false)
     other_user.teams << @team
     feedback = save_feedback(1,1,1, "Other user's feedback.", other_user, DateTime.now, @team)
 

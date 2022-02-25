@@ -177,7 +177,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   #student checking another student's profile
   test "should not show user" do
-    @user2 = User.new(email: 'bob@gmail.com', password: 'strawberry', password_confirmation: 'strawberry', name: 'Bob', is_admin: false)
+    @user2 = User.new(email: 'bob@gmail.com', password: 'strawberry', password_confirmation: 'strawberry', first_name: 'Bob', last_name: 'L', is_admin: false)
     @user2.save
 
     post('/login', params: { email: 'charles@gmail.com', password: 'banana'})

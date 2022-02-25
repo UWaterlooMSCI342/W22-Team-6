@@ -13,9 +13,9 @@ require "application_system_test_case"
 class LoginPortalUnvalidatedsTest < ApplicationSystemTestCase
   # (1)
   def test_login 
-    prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: prof)
-    bob = User.create(email: 'bob@gmail.com', name: 'Bob', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    bob = User.create(email: 'bob@gmail.com',first_name: 'Elon', last_name: 'Musk', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     bob.teams << team
     
     # login with valid credentials
@@ -62,9 +62,9 @@ class LoginPortalUnvalidatedsTest < ApplicationSystemTestCase
     # SPRINT 2 UPDATE: Since students are now able to see reports they were involved in, this test has been modified to allow reports_url to be accessed without admin status.
     
     # login as student 
-    prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: prof)
-    bob = User.create(email: 'bob@gmail.com', name: 'Bob', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    bob = User.create(email: 'bob@gmail.com',first_name: 'Elon', last_name: 'Musk', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     bob.teams << team
     visit root_url 
     login 'bob@gmail.com', 'testpassword'

@@ -25,7 +25,7 @@ class Team < ApplicationRecord
   def student_names 
     students = Array.new
     for student in self.users.to_ary
-      students.push(student.name)
+      students.push(student.full_name)
     end 
     return students
   end

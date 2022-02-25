@@ -17,7 +17,7 @@ class GenerateTeamCodesTest < ApplicationSystemTestCase
   def test_prof_team_creation_with_generated_code
     #(1) Passes acceptance criteria 1: As a professor, when I create a team, a generated team code is provided to allow students to add themselves to the team    
     # create professor 
-    User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
 
     # log professor in
     visit root_url
@@ -44,14 +44,15 @@ class GenerateTeamCodesTest < ApplicationSystemTestCase
   #(2)
   def test_student_account_creation_with_generated_team_code
     #(2) Passes acceptance criteria 2: As a student, I can use the generated team code to register an account associated with the team
-    prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     Team.create(team_name: 'Test Team', team_code: @generated_code.to_s, user: prof)
     
     # register new student
     visit root_url
     click_on "Sign Up"
     
-    fill_in "user[name]", with: "Bob"
+    fill_in "user[first_name]", with: "Elon"
+    fill_in "user[last_name]", with: "Musk"
     fill_in "user[team_code]", with: @generated_code.to_s
     fill_in "user[email]", with: "bob@uwaterloo.ca"
     fill_in "user[password]", with: "testpassword"
@@ -59,7 +60,7 @@ class GenerateTeamCodesTest < ApplicationSystemTestCase
     click_on "Create account"
     
     assert_current_path root_url
-    assert_text "Welcome, Bob"
+    assert_text "Welcome, Elon"
     click_on "Logout"
     
     # check student enrollment (professor)
@@ -69,7 +70,7 @@ class GenerateTeamCodesTest < ApplicationSystemTestCase
     assert_current_path root_url
     
     click_on "Manage Teams"
-    assert_text 'Bob'
+    assert_text 'Elon'
     assert_text @generated_code.to_s
     assert_text 'Test Team'
     

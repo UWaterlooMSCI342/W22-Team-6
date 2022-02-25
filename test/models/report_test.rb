@@ -3,9 +3,9 @@ require 'test_helper'
 class ReportTest < ActiveSupport::TestCase
     setup do
         # Create valid reporter and reportee
-        @reporter = User.new(email: 'dwightschrute@dundermifflin.com', password: 'password', password_confirmation: 'password', name: 'Dwight Schrute', is_admin: false)
+        @reporter = User.new(email: 'dwightschrute@dundermifflin.com', password: 'password', password_confirmation: 'password', first_name: 'Dwight', last_name: 'Schrute', is_admin: false)
         
-        @reportee = User.new(email: 'jameshalpert@dundermifflin.com', password: 'password', password_confirmation: 'password', name: 'Jim Halpert', is_admin: false)
+        @reportee = User.new(email: 'jameshalpert@dundermifflin.com', password: 'password', password_confirmation: 'password', first_name: 'Elon', last_name: 'Musk', is_admin: false)
         @reporter.save
         @reportee.save
     end

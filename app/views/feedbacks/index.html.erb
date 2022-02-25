@@ -6,7 +6,8 @@
 <table>
   <thead>
     <tr>
-      <th><%= sortable "name", "Student Name" %></th>
+      <th><%= sortable "first_name", "First Name" %></th>
+      <th><%= sortable "last_name", "Last Name" %></th>
       <th><%= sortable "team_name", "Team" %></th>
       <th><%= sortable "participation_rating" %></th>
       <th><%= sortable "effort_rating" %></th>
@@ -21,7 +22,8 @@
   <tbody>
     <% @feedbacks.each do |feedback| %>
       <tr>
-        <td><%= feedback.user.name %></td>
+        <td><%= feedback.user.first_name %></td>
+        <td><%= feedback.user.last_name %></td>
         <td><%= feedback.team.team_name %></td>
         <td><%= feedback.participation_rating %></td>
         <td><%= feedback.effort_rating %></td>

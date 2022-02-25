@@ -18,11 +18,26 @@ class Feedback < ApplicationRecord
   #allows a max of 2048 characters for additional comments
   validates_length_of :comments, :maximum => 2048, :message => "Please limit your comment to 2048 characters or less!"
 
+  # TODO: Implement test cases.
+  # TODO: Will need to split up `student_name` into `first_name` and `last_name`.
+  scope :filter_by_student_name, -> (student_name) { joins(:user).where("UPPER(name) LIKE ?", "#{student_name.upcase}%") }
+  scope :filter_by_team_name, -> (team_name) { joins(:team).where("team_name = ?", team_name) }
+  scope :filter_by_participation_rating, -> (participation_rating) { where(participation_rating: participation_rating) }
+  scope :filter_by_effort_rating, -> (effort_rating) { where(effort_rating: effort_rating) }
+  scope :filter_by_punctuality_rating, -> (punctuality_rating) { where(punctuality_rating: punctuality_rating) }
+  scope :filter_by_priority, -> (priority) { where(priority: priority) }
+  scope :filter_by_timestamp, -> (start_date, end_date) { where(timestamp: start_date..end_date) }
+
   def format_time(given_date)
   #refomats the UTC time in terms if YYYY/MM?DD HH:MM
       #current_time = given_date.in_time_zone('Eastern Time (US & Canada)').strftime('%Y/%m/%d %H:%M')
       current_time = given_date.strftime('%Y/%m/%d %H:%M')
       return current_time
+  end
+
+  # TODO: Implement test cases.
+  def self.sort(column, direction)
+    self.left_joins(:user, :team).order("#{column} #{direction}")
   end
 
   # Calculates the priority for this feedback by using the participation, effort, and punctuality ratings.

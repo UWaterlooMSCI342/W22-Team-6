@@ -1,6 +1,6 @@
 <h3>Filter</h3>
 
-<%= form_with(url: path, local: true) do |form| %>
+<%= form_with(url: path, method: :get, local: true) do |form| %>
   <div class="field">
     <%= form.label :name, "Student name" %>
     <%= form.text_field :student_name %>
@@ -28,7 +28,7 @@
 
   <div class="field">
     <%= form.label :priority %>
-    <%= form.select :priority, Feedback::PRIORITY_LEVEL.values, :include_blank => true %>
+    <%= form.select :priority, Feedback::PRIORITY_LEVEL.invert, :include_blank => true %>
   </div>
 
   <div class="field">
@@ -38,7 +38,7 @@
 
   <div class="field">
     <%= form.label :end_date %>
-    <%= form.date_field :end_date %>
+    <%= form.date_field :end_date, value: Date.today %>
   </div>
 
   <div class="actions">

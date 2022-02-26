@@ -18,7 +18,6 @@ class Feedback < ApplicationRecord
   #allows a max of 2048 characters for additional comments
   validates_length_of :comments, :maximum => 2048, :message => "Please limit your comment to 2048 characters or less!"
 
-  # TODO: Implement test cases.
   scope :filter_by_first_name, -> (first_name) { joins(:user).where("UPPER(first_name) LIKE ?", "#{first_name.upcase}%") }
   scope :filter_by_last_name, -> (last_name) { joins(:user).where("UPPER(last_name) LIKE ?", "#{last_name.upcase}%") }
   scope :filter_by_team_name, -> (team_name) { joins(:team).where("team_name = ?", team_name) }

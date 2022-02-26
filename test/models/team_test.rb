@@ -110,10 +110,10 @@ class TeamTest < ActiveSupport::TestCase
   end
 
   def test_get_team_names_with_multiple_teams
-    user1 = User.create(email: 'user1@user1.com', password: 'password', password_confirmation: 'password', name: 'User1', is_admin: false)
-    user2 = User.create(email: 'user2@user2.com', password: 'password', password_confirmation: 'password', name: 'User2', is_admin: false)
-    user3 = User.create(email: 'user3@user3.com', password: 'password', password_confirmation: 'password', name: 'User3', is_admin: false)
-    user4 = User.create(email: 'user4@user4.com', password: 'password', password_confirmation: 'password', name: 'User4', is_admin: false)
+    user1 = User.create(email: 'user1@user1.com', password: 'password', password_confirmation: 'password', first_name: 'User1', last_name: 'User1', is_admin: false)
+    user2 = User.create(email: 'user2@user2.com', password: 'password', password_confirmation: 'password', first_name: 'User2', last_name: 'User2', is_admin: false)
+    user3 = User.create(email: 'user3@user3.com', password: 'password', password_confirmation: 'password', first_name: 'User3', last_name: 'User3', is_admin: false)
+    user4 = User.create(email: 'user4@user4.com', password: 'password', password_confirmation: 'password', first_name: 'User4', last_name: 'User4', is_admin: false)
 
     teamB = Team.new(team_code: 'TeamB', team_name: 'B Team')
     teamB.user = @prof
@@ -135,8 +135,8 @@ class TeamTest < ActiveSupport::TestCase
   end
 
   def test_get_team_names_with_one_team
-    user1 = User.create(email: 'user1@user1.com', password: 'password', password_confirmation: 'password', name: 'User1', is_admin: false)
-    user2 = User.create(email: 'user2@user2.com', password: 'password', password_confirmation: 'password', name: 'User2', is_admin: false)
+    user1 = User.create(email: 'user1@user1.com', password: 'password', password_confirmation: 'password', first_name: 'User1', last_name: 'User1', is_admin: false)
+    user2 = User.create(email: 'user2@user2.com', password: 'password', password_confirmation: 'password', first_name: 'User1', last_name: 'User1', is_admin: false)
 
     team = Team.new(team_code: 'Team', team_name: 'Team')
     team.user = @prof

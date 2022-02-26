@@ -4,9 +4,9 @@ require "application_system_test_case"
 class OneFeedbackPerWeekTest < ApplicationSystemTestCase
 #as a student i should only be able to submit one feedback a week
       setup do
-        @prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+        @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
         @team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: @prof)
-        @user = User.new(email: 'test@gmail.com', password: '123456789', name: 'Zac', is_admin: false)
+        @user = User.new(email: 'test@gmail.com', password: '123456789',first_name: 'Elon', last_name: 'Musk', is_admin: false)
         @user.teams << @team
         @user.save!
 

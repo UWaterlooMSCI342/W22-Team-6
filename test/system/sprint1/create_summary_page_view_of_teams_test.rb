@@ -7,21 +7,21 @@ require "application_system_test_case"
 class CreateSummaryPageViewOfTeamsTest < ApplicationSystemTestCase
   setup do
     # create prof, team, and user
-    @prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     
     @team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: @prof)
     @team2 = Team.create(team_name: 'Test Team 2', team_code: 'TEAM02', user: @prof)
     
-    @bob = User.create(email: 'bob@gmail.com', name: 'Bob', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    @bob = User.create(email: 'bob@gmail.com',first_name: 'Bob', last_name: 'Musk', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     @bob.teams << @team
     
-    @andy = User.create(email: 'andy@gmail.com', name: 'Andy', is_admin: false, password: 'testpassword2', password_confirmation: 'testpassword2')
+    @andy = User.create(email: 'andy@gmail.com',first_name: 'Andy', last_name: 'Musk', is_admin: false, password: 'testpassword2', password_confirmation: 'testpassword2')
     @andy.teams << @team
     
-    @sarah = User.create(email: 'sarah@gmail.com', name: 'Sarah', is_admin: false, password: 'testpassword3', password_confirmation: 'testpassword3')
+    @sarah = User.create(email: 'sarah@gmail.com',first_name: 'Sarah', last_name: 'Musk', is_admin: false, password: 'testpassword3', password_confirmation: 'testpassword3')
     @sarah.teams << @team
     
-    @mike = User.create(email: 'mike@gmail.com', name: 'Mike', is_admin: false, password: 'testpassword4', password_confirmation: 'testpassword4')
+    @mike = User.create(email: 'mike@gmail.com',first_name: 'Mike', last_name: 'Musk', is_admin: false, password: 'testpassword4', password_confirmation: 'testpassword4')
     @mike.teams << @team2
   end
   

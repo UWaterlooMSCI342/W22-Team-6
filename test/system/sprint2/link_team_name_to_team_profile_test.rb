@@ -6,8 +6,8 @@ require "application_system_test_case"
 
 class LinkTeamNameToTeamProfileTest < ApplicationSystemTestCase
   setup do
-    @prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', password: 'professor', password_confirmation: 'professor', is_admin: true)
-    @user = User.new(email: 'test@test.com', name: 'Test Student', password: 'password', password_confirmation: 'password', is_admin: false)
+    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', password: 'professor', password_confirmation: 'professor', is_admin: true)
+    @user = User.new(email: 'test@test.com', first_name: 'Test', last_name: 'Student', password: 'password', password_confirmation: 'password', is_admin: false)
     @team = Team.create(team_name: 'Team 1', team_code: 'TEAM01', user: @prof)
     @user.teams << @team
     @user.save!

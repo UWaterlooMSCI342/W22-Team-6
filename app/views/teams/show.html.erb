@@ -10,7 +10,7 @@
 
 <p>
   <strong>Created By:</strong>
-  <%= @team.user.name %>
+  <%= @team.user.full_name %> 
 </p>
 
 
@@ -29,7 +29,7 @@
     <tbody>
       <% @team.users.each do |user| %>
         <tr>
-          <td><%= user.name %></td>
+          <td><%= user.full_name %></td>
           <td><%= user.email %></td>
           <% if current_user.is_admin %>
             <td><%= link_to 'Remove User From Team', team_confirm_delete_delete_user_from_team_path(user_id: user.id, team_id: @team.id) %></td>
@@ -77,7 +77,7 @@
               <tbody>
                 <% period.each do |fb| %>
                   <tr>
-                    <td><%= fb.user.name %></td>
+                    <td><%= fb.user.full_name %></td>
                     <td><%= fb.participation_rating %></td>
                     <td><%= fb.effort_rating %></td>
                     <td><%= fb.punctuality_rating %></td>

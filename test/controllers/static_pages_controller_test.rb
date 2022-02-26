@@ -12,9 +12,9 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   end
   
   def test_should_render_page 
-    prof = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: true)
+    prof = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: true)
     prof.save
-    user = User.new(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    user = User.new(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     user.save
 
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
@@ -35,7 +35,7 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   end
   
   def test_help_page 
-    user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     user.save!
     
     post '/login',
@@ -50,7 +50,7 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   end
   
   def test_reset_password 
-    user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     user.save!
     
     post '/login',
@@ -67,7 +67,7 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   end
   
   def test_reset_password_wrong_existing 
-    user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     user.save!
     
     post '/login',
@@ -84,7 +84,7 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   end
   
   def test_reset_password_wrong_new
-    user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     user.save!
     
     post '/login',
@@ -101,7 +101,7 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   end
   
   def test_reset_password_wrong_confirmation
-    user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles', is_admin: false)
+    user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     user.save!
     
     post '/login',

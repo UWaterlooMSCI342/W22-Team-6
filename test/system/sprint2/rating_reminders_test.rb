@@ -6,7 +6,7 @@ require "application_system_test_case"
 
 class RatingReminders < ApplicationSystemTestCase
   setup do 
-    @user = User.create(email: 'user2@gmail.com', name: 'Mark', is_admin: false, password: 'professor', password_confirmation: 'professor')
+    @user = User.create(email: 'user2@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: false, password: 'professor', password_confirmation: 'professor')
     @user.save
     visit root_url
     login 'user2@gmail.com', 'professor'

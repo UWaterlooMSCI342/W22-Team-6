@@ -95,9 +95,9 @@ class FeedbacksController < ApplicationController
       return ApplicationHelper::SORTABLE_DIRECTIONS.include?(params[:direction]) ? params[:direction] : ApplicationHelper::ASCENDING
     end
 
-    # Sanitizes the sorting column to stop user from sorting by unknown columns (defaults by student name).
+    # Sanitizes the sorting column to stop user from sorting by unknown columns (defaults by student first name).
     def sort_column
-      allowable_columns = ["name", "team_name"].concat(Feedback.column_names)
-      return allowable_columns.include?(params[:sort]) ? params[:sort] : "name"
+      allowable_columns = ["first_name", "last_name", "team_name"].concat(Feedback.column_names)
+      return allowable_columns.include?(params[:sort]) ? params[:sort] : "first_name"
     end
 end

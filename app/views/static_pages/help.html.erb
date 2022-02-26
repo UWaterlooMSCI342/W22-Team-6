@@ -1,5 +1,6 @@
 <% if is_admin? %>
   <h1>Help page</h1>
+
   <div class="help-div">
     <h2>Navigation Bar</h2>
     <p><b>Manage Teams</b> - Allows you to create and delete teams</p>
@@ -17,6 +18,7 @@
                                         Feedback on Team and associated ratings.
     </p>
   </div>
+
   <div class="help-div">
     <h2>Admin Code</h2>
     <p>The admin code is used to allow other professors to sign up with admin rights. To use, send the
@@ -24,6 +26,7 @@
     <p>In case the code is leaked, select 'Regenerate Code' to reset & regenerate the admin code. When this is done,
     the previous code will be invalidated.</p>
   </div>
+
   <div class="help-div">
     <h2>Team Summary View </h2>
     <p><b>Urgency/Intervention Level</b> - This displays the overall urgency of the Teams's feedback.<br>
@@ -59,7 +62,41 @@
       'Team/admin code' field upon signup so they are added to the appropriate team.</p>
     <p><b>Team Members</b> - List of team members.</p>
     <p><b>View Team Aggregated Feedback</b> - Show aggregated team feedback.</p>
-    
   </div>
+
+  <div class="help-div">
+    <h2> Feedback & Ratings Filter </h2>
+    <p>There are 7 filter options:
+      <ul>
+        <li><b>Student Name</b> - Filters for all names that begin with your search input</li>
+          <ul>
+            <li>Type in the name of the student</li>
+            <li>Case-insensitive</li>
+            <li>For example, if you searched "Ben", it will return any name beginning with "Ben" such as "Ben", "Benjamin" and "Benji"</li>
+          </ul>
+        <li><b>Team Name</b> - Filters for selected team</li>
+          <ul>
+            <li>Select a team name from the dropdown</li>
+            <li>All team names are within the dropdown selection</li>
+          </ul>
+        <li><b>Participation Rating</b> - Filters for selected participation rating</li>
+        <li><b>Effort Rating</b> - Filters for selected effort rating</li>
+        <li><b>Punctuality Rating</b> - Filters for selected punctuality rating</li>
+        <li><b>Priority</b> - Filters for selected priority</li>
+        <li><b>Timestamp</b> - Filters for all timestamps within the selected time range</li>
+          <ul>
+            <li>Start and end dates are included in the range</li>
+            <li>By default, the end date is today's date</li>
+          </ul>
+      </ul>
+    </p>
+    <p>
+      Click the filter button to apply the filters. Click the clear button to clear the selected filters.
+    </p>
+    <p>
+      You may select from any number of filter options. If any options are left blank, they are ignored.
+    </p>
+  </div>
+
   <p><%= link_to 'Back', :back %></p>
 <% end %>

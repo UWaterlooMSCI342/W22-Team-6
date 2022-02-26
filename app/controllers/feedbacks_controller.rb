@@ -98,7 +98,7 @@ class FeedbacksController < ApplicationController
 
     # Ensure only valid columns can be filtered.
     def filtering_params(params)
-      params.slice(:student_name, :team_name, :participation_rating, :effort_rating, :punctuality_rating, :priority)
+      params.slice(:first_name, :last_name, :team_name, :participation_rating, :effort_rating, :punctuality_rating, :priority)
     end
 
     # Sanitizes the sorting direction to stop user from sorting by unknown values (defaults by ascending).

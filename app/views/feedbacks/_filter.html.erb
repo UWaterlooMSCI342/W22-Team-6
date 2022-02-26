@@ -2,8 +2,13 @@
 
 <%= form_with(url: path, method: :get, local: true) do |form| %>
   <div class="field">
-    <%= form.label :name, "Student name" %>
-    <%= form.text_field :student_name %>
+    <%= form.label :first_name, "First name" %>
+    <%= form.text_field :first_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_name, "Last name" %>
+    <%= form.text_field :last_name %>
   </div>
 
   <div class="field">

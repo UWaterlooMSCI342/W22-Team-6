@@ -19,8 +19,8 @@ class Feedback < ApplicationRecord
   validates_length_of :comments, :maximum => 2048, :message => "Please limit your comment to 2048 characters or less!"
 
   # TODO: Implement test cases.
-  # TODO: Will need to split up `student_name` into `first_name` and `last_name`.
-  scope :filter_by_student_name, -> (student_name) { joins(:user).where("UPPER(name) LIKE ?", "#{student_name.upcase}%") }
+  scope :filter_by_first_name, -> (first_name) { joins(:user).where("UPPER(first_name) LIKE ?", "#{first_name.upcase}%") }
+  scope :filter_by_last_name, -> (last_name) { joins(:user).where("UPPER(last_name) LIKE ?", "#{last_name.upcase}%") }
   scope :filter_by_team_name, -> (team_name) { joins(:team).where("team_name = ?", team_name) }
   scope :filter_by_participation_rating, -> (participation_rating) { where(participation_rating: participation_rating) }
   scope :filter_by_effort_rating, -> (effort_rating) { where(effort_rating: effort_rating) }

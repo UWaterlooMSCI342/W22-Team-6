@@ -43,7 +43,7 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
       assert find('.dot.blue')
     end
     
-    click_on 'View Historical Data'
+    click_on @team.team_name
 
     within('#2021-3') do 
       assert find('.dot.green')
@@ -71,8 +71,10 @@ class VisualIndicatorsTest < ApplicationSystemTestCase
     within('#' + @team.id.to_s) do 
       assert find('.dot.red')
     end 
-    
-    click_on 'Details', match: :first
+
+    within('#' + @team.id.to_s) do
+      click_on @team.team_name
+    end
     
     within('#2021-3') do 
       assert find('.dot.green')

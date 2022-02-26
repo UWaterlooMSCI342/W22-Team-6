@@ -23,7 +23,7 @@
 
 <p>
   <strong>Team:</strong>
-  <%= @user.team_names.join(", ") %>
+  <%= @user.teams.empty? ? "" : (link_to @user.teams.first.team_name, team_path(@user.teams.first)) %>
 </p>
 
 <%= link_to 'Back', :back %>

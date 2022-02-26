@@ -55,8 +55,9 @@ class StudentViewAggregateHealthsTest < ApplicationSystemTestCase
     
     visit root_url 
     login 'test@gmail.com', '123456789'
-    assert_current_path root_url 
-    click_on 'View Historical Data'
+    assert_current_path root_url
+
+    click_on @team.team_name
     assert_current_path team_path(@team)
     
     within('#2021-7') do

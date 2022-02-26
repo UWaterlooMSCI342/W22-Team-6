@@ -38,7 +38,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     assert_current_path teams_url
     
      within('#team' + @team1.id.to_s) do
-      click_on 'Show'
+      click_on @team1.team_name
     end
     assert_current_path team_path(@team1)
     
@@ -56,7 +56,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     assert_current_path teams_url
     
      within('#team' + @team1.id.to_s) do
-      click_on 'Show'
+      click_on @team1.team_name
     end
     
     click_on 'Remove User From Team'
@@ -148,7 +148,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     assert_current_path root_url
     
      within('#' + @team1.id.to_s) do 
-      click_on 'Details'
+      click_on @team1.team_name
     end
     
     assert_current_path team_path(@team1)
@@ -176,7 +176,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     login 'adam@gmail.com', '123456789'
     assert_current_path root_url
   
-    click_on 'View Historical Data'
+    click_on @team1.team_name
     assert_current_path team_path(@team1)
     
     click_on "Back"

@@ -12,12 +12,7 @@ class FeedbacksController < ApplicationController
   def index
     # TODO: Figure out way to stop Filter partial from resetting on submit OR show filtered options separately after 'Filter' button is clicked
     # TODO: Allow user to clear filters (reset page to show default data).
-    @feedbacks = Feedback.sort(sort_column, sort_direction)
-    # TODO: Maybe put below into in model.
-    filtering_params(params).each do |key, value|
-      @feedbacks = @feedbacks.public_send("filter_by_#{key}", value) if value.present?
-    end
-    @feedbacks = @feedbacks.filter_by_timestamp(params[:start_date], params[:end_date]) if (params[:start_date].present? and params[:end_date].present?)
+    @feedbacks = Feedback.filter_and_sort(params, sort_column, sort_direction)
   end
 
   # GET /feedbacks/1
@@ -95,11 +90,6 @@ class FeedbacksController < ApplicationController
     def feedback_params
       #removed :rating and replaced it with the individual rating fields to match the updated model
       params.require(:feedback).permit(:participation_rating, :effort_rating, :punctuality_rating, :comments)
-    end
-
-    # Ensure only valid columns can be filtered.
-    def filtering_params(params)
-      params.slice(:first_name, :last_name, :team_name, :participation_rating, :effort_rating, :punctuality_rating, :priority)
     end
 
     # Sanitizes the sorting direction to stop user from sorting by unknown values (defaults by ascending).

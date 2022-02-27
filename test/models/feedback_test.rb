@@ -70,6 +70,7 @@ class FeedbackTest < ActiveSupport::TestCase
     assert_not_nil feedback.errors[:rating]
   end
 
+  # Helper function creating some feedbacks to test the sorting and filtering functionalities.
   def create_feedbacks_helper_to_test_filtering
     user1 = User.new(email: "user1@user1.com", first_name: "User1", last_name: "User1", password: "password", password_confirmation: "password", is_admin: false)
     user2 = User.new(email: "user2@user2.com", first_name: "User2", last_name: "User2", password: "password", password_confirmation: "password", is_admin: false)
@@ -101,6 +102,8 @@ class FeedbackTest < ActiveSupport::TestCase
     @u3_fb_w2 = save_feedback(1, 1, 1, "I don't like my team!", user3, week2, team2)
     @u3_fb_w3 = save_feedback(1, 1, 1, "I don't like my team!", user3, week3, team2)
 
+    @default_feedbacks = [@u1_fb_w1, @u1_fb_w2, @u1_fb_w3, @u2_fb_w1, @u2_fb_w3, @u3_fb_w2, @u3_fb_w3]
+
     return Feedback.all
   end
 
@@ -117,8 +120,7 @@ class FeedbackTest < ActiveSupport::TestCase
 
   def test_filter_by_first_name_unfinished_ending
     feedbacks = create_feedbacks_helper_to_test_filtering
-    expected = [@u1_fb_w1, @u1_fb_w2, @u1_fb_w3, @u2_fb_w1, @u2_fb_w3, @u3_fb_w2, @u3_fb_w3]
-    assert_equal(expected, feedbacks.filter_by_first_name("Us"))
+    assert_equal(@default_feedbacks, feedbacks.filter_by_first_name("Us"))
   end
 
   def test_filter_by_first_name_word_not_found
@@ -139,8 +141,7 @@ class FeedbackTest < ActiveSupport::TestCase
 
   def test_filter_by_last_name_unfinished_ending
     feedbacks = create_feedbacks_helper_to_test_filtering
-    expected = [@u1_fb_w1, @u1_fb_w2, @u1_fb_w3, @u2_fb_w1, @u2_fb_w3, @u3_fb_w2, @u3_fb_w3]
-    assert_equal(expected, feedbacks.filter_by_last_name("Us"))
+    assert_equal(@default_feedbacks, feedbacks.filter_by_last_name("Us"))
   end
 
   def test_filter_by_last_name_word_not_found
@@ -216,6 +217,97 @@ class FeedbackTest < ActiveSupport::TestCase
     start_date = DateTime.civil_from_format(:local, 2022, 1, 20)
     end_date = start_date + 6
     assert_equal([@u1_fb_w1, @u2_fb_w1], feedbacks.filter_by_timestamp(start_date, end_date))
+  end
+
+  def test_sort_data_valid_feedbacks_column
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    expected = [@u1_fb_w1, @u2_fb_w1, @u2_fb_w3, @u1_fb_w2, @u3_fb_w3, @u3_fb_w2, @u1_fb_w3]
+    assert_equal(expected, feedbacks.sort_data("effort_rating", "DESC"))
+  end
+
+  def test_sort_data_valid_users_column
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    assert_equal(@default_feedbacks, feedbacks.sort_data("first_name", "ASC"))
+  end
+
+  def test_sort_data_valid_teams_column
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    expected = [@u2_fb_w3, @u2_fb_w1, @u1_fb_w3, @u1_fb_w2, @u1_fb_w1, @u3_fb_w3, @u3_fb_w2]
+    assert_equal(expected, feedbacks.sort_data("team_name", "ASC"))
+  end
+
+  # TODO: Will need to determine why error is not being raised.
+  def test_sort_data_invalid_column
+    skip
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    error = assert_raise(Exception) { feedbacks.sort_data("invalid", "ASC") }
+    assert_equal( 'column "invalid" does not exist', error.message )
+  end
+
+  def test_sort_data_invalid_direction
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    error = assert_raise(Exception) { feedbacks.sort_data("priority", "LEFT") }
+    assert_equal( 'Query method called with non-attribute argument(s): "priority LEFT"', error.message )
+  end
+
+  def test_filter_data_all_valid_params
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    params = { first_name: "User1", last_name: "User1", team_name: "Team1", participation_rating: 5, effort_rating: 5, punctuality_rating: 5, priority: 2, start_date: DateTime.civil_from_format(:local, 2022, 1, 18), end_date: DateTime.civil_from_format(:local, 2022, 1, 22) }
+    assert_equal([@u1_fb_w1], feedbacks.filter_data(params))
+  end
+
+  def test_filter_data_some_valid_some_invalid_params
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    params = { effort_rating: 5, first_name: "Us", invalid: 4, bad: "Bad" }
+    assert_equal([@u1_fb_w1], feedbacks.filter_data(params))
+  end
+
+  def test_filter_data_no_valid_params
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    params = { invalid: 4, bad: "Bad" }
+    assert_equal(@default_feedbacks, feedbacks.filter_data(params))
+  end
+
+  def test_filter_data_no_params
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    assert_equal(@default_feedbacks, feedbacks.filter_data({}))
+  end
+
+  def test_filter_data_start_date_not_provided
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    params = { end_date: DateTime.civil_from_format(:local, 2022, 1, 22) }
+    assert_equal(@default_feedbacks, feedbacks.filter_data(params))
+  end
+
+  def test_filter_data_end_date_not_provided
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    params = { start_date: DateTime.civil_from_format(:local, 2022, 1, 22) }
+    assert_equal(@default_feedbacks, feedbacks.filter_data(params))
+  end
+
+  def test_filter_data_dates_outside_timestamps
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    params = { start_date: DateTime.civil_from_format(:local, 2022, 1, 10), end_date: DateTime.civil_from_format(:local, 2022, 1, 15) }
+    assert_equal([], feedbacks.filter_data(params))
+  end
+
+  def test_filter_and_sort_valid_params
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    params = { participation_rating: 1, effort_rating: 1, punctuality_rating: 1 }
+    expected = [@u3_fb_w2, @u3_fb_w3, @u1_fb_w3]
+    assert_equal(expected, feedbacks.filter_and_sort(params, "team_name", "DESC"))
+  end
+
+  def test_filter_and_sort_only_filtering
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    params = { participation_rating: 1, effort_rating: 1, punctuality_rating: 1 }
+    expected = [@u1_fb_w3, @u3_fb_w2, @u3_fb_w3]
+    assert_equal(expected, feedbacks.filter_and_sort(params, "first_name", "ASC"))
+  end
+
+  def test_filter_and_sort_only_sorting
+    feedbacks = create_feedbacks_helper_to_test_filtering
+    assert_equal(@default_feedbacks, feedbacks.filter_and_sort({}, "first_name", "ASC"))
   end
 
   def test_calculate_priority_high

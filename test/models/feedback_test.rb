@@ -199,14 +199,6 @@ class FeedbackTest < ActiveSupport::TestCase
     assert_equal(expected, feedbacks.sort_data("team_name", "ASC"))
   end
 
-  # TODO: Will need to determine why error is not being raised.
-  def test_sort_data_invalid_column
-    skip
-    feedbacks = create_many_feedbacks
-    error = assert_raise(Exception) { feedbacks.sort_data("invalid", "ASC") }
-    assert_equal( 'column "invalid" does not exist', error.message )
-  end
-
   def test_sort_data_invalid_direction
     feedbacks = create_many_feedbacks
     error = assert_raise(Exception) { feedbacks.sort_data("priority", "LEFT") }

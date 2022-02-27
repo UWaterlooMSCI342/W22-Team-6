@@ -2,10 +2,9 @@ require "application_system_test_case"
 class StudentLinks < ApplicationSystemTestCase
     def setup
       
-        @prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+        @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
         @team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: @prof)
-        @user = User.create(email: 'kait@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Kait', is_admin: false, teams: [@team])
-        @user.save
+        @user = User.create(email: 'kait@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Kait', last_name: 'Test', is_admin: false, teams: [@team])
       end
 
     # def test_link_name_to_student_profile_home
@@ -46,6 +45,8 @@ class StudentLinks < ApplicationSystemTestCase
         assert_current_path users_url
         click_link(@user.first_name)
         assert_current_path user_path(@user)
+        click_on "Back"
+        assert_current_path users_url
         click_link(@user.last_name)
         assert_current_path user_path(@user)
     end 
@@ -59,6 +60,8 @@ class StudentLinks < ApplicationSystemTestCase
         assert_current_path feedbacks_url
         click_on(@user.first_name)
         assert_current_path user_path(@user)
+        click_on "Back"
+        assert_current_path feedbacks_url
         click_on(@user.last_name)
         assert_current_path user_path(@user)
     end 

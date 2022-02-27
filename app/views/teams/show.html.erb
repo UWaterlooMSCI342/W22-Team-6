@@ -63,7 +63,7 @@
             <p>Avg. Punctuality Rating of Period (Out of 5): <%= punctuality_rating %></p>
             <p>Weighted Priority: <%= priority %></p>
             <!-- <p>Missing Feedback: <%= missing.join(", ") %></p> -->
-            <p>Missing Feedback: <%= missing.map{ |user| link_to(user.name, user) }.join(", ").html_safe %></p>
+            <p>Missing Feedback: <%= missing.map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></p>
             
             <table>
               <thead>
@@ -82,7 +82,7 @@
                 <% period.each do |fb| %>
                   <tr>
 
-                    <td><%= link_ to fb.user.full_name, user %></td>
+                    <td><%= link_to fb.user.full_name, fb.user %></td>
                     <td><%= fb.participation_rating %></td>
                     <td><%= fb.effort_rating %></td>
                     <td><%= fb.punctuality_rating %></td>

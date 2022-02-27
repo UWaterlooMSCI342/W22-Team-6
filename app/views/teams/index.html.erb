@@ -21,7 +21,6 @@
           <td><%= team.team_code %></td>
 
           <td><%= team.user.full_name %></td>
-          <!-- <td><%= team.student_names.join(", ") %></td> -->
           <td><%= team.users.empty? ? 'No members' : team.users.map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></td>
 
           <td><%= link_to 'Edit', edit_team_path(team) %></td>

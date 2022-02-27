@@ -62,7 +62,6 @@
             <p>Avg. Effort Rating of Period (Out of 5): <%= effort_rating %></p>
             <p>Avg. Punctuality Rating of Period (Out of 5): <%= punctuality_rating %></p>
             <p>Weighted Priority: <%= priority %></p>
-            <!-- <p>Missing Feedback: <%= missing.join(", ") %></p> -->
             <p>Missing Feedback: <%= missing.map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></p>
             
             <table>

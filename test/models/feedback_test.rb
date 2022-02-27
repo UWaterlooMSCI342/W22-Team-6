@@ -2,8 +2,8 @@ require 'test_helper'
 require 'date'
 class FeedbackTest < ActiveSupport::TestCase
   setup do
-    @user = User.new(email: 'xyz@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'Adam', is_admin: false)
-    @prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    @user = User.new(email: 'xyz@gmail.com', password: '123456789', password_confirmation: '123456789',first_name: 'Elon', last_name: 'Musk', is_admin: false)
+    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     
     @team = Team.create(team_name: 'Test Team 1', team_code: 'TEAM_A', user: @prof)
     @user.teams << @team
@@ -98,5 +98,15 @@ class FeedbackTest < ActiveSupport::TestCase
   def test_get_priority_word_low
     feedback = save_feedback(5, 5, 5, "Good rating", @user, DateTime.now, @team)
     assert_equal('Low', feedback.get_priority_word)
+  end
+
+  def test_is_from_this_week_before_week
+    feedback = save_feedback(5, 5, 5, "Before Week", @user, DateTime.civil_from_format(:local, 2022, 1, 20), @team)
+    assert_equal(false, feedback.is_from_this_week?)
+  end
+
+  def test_is_from_this_week_during_week
+    feedback = save_feedback(5, 5, 5, "During Week", @user, DateTime.now, @team)
+    assert_equal(true, feedback.is_from_this_week?)
   end
 end

@@ -149,6 +149,14 @@ li.dropdown {
   display: inline-block;
 }
 
+.dropdown-button {
+  display: block;
+  color: white !important;
+  text-align: center;
+  padding: 1em 1em 1em 1em; 
+  text-decoration: none;
+}
+
 .dropdown-content {
   width: auto;
   display: none;

@@ -10,7 +10,8 @@ option = Option.create(reports_toggled: false)
 option.generate_admin_code(6)
 
 email = 'msmucker@gmail.com'
-name = 'Mark Smucker'
+first_name = 'Mark'
+last_name = 'Smucker'
 password = 'professor'
 
-prof = User.create(email: email, name: name, is_admin: true, password: password, password_confirmation: password)
+prof = User.create(email: email, first_name: first_name, last_name: last_name, is_admin: true, password: password, password_confirmation: password)

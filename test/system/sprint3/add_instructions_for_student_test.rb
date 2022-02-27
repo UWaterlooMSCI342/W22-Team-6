@@ -7,9 +7,9 @@ require "application_system_test_case"
 class AddReportsTogglesTest < ApplicationSystemTestCase
   setup do
     Option.create(reports_toggled: true)
-    @prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     @team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: @prof)
-    @steve = User.create(email: 'steve@gmail.com', name: 'Steve', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    @steve = User.create(email: 'steve@gmail.com',first_name: 'Steve', last_name: '', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     @steve.teams << @team
   end
   
@@ -18,7 +18,7 @@ class AddReportsTogglesTest < ApplicationSystemTestCase
     login 'steve@gmail.com', 'testpassword'    
     
     click_on "Submit for"
-    assert_text "Please select a rating on how well you believe your team performed this period and the priority of your feedback from the dropdowns below. These fields are mandatory.\nYou may enter optional comments in the text area below with a maximum of 2048 characters."
+    assert_text "Please select a rating on how well you believe your team performed this period. These fields are mandatory."
   end
   
   def test_report_instructions

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', name: 'Charles')
+    @user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera')
     @user.save
   end
     
@@ -32,7 +32,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "update user not logged in" do
-    patch user_url(@user), params: { user: { email: @user.email, name: @user.name, password: @user.password } }
+    patch user_url(@user), params: { user: { email: @user.email, first_name: @user.first_name, last_name: @user.last_name, password: @user.password } }
     assert_redirected_to '/login'
   end
 

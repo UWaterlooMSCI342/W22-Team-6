@@ -8,8 +8,9 @@ class User < ApplicationRecord
   validates_uniqueness_of :email, case_sensitive: false    
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i 
     
-  validates_presence_of :name
-  validates_length_of :name, maximum: 40
+  validates_presence_of :first_name, :last_name
+  validates_length_of :first_name, maximum: 40
+  validates_length_of :last_name, maximum: 40
   validates_length_of :password, minimum: 6
   validates_presence_of :password_confirmation
   validates_uniqueness_of :email
@@ -34,6 +35,10 @@ class User < ApplicationRecord
       teams.push(team.team_name)
     end 
     return teams
+  end
+
+  def full_name
+    return self.first_name + " " + self.last_name
   end
 
   # Checks whether given user has submitted feedback for the current week
@@ -105,4 +110,17 @@ class User < ApplicationRecord
     # teams
     return teams
   end
+
+  def get_user_feedback(start_date, end_date)
+
+    feedbacks = self.feedbacks.where(timestamp: start_date..end_date)
+
+    if feedbacks.count > 0
+      return feedbacks[0]
+    else
+      return nil
+    end
+
+  end
+
 end

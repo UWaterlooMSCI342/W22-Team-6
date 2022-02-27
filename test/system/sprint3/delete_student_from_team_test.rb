@@ -8,9 +8,9 @@ class DeleteStudentFromTeamTest < ApplicationSystemTestCase
   setup do
     Option.create(reports_toggled: true)
     @generated_code = Team.generate_team_code
-    @prof = User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     @team = Team.create(team_name: 'Test Team', team_code: @generated_code.to_s, user: @prof)
-    @bob = User.create(email: 'bob@gmail.com', name: 'Bob', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
+    @bob = User.create(email: 'bob@gmail.com',first_name: 'Elon', last_name: 'Musk', is_admin: false, password: 'testpassword', password_confirmation: 'testpassword')
     @bob.teams << @team
   end
   
@@ -21,7 +21,7 @@ class DeleteStudentFromTeamTest < ApplicationSystemTestCase
     login 'msmucker@gmail.com', 'professor'
 
     click_on "Manage Teams"
-    click_on "Show"
+    click_on @team.team_name
     click_on "Remove User From Team"
     click_on "Remove User"
     

@@ -16,7 +16,8 @@ class ProfessorRegistrationPortalsTest < ApplicationSystemTestCase
     visit root_url
     click_on "Sign Up"
     
-    fill_in "user[name]", with: "Professor"
+    fill_in "user[first_name]", with: "Professor"
+    fill_in "user[last_name]", with: "Mark"
     fill_in "user[team_code]", with: "ADmin"
     fill_in "user[email]", with: "prof@uwaterloo.ca"
     fill_in "user[password]", with: "testpassword"
@@ -43,7 +44,8 @@ class ProfessorRegistrationPortalsTest < ApplicationSystemTestCase
     visit root_url
     click_on "Sign Up"
     
-    fill_in "user[name]", with: "Professor"
+    fill_in "user[first_name]", with: "Professor"
+    fill_in "user[last_name]", with: "Mark"
     fill_in "user[team_code]", with: "notadmin"
     fill_in "user[email]", with: "prof@uwaterloo.ca"
     fill_in "user[password]", with: "testpassword"

@@ -10,6 +10,7 @@ class Feedback < ApplicationRecord
   BAD_RATING = (Feedback::CHOICES.min + ((Feedback::CHOICES.max - Feedback::CHOICES.min)  / Feedback::PRIORITY_LEVEL.size.to_f)).freeze
   OKAY_RATING = ((2 * Feedback::BAD_RATING) - Feedback::CHOICES.min).freeze
   FILTERABLE_PARAMS = [:first_name, :last_name, :team_name, :participation_rating, :effort_rating, :punctuality_rating, :priority].freeze
+  FILTERABLE_PARAMS_STRINGS = ["First Name", "Last Name", "Team", "Participation Rating", "Effort Rating", "Punctuality Rating"].freeze
 
   belongs_to :user
   belongs_to :team

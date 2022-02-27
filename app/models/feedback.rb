@@ -35,8 +35,6 @@ class Feedback < ApplicationRecord
       return current_time
   end
 
-  # TODO: Implement system tests for Filtering (filling out filter form).
-  # TODO: Implement system tests for Sorting (clicking on table headers).
   def self.sort_data(column, direction)
     return self.left_joins(:user, :team).order("#{column} #{direction}")
   end

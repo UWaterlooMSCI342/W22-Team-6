@@ -6,7 +6,7 @@ require "application_system_test_case"
 
 class AddChangePasswordsTest < ApplicationSystemTestCase
   def test_change_password 
-    User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
 
     # log professor in
     visit root_url
@@ -31,7 +31,7 @@ class AddChangePasswordsTest < ApplicationSystemTestCase
   end
   
   def test_change_password_incorrect_existing
-    User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
 
     # log professor in
     visit root_url

@@ -1,11 +1,11 @@
 <p>
   <strong>User:</strong>
-  <%= @feedback.user.name %>
+  <%= @feedback.user.full_name %>
 </p>
 
 <p>
   <strong>Team:</strong>
-  <%= @feedback.team_id %>
+  <%= link_to @feedback.team.team_name, team_path(@feedback.team) %>
 </p>
 
 <p>
@@ -21,6 +21,11 @@
 <p>
   <strong>Punctuality Rating:</strong>
   <%= @feedback.punctuality_rating %>
+</p>
+
+<p>
+  <strong>Priority Level:</strong>
+  <%= @feedback.get_priority_word %>
 </p>
 
 <p>

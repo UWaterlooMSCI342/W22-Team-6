@@ -1,4 +1,4 @@
-<h1>Confirm Delete <%= @user.name %></h1>
+<h1>Confirm Delete <%= @user.full_name %></h1>
 <h4>By deleting a user, you will delete their previous feedback and they will no longer be in the database</h4>
 
 <% if @user.id != current_user.id %>

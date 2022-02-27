@@ -4,9 +4,9 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
   include FeedbacksHelper
   
   setup do 
-    @prof = User.new(email: 'msmucker@gmail.com', password: 'professor', password_confirmation: 'professor', name: 'Mark', is_admin: true)
+    @prof = User.new(email: 'msmucker@gmail.com', password: 'professor', password_confirmation: 'professor', first_name: 'Mark', last_name: 'Smucker', is_admin: true)
     @prof.save
-    @user1 = User.new(email: 'adam@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'Adam', is_admin: false)
+    @user1 = User.new(email: 'adam@gmail.com', password: '123456789', password_confirmation: '123456789',first_name: 'Elon', last_name: 'Musk', is_admin: false)
     @user1.save
 
     @team1 = Team.new(team_code: 'Code', team_name: 'Team 1')
@@ -38,7 +38,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     assert_current_path teams_url
     
      within('#team' + @team1.id.to_s) do
-      click_on 'Show'
+      click_on @team1.team_name
     end
     assert_current_path team_path(@team1)
     
@@ -56,7 +56,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     assert_current_path teams_url
     
      within('#team' + @team1.id.to_s) do
-      click_on 'Show'
+      click_on @team1.team_name
     end
     
     click_on 'Remove User From Team'
@@ -148,7 +148,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     assert_current_path root_url
     
      within('#' + @team1.id.to_s) do 
-      click_on 'Details'
+      click_on @team1.team_name
     end
     
     assert_current_path team_path(@team1)
@@ -176,7 +176,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     login 'adam@gmail.com', '123456789'
     assert_current_path root_url
   
-    click_on 'View Historical Data'
+    click_on @team1.team_name
     assert_current_path team_path(@team1)
     
     click_on "Back"
@@ -208,7 +208,7 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     click_on "Back"
     assert_current_path root_url
     
-    click_on "Logout/Account"
+    click_on "Logout"
     visit root_url
     login 'adam@gmail.com', '123456789'
     assert_current_path root_url
@@ -218,7 +218,39 @@ class ConsistentBackButtonsTest < ApplicationSystemTestCase
     
     click_on "Back"
     assert_current_path root_url
+  end
+
+  def test_user_profile
+    #Check that users can go to user profile via navbar and go back to home landing page
+    visit root_url
+    login 'msmucker@gmail.com', 'professor'
+    assert_current_path root_url
     
+    click_on "User Profile"
+    assert_current_path user_profile_path(@prof)
+
+    click_on "Back"
+    assert_current_path root_url
     
-  end 
+    click_on "Logout"
+    visit root_url
+    login 'adam@gmail.com', '123456789'
+    assert_current_path root_url
+
+    click_on "User Profile"
+    assert_current_path user_profile_path(@user1)
+  end
+
+  def test_team_profile
+    #Check that students can go to their team profile via navbar and go back to home landing page
+    visit root_url
+    login 'adam@gmail.com', '123456789'
+    assert_current_path root_url
+
+    click_on "Team Profile"
+    assert_current_path team_profile_path(@team1)
+
+    click_on "Back"
+    assert_current_path root_url
+  end
 end

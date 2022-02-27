@@ -3,9 +3,9 @@ require "application_system_test_case"
 
 class DeleteFeedbackTest < ApplicationSystemTestCase
   setup do 
-    @prof = User.new(email: 'msmucker@gmail.com', password: 'professor', password_confirmation: 'professor', name: 'Mark', is_admin: true)
+    @prof = User.new(email: 'msmucker@gmail.com', password: 'professor', password_confirmation: 'professor', first_name: 'Mark', last_name: 'Smucker', is_admin: true)
     @prof.save
-    @user = User.new(email: 'adam@gmail.com', password: '123456789', password_confirmation: '123456789', name: 'Adam', is_admin: false)
+    @user = User.new(email: 'adam@gmail.com', password: '123456789', password_confirmation: '123456789',first_name: 'Elon', last_name: 'Musk', is_admin: false)
     @user.save
 
     @team = Team.new(team_code: 'Code', team_name: 'Team 1')

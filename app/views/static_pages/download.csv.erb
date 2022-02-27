@@ -4,6 +4,6 @@
 
 <%- @missing.each do |f| -%>
     <%- f[1].each do |user_data| -%>
-         <%= CSV.generate_line([user_data.name, user_data.email, f[0], @start_date, @end_date]) -%>
+         <%= CSV.generate_line([user_data.full_name, user_data.email, f[0], @start_date, @end_date]) -%>
     <%- end -%>
 <%- end -%>

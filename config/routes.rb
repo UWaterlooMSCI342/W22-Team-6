@@ -36,6 +36,9 @@ Rails.application.routes.draw do
 
   patch 'feedbacks/:id', to: 'feedbacks#update'
 
+  get 'users/:id', to: 'users#show', as: 'user_profile'
+  get 'teams/:id', to: 'teams#show', as: 'team_profile'
+  
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
 

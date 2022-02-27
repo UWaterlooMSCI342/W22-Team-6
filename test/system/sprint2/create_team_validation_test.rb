@@ -7,7 +7,7 @@ class CreateTeamValidationTest < ApplicationSystemTestCase
   # Test that Team cannot be created with a already used Team Code (1)
   def test_create_invalid_team
     # create professor 
-    User.create(email: 'msmucker@gmail.com', name: 'Mark Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     
     visit root_url
     login 'msmucker@gmail.com', 'professor'

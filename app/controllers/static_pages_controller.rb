@@ -39,7 +39,7 @@ class StaticPagesController < ApplicationController
     
     teams.each do |team| 
       # @unsubmitted[:current_week][team.id] = team.users_not_submitted(team.current_feedback).map{|user| user.name}
-      @missing[team.team_name] = team.users_not_submitted(team.current_feedback(now - 7.days))
+      @missing[team.id] = team.users_not_submitted(team.current_feedback(now - 7.days))
       
     end
 

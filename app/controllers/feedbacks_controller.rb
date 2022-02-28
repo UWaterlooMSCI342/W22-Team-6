@@ -10,7 +10,7 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks
   def index
-    @feedbacks = Feedback.left_joins(:user, :team).order("#{sort_column} #{sort_direction}")
+    @feedbacks = Feedback.filter_and_sort(params, sort_column, sort_direction)
   end
 
   # GET /feedbacks/1

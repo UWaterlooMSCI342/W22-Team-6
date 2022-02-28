@@ -1,5 +1,41 @@
 <h1>Feedbacks</h1>
+
 <p>You can find a history of all feedbacks submitted below.</p>
+
+<%= render 'filter', path: feedbacks_path %>
+
+<!-- show the applied filters -->
+<div>
+  <% if request.query_string.present? %>
+    <% params = CGI.parse(URI.parse(request.original_url).query) %>
+    <% if params["sort"].empty? %>
+      <p><b>Applied filters:</b></p>
+      
+      <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
+        <% param = params[Feedback::FILTERABLE_PARAMS[index].name].first %>
+        <% if !param.empty? %>
+          <p><%= filter %>: <%= param %></p>
+        <% end %>
+      <% end %>
+
+      <% param = params['priority'].first %>
+      <% if !param.empty? %>
+        <p>Priority: <%= Feedback::PRIORITY_LEVEL[param.to_i] %></p>
+      <% end %>
+
+      <% sdate = params['start_date'].first %>
+      <% if !sdate.empty? %>
+        <% edate = params['end_date'].first %>
+        <p>Timestamp: <%= sdate %> to <%= edate %></p>
+      <% end %>
+
+      <p><%= link_to 'Reset', feedbacks_path %></p>
+    <% end %>
+  <% end %>
+</div>
+
+<br>
+
 <table>
   <thead>
     <tr>

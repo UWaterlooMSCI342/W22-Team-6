@@ -9,6 +9,8 @@ class Feedback < ApplicationRecord
   CHOICES = [1, 2, 3, 4, 5].freeze
   BAD_RATING = (Feedback::CHOICES.min + ((Feedback::CHOICES.max - Feedback::CHOICES.min)  / Feedback::PRIORITY_LEVEL.size.to_f)).freeze
   OKAY_RATING = ((2 * Feedback::BAD_RATING) - Feedback::CHOICES.min).freeze
+  FILTERABLE_PARAMS = [:first_name, :last_name, :team_name, :participation_rating, :effort_rating, :punctuality_rating, :priority].freeze
+  FILTERABLE_PARAMS_STRINGS = ["First Name", "Last Name", "Team", "Participation Rating", "Effort Rating", "Punctuality Rating"].freeze
 
   belongs_to :user
   belongs_to :team
@@ -18,11 +20,39 @@ class Feedback < ApplicationRecord
   #allows a max of 2048 characters for additional comments
   validates_length_of :comments, :maximum => 2048, :message => "Please limit your comment to 2048 characters or less!"
 
+  scope :filter_by_first_name, -> (first_name) { left_joins(:user).where("UPPER(first_name) LIKE ?", "#{first_name.upcase}%") }
+  scope :filter_by_last_name, -> (last_name) { left_joins(:user).where("UPPER(last_name) LIKE ?", "#{last_name.upcase}%") }
+  scope :filter_by_team_name, -> (team_name) { left_joins(:team).where("team_name = ?", team_name) }
+  scope :filter_by_participation_rating, -> (participation_rating) { where(participation_rating: participation_rating) }
+  scope :filter_by_effort_rating, -> (effort_rating) { where(effort_rating: effort_rating) }
+  scope :filter_by_punctuality_rating, -> (punctuality_rating) { where(punctuality_rating: punctuality_rating) }
+  scope :filter_by_priority, -> (priority) { where(priority: priority) }
+  scope :filter_by_timestamp, -> (start_date, end_date) { where(timestamp: start_date..end_date) }
+
   def format_time(given_date)
   #refomats the UTC time in terms if YYYY/MM?DD HH:MM
       #current_time = given_date.in_time_zone('Eastern Time (US & Canada)').strftime('%Y/%m/%d %H:%M')
       current_time = given_date.strftime('%Y/%m/%d %H:%M')
       return current_time
+  end
+
+  def self.sort_data(column, direction)
+    return self.left_joins(:user, :team).order("#{column} #{direction}")
+  end
+
+  def self.filter_data(params)
+    filtering_params = params.slice(*Feedback::FILTERABLE_PARAMS)
+
+    feedbacks = self.all
+    filtering_params.each do |key, value|
+      feedbacks = feedbacks.public_send("filter_by_#{key}", value) if value.present?
+    end
+    feedbacks = feedbacks.filter_by_timestamp(params[:start_date], params[:end_date]) if (params[:start_date].present? and params[:end_date].present?)
+    return feedbacks
+  end
+
+  def self.filter_and_sort(params, column, direction)
+    return self.filter_data(params).sort_data(column, direction)
   end
 
   # Calculates the priority for this feedback by using the participation, effort, and punctuality ratings.

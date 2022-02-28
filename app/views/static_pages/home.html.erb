@@ -53,7 +53,7 @@
   <br>
   <div class="small-line"></div>
   <h2>Previous Week: <%= (@week_range[:start_date] - 7.days).strftime('%b %e, %Y')%> to <%= (@week_range[:end_date] - 7.days).strftime('%b %e, %Y')%></h2>
-
+  <p><%= link_to 'Export Missing Feedback', '/download.csv', class: "btn" %></p>
   <% if @teams.size == 0 %>
     <p>No teams yet!</p>
   <% else %>

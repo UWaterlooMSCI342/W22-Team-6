@@ -1,3 +1,5 @@
+require 'csv'
+
 class StaticPagesController < ApplicationController
 
   before_action :get_teams, :current_week
@@ -28,6 +30,27 @@ class StaticPagesController < ApplicationController
        end
     end
   end
+
+  def download
+    teams = Team.all
+    @missing = {}
+    @start_date = @week_range[:start_date] - 7.days
+    @end_date = @week_range[:end_date] - 7.days
+    
+    teams.each do |team| 
+      # @unsubmitted[:current_week][team.id] = team.users_not_submitted(team.current_feedback).map{|user| user.name}
+      @missing[team.id] = team.users_not_submitted(team.current_feedback(now - 7.days))
+      
+    end
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        response.headers['Content-Type'] = 'text/csv'
+        response.headers['Content-Disposition'] = "attachment; filename=download.csv"
+      end 
+    end 
+  end 
 
   def get_teams
     @teams = Team.all

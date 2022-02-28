@@ -55,9 +55,11 @@
   <tbody>
     <% @feedbacks.each do |feedback| %>
       <tr>
-        <td><%= feedback.user.first_name %></td>
-        <td><%= feedback.user.last_name %></td>
+
+        <td><%= link_to feedback.user.first_name, feedback.user %></td>
+        <td><%= link_to feedback.user.last_name, feedback.user %></td>
         <td><%= link_to feedback.team.team_name, team_path(feedback.team) %></td>
+
         <td><%= feedback.participation_rating %></td>
         <td><%= feedback.effort_rating %></td>
         <td><%= feedback.punctuality_rating %></td>

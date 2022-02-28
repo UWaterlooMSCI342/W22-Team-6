@@ -56,8 +56,10 @@ class StaticPagesController < ApplicationController
     @teams = Team.all
     @unsubmitted = {current_week: {}, previous_week: {}}
     @teams.each do |team| 
-      @unsubmitted[:current_week][team.id] = team.users_not_submitted(team.current_feedback).map{|user| user.full_name }
-      @unsubmitted[:previous_week][team.id] = team.users_not_submitted(team.current_feedback(now - 7.days)).map{|user| user.full_name}
+      @unsubmitted[:current_week][team.id] = team.users_not_submitted(team.current_feedback)
+      @unsubmitted[:previous_week][team.id] = team.users_not_submitted(team.current_feedback(now - 7.days))
+      #@unsubmitted[:current_week][team.id] = team.users_not_submitted(team.current_feedback).map{|user| user.name}
+      #@unsubmitted[:previous_week][team.id] = team.users_not_submitted(team.current_feedback(now - 7.days)).map{|user| user.name}
     end
   end 
   

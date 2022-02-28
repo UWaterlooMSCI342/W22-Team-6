@@ -1,6 +1,8 @@
 <p>
   <strong>User:</strong>
-  <%= @feedback.user.full_name %>
+
+  <%= link_to @feedback.user.full_name, @feedback.user %>
+
 </p>
 
 <p>

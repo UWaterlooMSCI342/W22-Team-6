@@ -42,8 +42,10 @@
             <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
             <td><%= link_to team.team_name, team_path(team) %></td>
             <td><%= team.team_code %></td>
-            <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
-            <td><%= @unsubmitted[:current_week][team.id].size == 0 ? '' : @unsubmitted[:current_week][team.id].join(", ") %></td>
+            <td><%= team.users.empty? ? 'No members' : team.users.map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></td>
+            <td><%= @unsubmitted[:current_week][team.id].size == 0 ? '' : @unsubmitted[:current_week][team.id].map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></td>
+            
+
           </tr>
         <% end %>
       </tbody>
@@ -87,8 +89,9 @@
             <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
             <td><%= link_to team.team_name, team_path(team) %></td>
             <td><%= team.team_code %></td>
-            <td><%= team.student_names.size == 0 ? 'No members' : team.student_names.join(", ") %></td>
-            <td><%= @unsubmitted[:previous_week][team.id].size == 0 ? '' : @unsubmitted[:previous_week][team.id].join(", ") %></td>
+            <td><%= team.users.empty? ? 'No members' : team.users.map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></td>
+            
+            <td><%= @unsubmitted[:previous_week][team.id].size == 0 ? '' : @unsubmitted[:previous_week][team.id].map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></td>
             
           </tr>
         <% end %>
@@ -100,7 +103,7 @@
 
 <% @current_user.teams.each do |team| %>
   <h3>Team: <%= link_to team.team_name, team_path(team) %></h3>
-  <h3><%='Team Members: ' + team.student_names.join(", ") %></h3>
+  <h3><%='Team Members: ' + team.student_names.join(", ") %></h3> 
 <% end %>
 </br>
 

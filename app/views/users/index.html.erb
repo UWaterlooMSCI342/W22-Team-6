@@ -16,11 +16,13 @@
     <% @users.each do |user| %>
       <tr id=user<%= user.id %> >
         <td><%= user.email %></td>
-        <td><%= user.first_name %></td>
-        <td><%= user.last_name %></td>
+
+        <td><%= link_to user.first_name, user %></td>
+        <td><%= link_to user.last_name, user %></td>
         <td><%= user.role %></td>
         <td><%= user.teams.empty? ? "" : (link_to user.teams.first.team_name, team_path(user.teams.first)) %></td>
-        <td><%= link_to 'Show', user %></td>
+        
+
         
         <td><%= link_to 'Delete User', user_confirm_delete_path(user) %></td>
       

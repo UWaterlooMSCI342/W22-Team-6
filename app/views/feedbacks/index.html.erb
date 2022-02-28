@@ -7,10 +7,10 @@
 <!-- show the applied filters -->
 <div>
   <% if request.query_string.present? %>
-    <p><b>Applied filters:</b></p>
-
     <% params = CGI.parse(URI.parse(request.original_url).query) %>
     <% if params["sort"].empty? %>
+      <p><b>Applied filters:</b></p>
+      
       <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
         <% param = params[Feedback::FILTERABLE_PARAMS[index].name].first %>
         <% if !param.empty? %>

@@ -10,8 +10,6 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks
   def index
-    # TODO: Figure out way to stop Filter partial from resetting on submit OR show filtered options separately after 'Filter' button is clicked
-    # TODO: Allow user to clear filters (reset page to show default data).
     @feedbacks = Feedback.filter_and_sort(params, sort_column, sort_direction)
   end
 

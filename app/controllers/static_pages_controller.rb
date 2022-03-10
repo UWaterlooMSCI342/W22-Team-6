@@ -64,6 +64,9 @@ class StaticPagesController < ApplicationController
   end 
   
   def show_reset_password 
+    unless logged_in?
+      redirect_to login_path 
+    end
   end
   
   def reset_password

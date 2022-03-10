@@ -35,7 +35,7 @@ module SessionsHelper
   # Code based on https://guides.rubyonrails.org/action_controller_overview.html#filters
   def require_login
     unless logged_in?
-      flash[:notice] = "Please log in."
+      flash[:error] = "Please log in."
       redirect_to login_url 
     end
   end

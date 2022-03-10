@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   post 'reset_password', to: 'static_pages#reset_password'
   get 'feedbacks/:id/edit', to: 'feedbacks#edit', as: "feedback_edit"
   
-  get '/download', to: 'static_pages#download'
+  get '/download_previous', to: 'static_pages#download_previous'
+
+  get '/download_current', to: 'static_pages#download_current'
   
   get 'teams/:id/confirm_delete_user_from_team', to: 'teams#confirm_delete_user_from_team', as: 'team_confirm_delete_delete_user_from_team'  
   get 'teams/:id/confirm_delete', to: 'teams#confirm_delete', as: 'team_confirm_delete'

@@ -45,11 +45,10 @@ class DisplayErrorsValidationsTest < ApplicationSystemTestCase
     click_on "Sign Up"  
       
     click_on "Create account"
-    assert_text "8 errors prohibited this user from being saved:"
+    assert_text "7 errors prohibited this user from being saved:"
     assert_text "Password can't be blank"
     assert_text "Password is too short (minimum is 6 characters)"
     assert_text "Email can't be blank"
-    assert_text "Email is invalid"
     assert_text "First name can't be blank"
     assert_text "Last name can't be blank"
     assert_text "Password confirmation can't be blank"

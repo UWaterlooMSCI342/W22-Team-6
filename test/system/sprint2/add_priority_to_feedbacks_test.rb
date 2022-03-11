@@ -38,7 +38,7 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     select 5, :from => "Punctuality rating"
     fill_in "Comments", with: "I did not select a priority, default of low set"
     click_on "Create Feedback"
-    assert_current_path root_url
+    assert_current_path feedback_url(Feedback.last)
     assert_text "Feedback was successfully created."
   end 
   
@@ -55,7 +55,7 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     select 1, :from => "Punctuality rating"
     fill_in "Comments", with: "I selected a priority, it's URGENT"
     click_on "Create Feedback"
-    assert_current_path root_url
+    assert_current_path feedback_url(Feedback.last)
     assert_text "Feedback was successfully created."
   end
 
@@ -72,7 +72,7 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     select 3, :from => "Punctuality rating"
     fill_in "Comments", with: "I selected a priority, it's URGENT"
     click_on "Create Feedback"
-    assert_current_path root_url
+    assert_current_path feedback_url(Feedback.last)
     assert_text "Feedback was successfully created."
   end
 
@@ -89,7 +89,7 @@ class AddPriorityToFeedbacksTest < ApplicationSystemTestCase
     select 5, :from => "Punctuality rating"
     fill_in "Comments", with: "I selected a priority, it's URGENT"
     click_on "Create Feedback"
-    assert_current_path root_url
+    assert_current_path feedback_url(Feedback.last)
     assert_text "Feedback was successfully created."
   end
   

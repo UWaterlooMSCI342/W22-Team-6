@@ -34,7 +34,8 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     fill_in "Comments", with: "This week has gone okay."
     click_on "Create Feedback"
     
-    assert_current_path root_url
+    assert_current_path feedback_url(Feedback.last)
+    visit root_url
     
     Feedback.all.each{ |feedback| 
       assert_equal(3 , feedback.participation_rating)
@@ -86,12 +87,17 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     select "1", from: "Punctuality rating"
     fill_in "Comments", with: "I will edit this feedback."
     click_on "Create Feedback"
-    assert_current_path root_url
-    assert_text "Urgency/Intervention Level Participation Rating (Out of 5) Effort Rating (Out of 5) Punctuality Rating (Out of 5) High 1 1 1"
+    assert_current_path feedback_url(Feedback.last)
+    assert_text "Participation Rating: 1"
+    assert_text "Effort Rating: 1"
+    assert_text "Punctuality Rating: 1"
+    assert_text "Priority Level: High"
+    assert_text "Comments: I will edit this feedback."
+    visit root_url #go back to home page
 
     # Edit feedback that was just created.
     click_on "Edit Rating"
-    assert_current_path edit_feedback_path(Feedback.last)
+    assert_current_path edit_feedback_url(Feedback.last)
     assert_text "Your Current Team: Test Team"
 
     select "5", from: "Participation rating"
@@ -101,7 +107,7 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     click_on "Update Feedback"
 
     # Confirm feedback was correctly updated.
-    assert_current_path feedback_path(Feedback.last)
+    assert_current_path feedback_url(Feedback.last)
     assert_text "Participation Rating: 5"
     assert_text "Effort Rating: 5"
     assert_text "Punctuality Rating: 5"

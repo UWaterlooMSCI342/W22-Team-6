@@ -27,7 +27,7 @@ class Feedback < ApplicationRecord
   scope :filter_by_effort_rating, -> (effort_rating) { where(effort_rating: effort_rating) }
   scope :filter_by_punctuality_rating, -> (punctuality_rating) { where(punctuality_rating: punctuality_rating) }
   scope :filter_by_priority, -> (priority) { where(priority: priority) }
-  scope :filter_by_timestamp, -> (start_date, end_date) { where(timestamp: start_date..end_date) }
+  scope :filter_by_timestamp, -> (start_date, end_date) { where(timestamp: self.string_date_to_EST(start_date).beginning_of_day..self.string_date_to_EST(end_date).end_of_day) }
 
   def format_time(given_date)
   #refomats the UTC time in terms if YYYY/MM?DD HH:MM
@@ -88,4 +88,13 @@ class Feedback < ApplicationRecord
     return Feedback::PRIORITY_COLOURS[priority]
   end
 
+
+  private
+
+  # Converts a String date (e.g. "2022-02-20") to the same time Date in EST.
+  def self.string_date_to_EST(str_date)
+    # Since a String date starts in UTC time, when turing this date to EST, the date is no longer accurate.
+    # Hence, 5h are added back to still have same date of "2022-02-20", but in correct EST time.
+    return str_date.to_datetime.in_time_zone("EST") + 5.hours
+  end
 end

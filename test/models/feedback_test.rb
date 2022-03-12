@@ -295,6 +295,11 @@ class FeedbackTest < ActiveSupport::TestCase
     assert_equal('Low', feedback.get_priority_word)
   end
 
+  def test_display_timestamp
+    feedback = save_feedback(5, 5, 5, "Good rating", @user, DateTime.new(2022, 2, 20, 4, 37, 6), @team)
+    assert_equal('2022-02-20 04:37 EST', feedback.display_timestamp)
+  end
+
   def test_is_from_this_week_before_week
     feedback = save_feedback(5, 5, 5, "Before Week", @user, DateTime.civil_from_format(:local, 2022, 1, 20), @team)
     assert_equal(false, feedback.is_from_this_week?)

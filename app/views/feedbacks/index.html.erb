@@ -69,7 +69,7 @@
         <%else%>
           <td><%= feedback.comments %></td>
         <%end%>
-        <td><%= feedback.timestamp.strftime('%Y-%m-%d %H:%M EST') %></td>
+        <td><%= feedback.display_timestamp %></td>
         <td><%= link_to 'Show', feedback %></td>
         <td><%= link_to 'Edit', edit_feedback_path(feedback) %></td>
         <td>

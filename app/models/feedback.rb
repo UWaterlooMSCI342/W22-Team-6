@@ -72,6 +72,10 @@ class Feedback < ApplicationRecord
     return Feedback::PRIORITY_LEVEL[self.priority]
   end
 
+  def display_timestamp
+    return self.timestamp.strftime('%Y-%m-%d %H:%M EST')
+  end
+
   # Determines if feedback is part of the current duration.
   def is_from_this_week?
     today = DateTime.now

@@ -21,7 +21,6 @@
           <th>Avg. Effort Rating (Out of 5)</th>
           <th>Avg. Punctuality Rating (Out of 5)</th>
           <th>Team Name</th>
-          <th>Team Code</th>
           <th>Team Members</th>
           <th>Missing Feedback</th>
           <th colspan="4"></th>
@@ -41,7 +40,6 @@
             <% average_punctuality_rating = Team.average_punctuality_rating(team.feedbacks.where(timestamp: @week_range[:start_date]..@week_range[:end_date])) %>
             <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
             <td><%= link_to team.team_name, team_path(team) %></td>
-            <td><%= team.team_code %></td>
             <td><%= team.users.empty? ? 'No members' : team.users.map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></td>
             <td><%= @unsubmitted[:current_week][team.id].size == 0 ? '' : @unsubmitted[:current_week][team.id].map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></td>
             
@@ -68,7 +66,6 @@
           <th>Avg. Effort Rating (Out of 5)</th>
           <th>Avg. Punctuality Rating (Out of 5)</th>
           <th>Team Name</th>
-          <th>Team Code</th>
           <th>Team Members</th>
           <th>Missing Feedback</th>
           <th colspan="5"></th>
@@ -88,7 +85,6 @@
             <% average_punctuality_rating = Team.average_punctuality_rating(team.feedbacks.where(timestamp: (@week_range[:start_date] - 7.days)..(@week_range[:end_date] - 7.days))) %>
             <td><%= average_punctuality_rating ? average_punctuality_rating : "No feedback" %></td>
             <td><%= link_to team.team_name, team_path(team) %></td>
-            <td><%= team.team_code %></td>
             <td><%= team.users.empty? ? 'No members' : team.users.map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></td>
             
             <td><%= @unsubmitted[:previous_week][team.id].size == 0 ? '' : @unsubmitted[:previous_week][team.id].map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></td>

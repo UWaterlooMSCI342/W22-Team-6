@@ -47,7 +47,8 @@ class FeedbacksController < ApplicationController
   # PATCH/PUT /feedbacks/1
   def update
     if !(@feedback.is_from_this_week?)
-      redirect_to root_url, notice: "You cannot edit feedback from previous weeks."
+      redirect_to root_url
+      flash[:error] = "You cannot edit feedback from previous weeks."
     elsif @feedback.update(feedback_params)
       @feedback.update({ timestamp: @feedback.format_time(now), priority: @feedback.calculate_priority })
       redirect_to @feedback, notice: "Feedback was successfully updated. Time updated: #{@feedback.display_timestamp}. Priority Level: #{@feedback.get_priority_word}."

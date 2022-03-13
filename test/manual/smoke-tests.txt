@@ -1,63 +1,176 @@
-T1: Login as Professor
-1. Navigate to https://www.msci342-w21-team-5.herokuapp.com 
-2. Enter the following in each field: 
-    msmucker@gmail.com 
-    professor  
-3. Select ‘Login’ 
-4. Assert login was successful
+T1: Access Application URL
+1. Navigate to https://msci342-w22-team-6.herokuapp.com
 
-T2: Create New Team
-1. Select ‘Manage Teams’ 
-2. Select ‘New Team’ 
-3. Enter the following in each field: 
-    <Date> Test Team 
-    <MM>.<DD> 
-4. Select ‘Create Team’ 
-5. Assert that you have created a team with no feedbacks entered (should display ‘Team has no feedbacks yet!’) 
-6. Select ‘Back’ 
-7. Select ‘Logout’ 
+T2: Login as Professor
+1. Enter the following in each field:
+    email: msmucker@gmail.com
+    password: professor
+2. Click 'Login'
+3. Assert login was successful
 
-T3: Signup
-1. Navigate to https://www.msci342-w21-team-5.herokuapp.com  
-2. Select ‘Sign Up’ 
-3. Enter the following in each field: 
-    Test Student 
-    <MM>.<DD> 
-    <MM>.<DD>@smoke.test 
-    asdfasdf 
-    asdfasdf  
-4. Select ‘Create account’ 
-5. Assert you have created a student and logged in (should display ‘User was successfully created.’) 
+T3: Create New Team
+1. Select 'Manage Teams'
+2. Select 'New Team'
+3. Enter the following in each field:
+    Team name: Test Team
+    Team code: 123456
+4. Select 'Create Team'
+5. Assert that you have created a team (should display 'Team was successfully created.')
+6. Hover over 'Account'
+7. Select 'Logout'
 
-T4: Submit Feedback 
-1. Select ‘Submit Feedback & Rating’ 
-2. Enter the following in each field: 
-    5 
-    Medium 
-    <MM>.<DD> Smoke Test  
-3. Select ‘Create Feedback’ 
-4. Assert that you have submitted feedback (should display ‘Feedback was successfully created’) 
+T4: Signup
+1. Select 'Sign Up'
+2. Enter the following in each field:
+    First name: Test
+    Last name: Student
+    Team/admin code: 123456
+    Email: test@student.com
+    Password: password
+    Confirm password: password
+3. Select 'Create account'
+4. Assert you have created a student and logged in (should display 'User was successfully created.')
 
-T5: Student View Feedback Summary
-1. Assert that summary view is displayed for <Date> Test Team, with urgency level of medium, average rating of 5, and the Test Student team member
+T5: Submit Feedback
+1. Select 'Submit for: Test Team'
+2. Enter the following in each field:
+    Participation rating: 5
+    Effort rating: 5
+    Punctuality rating: 5
+    Comments: 'This team is great!'
+3. Select 'Create Feedback'
+4. Assert that you have submitted feedback (should display 'Feedback was successfully created.') with:
+    Participation Rating: 5
+    Effort Rating: 5
+    Punctuality Rating: 5
+    Priority Level: Low
+    Timestamp: <Current Date and Time>
 
-T6: Student View Historical Feedback 
-1. Select ‘View Historical Data’ 
-2. Assert Historical Feedback for current period exists, with average rating of 5 and priority of medium 
-3. Select ‘Back’  
-4. Select ‘Logout’ 
+T6: Edit Feedback
+1. Select 'Home'
+2. Select 'Edit Rating'
+3. Enter the following in each field:
+    Participation rating: 1
+    Effort rating: 1
+    Punctuality rating: 1
+    Comments: 'This team got worse!'
+4. Select 'Update Feedback'
+5. Assert that you have updated feedback (should display 'Feedback was successfully updated.') with:
+    Participation Rating: 1
+    Effort Rating: 1
+    Punctuality Rating: 1
+    Priority Level: High
+    Timestamp: <Current Date and Time>
 
-T7: View Team Summary
-1. Navigate to https://www.msci342-w21-team-5.herokuapp.com 
-2. Enter the following in each field: 
-    msmucker@gmail.com 
-    professor  
-3. Select ‘Login’ 
-4. Assert that the Test Team appears in the team summary view  
+T7: View Own Profile
+1. Hover over 'Account'
+2. Select 'User Profile'
+3. Assert that you are viewing the student's own profile:
+    Email: test@student.com
+    First Name: Test
+    Last Name: Student
+    Role: Student
+    Team: Test Team
 
-T8: View Detailed Feedback 
-1. Select ‘View Team Aggregated Feedback’ 
-2. Assert that feedback from Test Student appears, and that rating is 5, with a comment of ‘<MM>.<DD> Smoke Test’ 
-3. Assert that team member list only includes Test Student 
-4. Select ‘Back’  
-5. Select ‘Logout’ 
+T8: View Own Team Profile
+1. Hover over 'Account'
+2. Select 'Team Profile'
+3. Assert that you are viewing the student's team profile including 'Historical Feedback':
+    Team Name: Test Team
+    Team Code: 123456
+    Avg. Participation Rating (Out of 5): 1.0
+    Avg. Effort Rating (Out of 5): 1.0
+    Avg. Punctuality Rating (Out of 5): 1.0
+    Weighted Priority: High
+
+T9: Change Password
+1. Hover over 'Account'
+2. Select 'Change Password'
+3. Enter the following in each field:
+    Existing password: password
+    New password: password2
+    New password confirmation: password2
+4. Select 'Submit'
+5. Assert that you have updated the password (should display 'Password successfully updated.')
+6. Hover over 'Account'
+7. Select 'Logout'
+
+T10: Login as Student
+1. Enter the following in each field:
+    Email: test@student.com
+    Password: password
+2. Select 'Login'
+3. Assert login was unsuccessful (should display 'Cannot log you in. Invalid email or password.')
+4. Enter the following in each field:
+    Email: test@student.com
+    Password: password2
+5. Select 'Login'
+6. Assert login was successful (should display 'Logged in.')
+7. Hover over 'Account'
+8. Select 'Logout'
+
+T11: View Team Summary
+1. Enter the following in each field:
+    Email: msmucker@gmail.com
+    Password: professor
+2. Select 'Login'
+3. Assert that the 'Test Team' appears in the 'Team Summary View' with priority level 'High'
+
+T12: View Student Profile
+1. Select 'Test Student' from 'Team Summary View' table
+2. Assert that you are viewing the student's profile:
+    Email: test@student.com
+    First Name: Test
+    Last Name: Student
+    Role: Student
+    Team: Test Team
+
+T13: View Student's Team Profile
+1. Select 'Test Team'
+2. Assert that you are viewing the student's team profile including 'Historical Feedback':
+    Team Name: Test Team
+    Team Members: Test Student
+    Weighted Priority: High
+
+T14: Export Current Week Missing Feedback
+1. Select 'Home'
+2. Select 'Export Current Week Missing Feedback'
+3. Assert a blank Excel CSV file is downloaded
+
+T15: Export Previous Week Missing Feedback
+1. Select 'Export Previous Week Missing Feedback'
+2. Assert an Excel CSV file is downloaded with 'Test Student' as a row
+
+T16: Filter Feedbacks with Aligned Options
+1. Select 'Feedback & Ratings'
+2. Enter the following filter fields:
+    Participation rating: 1
+    Effort rating: 1
+3. Select 'Filter'
+4. Assert only feedbacks displayed are ones that align with options selected
+
+T17: Filter Feedbacks with Unaligned Options
+1. Enter the following filter fields:
+    Priority: Low
+2. Select 'Filter'
+3. Assert no feedbacks are displayed
+
+T18: Reset Feedback Filters
+1. Select 'Reset'
+2. Assert all feedbacks are displayed again
+
+T19: Delete Student
+1. Select 'Manage Users'
+2. Select 'Delete User' for 'Test Student'
+3. Select 'Delete User'
+4. Assert 'Test Student' has been deleted (should display 'User was successfully destroyed.')
+5. Select 'Feedback & Ratings'
+6. Assert feedback from 'Test Student' has also been deleted
+
+T20: Delete Team
+1. Select 'Manage Teams'
+2. Select 'Delete Team' for 'Test Team'
+3. Select 'Delete Team'
+4. Assert 'Test Team' has been deleted (should display 'Team was successfully destroyed.')
+5. Hover over 'Account'
+6. Select 'Logout'

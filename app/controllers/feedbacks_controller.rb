@@ -79,7 +79,7 @@ class FeedbacksController < ApplicationController
         set_feedback
 
         if (@current_user.feedbacks.exclude? @feedback) or !(@feedback.is_from_this_week?)
-          flash[:notice] = "You do not have permission to access this feedback."
+          flash[:error] = "You do not have permission to access this feedback."
           redirect_to root_url
         end
       end

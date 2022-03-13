@@ -22,8 +22,28 @@
   </div>
 
   <div class="field">
-    <%= form.label 'Team/Admin Code' %>
+    <% if user.errors.any? %>
+      <% if user.errors.full_messages.include? "Teams code cannot be blank" %>
+        <div class="field_with_errors">
+      <% end %>
+    <% end %>
+
+    <%= form.label :team_code, 'Team/Admin Code' %>
+
+    <% if user.errors.any? %>
+      <% if user.errors.full_messages.include? "Teams code cannot be blank" %>
+        </div>
+        <div class="field_with_errors">
+      <% end %>
+    <% end %>
+
     <%= form.text_field :team_code %>
+
+    <% if user.errors.any? %>
+      <% if user.errors.full_messages.include? "Teams code cannot be blank" %>
+        </div>
+      <% end %>
+    <% end %>
   </div>
 
   <div class="field">
@@ -37,7 +57,7 @@
   </div>
 
   <div class="field">
-    <%= form.label :confirm_password %>
+    <%= form.label :password_confirmation %>
     <%= form.password_field :password_confirmation %>
   </div>
 

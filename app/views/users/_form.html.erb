@@ -21,28 +21,26 @@
     <%= form.text_field :last_name %>
   </div>
 
+  <% if user.errors.any? %>
+    <% is_team_code_blank = user.errors.full_messages.include? "Teams code cannot be blank" %>
+  <% end %>
+
   <div class="field">
-    <% if user.errors.any? %>
-      <% if user.errors.full_messages.include? "Teams code cannot be blank" %>
+    <% if is_team_code_blank %>
         <div class="field_with_errors">
-      <% end %>
     <% end %>
 
     <%= form.label :team_code, 'Team/Admin Code' %>
 
-    <% if user.errors.any? %>
-      <% if user.errors.full_messages.include? "Teams code cannot be blank" %>
+    <% if is_team_code_blank %>
         </div>
         <div class="field_with_errors">
-      <% end %>
     <% end %>
 
     <%= form.text_field :team_code %>
 
-    <% if user.errors.any? %>
-      <% if user.errors.full_messages.include? "Teams code cannot be blank" %>
+    <% if is_team_code_blank %>
         </div>
-      <% end %>
     <% end %>
   </div>
 

@@ -38,7 +38,7 @@ class FeedbacksController < ApplicationController
     if team_submissions.include?(@feedback.team)
         redirect_to root_url, notice: 'You have already submitted feedback for this team this week.'
     elsif @feedback.save
-      redirect_to root_url, notice: "Feedback was successfully created. Time created: #{@feedback.display_timestamp}. Priority Level: #{@feedback.get_priority_word}."
+      redirect_to @feedback, notice: "Feedback was successfully created. Time created: #{@feedback.display_timestamp}. Priority Level: #{@feedback.get_priority_word}."
     else
       render :new
     end

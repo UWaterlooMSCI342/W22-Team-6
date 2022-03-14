@@ -38,8 +38,7 @@ class FeedbacksController < ApplicationController
     if team_submissions.include?(@feedback.team)
         redirect_to root_url, notice: 'You have already submitted feedback for this team this week.'
     elsif @feedback.save
-      redirect_to @feedback, notice: "Feedback was successfully created. Time created: #{@feedback.timestamp}. Priority Level: #{@feedback.get_priority_word}."
-      #redirect_to root_url, notice: "Feedback was successfully created. Time created: #{@feedback.timestamp}. Priority Level: #{@feedback.get_priority_word}."
+      redirect_to @feedback, notice: "Feedback was successfully created. Time created: #{@feedback.display_timestamp}. Priority Level: #{@feedback.get_priority_word}."
     else
       render :new
     end
@@ -52,9 +51,7 @@ class FeedbacksController < ApplicationController
       flash[:error] = "You cannot edit feedback from previous weeks."
     elsif @feedback.update(feedback_params)
       @feedback.update({ timestamp: @feedback.format_time(now), priority: @feedback.calculate_priority })
-      redirect_to @feedback, notice: "Feedback was successfully updated. Time updated: #{@feedback.timestamp}. Priority Level: #{@feedback.get_priority_word}."
-      #the other option below will redirect the user to the home page afte they edit their feedback
-      #redirect_to root_url, notice: "Feedback was successfully updated. Time updated: #{@feedback.timestamp}. Priority Level: #{@feedback.get_priority_word}."
+      redirect_to @feedback, notice: "Feedback was successfully updated. Time updated: #{@feedback.display_timestamp}. Priority Level: #{@feedback.get_priority_word}."
     else
       render :edit
     end

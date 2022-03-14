@@ -17,6 +17,6 @@ module FeedbacksHelper
   end
   
   def now
-    Time.zone.now.to_datetime 
+    DateTime.now
   end
 end

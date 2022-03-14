@@ -175,10 +175,52 @@ class FeedbackTest < ActiveSupport::TestCase
     assert_equal([], feedbacks.filter_by_timestamp(start_date, end_date))
   end
 
-  def test_filter_by_timestamp_some_dates_in_range
+  def test_filter_by_timestamp_string_dates_out_of_range
+    feedbacks = create_many_feedbacks
+    start_date = "2022-04-24"
+    end_date = "2022-04-30"
+    assert_equal([], feedbacks.filter_by_timestamp(start_date, end_date))
+  end
+
+  def test_filter_by_timestamp_dates_on_start_date
     feedbacks = create_many_feedbacks
     start_date = DateTime.civil_from_format(:local, 2022, 1, 20)
     end_date = start_date + 6
+    assert_equal([@u1_fb_w1, @u2_fb_w1], feedbacks.filter_by_timestamp(start_date, end_date))
+  end
+
+  def test_filter_by_timestamp_string_dates_on_start_date
+    feedbacks = create_many_feedbacks
+    start_date = "2022-01-20"
+    end_date = "2022-01-26"
+    assert_equal([@u1_fb_w1, @u2_fb_w1], feedbacks.filter_by_timestamp(start_date, end_date))
+  end
+
+  def test_filter_by_timestamp_some_dates_in_range
+    feedbacks = create_many_feedbacks
+    start_date = DateTime.civil_from_format(:local, 2022, 1, 16)
+    end_date = start_date + 6
+    assert_equal([@u1_fb_w1, @u2_fb_w1], feedbacks.filter_by_timestamp(start_date, end_date))
+  end
+
+  def test_filter_by_timestamp_some_string_dates_in_range
+    feedbacks = create_many_feedbacks
+    start_date = "2022-01-16"
+    end_date = "2022-01-22"
+    assert_equal([@u1_fb_w1, @u2_fb_w1], feedbacks.filter_by_timestamp(start_date, end_date))
+  end
+
+  def test_filter_by_timestamp_dates_on_end_date
+    feedbacks = create_many_feedbacks
+    end_date = DateTime.civil_from_format(:local, 2022, 1, 20)
+    start_date = end_date - 6
+    assert_equal([@u1_fb_w1, @u2_fb_w1], feedbacks.filter_by_timestamp(start_date, end_date))
+  end
+
+  def test_filter_by_timestamp_string_dates_on_end_date
+    feedbacks = create_many_feedbacks
+    start_date = "2022-01-14"
+    end_date = "2022-01-20"
     assert_equal([@u1_fb_w1, @u2_fb_w1], feedbacks.filter_by_timestamp(start_date, end_date))
   end
 
@@ -293,6 +335,11 @@ class FeedbackTest < ActiveSupport::TestCase
   def test_get_priority_word_low
     feedback = save_feedback(5, 5, 5, "Good rating", @user, DateTime.now, @team)
     assert_equal('Low', feedback.get_priority_word)
+  end
+
+  def test_display_timestamp
+    feedback = save_feedback(5, 5, 5, "Good rating", @user, DateTime.new(2022, 2, 20, 4, 37, 6), @team)
+    assert_equal('2022-02-20 04:37 EST', feedback.display_timestamp)
   end
 
   def test_is_from_this_week_before_week

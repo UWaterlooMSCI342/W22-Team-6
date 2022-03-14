@@ -20,9 +20,6 @@ class FeebackTimeDisplayTest < ApplicationSystemTestCase
   end 
     
   def test_time_displays
-      
-
-
     visit root_url
     login 'test@gmail.com', 'asdasd'
     assert_current_path root_url
@@ -34,7 +31,7 @@ class FeebackTimeDisplayTest < ApplicationSystemTestCase
     select 5, :from => "Punctuality rating"
     click_on "Create Feedback"
     assert_current_path feedback_url(Feedback.last)
-    assert_text "Feedback was successfully created. Time created: 2021-03-21 23:30:00" #Acceptance criteria #2
+    assert_text "Feedback was successfully created. Time created: 2021-03-21 23:30 EST" #Acceptance criteria #2
   end 
-  
+
 end

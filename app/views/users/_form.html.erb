@@ -9,6 +9,11 @@
         <% end %>
       </ul>
     </div>
+
+    <% if user.errors.full_messages.include?("Teams code cannot be blank") || %>
+      <% user.errors.full_messages.include?("Teams code does not exist") %>
+      <% is_team_code_invalid = true %>
+    <% end %>
   <% end %>
 
   <div class="field">
@@ -22,8 +27,12 @@
   </div>
 
   <div class="field">
-    <%= form.label 'Team/Admin Code' %>
-    <%= form.text_field :team_code %>
+    <div class=<%= is_team_code_invalid ? "field_with_errors" : "" %>>
+      <%= form.label :team_code, 'Team/Admin Code' %>
+    </div>
+    <div class=<%= is_team_code_invalid ? "field_with_errors" : "" %>>
+      <%= form.text_field :team_code %>
+    </div>
   </div>
 
   <div class="field">
@@ -37,7 +46,7 @@
   </div>
 
   <div class="field">
-    <%= form.label :confirm_password %>
+    <%= form.label :password_confirmation %>
     <%= form.password_field :password_confirmation %>
   </div>
 

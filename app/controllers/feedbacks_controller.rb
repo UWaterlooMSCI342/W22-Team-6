@@ -10,7 +10,7 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks
   def index
-    @feedbacks = Feedback.left_joins(:user, :team).order("#{sort_column} #{sort_direction}")
+    @feedbacks = Feedback.filter_and_sort(params, sort_column, sort_direction)
   end
 
   # GET /feedbacks/1
@@ -19,7 +19,12 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks/new
   def new
-    @feedback = Feedback.new
+    if @user.has_submitted
+      redirect_to root_url
+      flash[:error] = "You cannot acces this page after submitting your feedback for the week."
+    else 
+      @feedback = Feedback.new
+    end 
   end
 
   # GET /feedbacks/1/edit
@@ -38,7 +43,7 @@ class FeedbacksController < ApplicationController
     if team_submissions.include?(@feedback.team)
         redirect_to root_url, notice: 'You have already submitted feedback for this team this week.'
     elsif @feedback.save
-      redirect_to root_url, notice: "Feedback was successfully created. Time created: #{@feedback.timestamp}. Priority Level: #{@feedback.get_priority_word}."
+      redirect_to @feedback, notice: "Feedback was successfully created. Time created: #{@feedback.display_timestamp}. Priority Level: #{@feedback.get_priority_word}."
     else
       render :new
     end
@@ -47,10 +52,11 @@ class FeedbacksController < ApplicationController
   # PATCH/PUT /feedbacks/1
   def update
     if !(@feedback.is_from_this_week?)
-      redirect_to root_url, notice: "You cannot edit feedback from previous weeks."
+      redirect_to root_url
+      flash[:error] = "You cannot edit feedback from previous weeks."
     elsif @feedback.update(feedback_params)
       @feedback.update({ timestamp: @feedback.format_time(now), priority: @feedback.calculate_priority })
-      redirect_to @feedback, notice: "Feedback was successfully updated. Time updated: #{@feedback.timestamp}. Priority Level: #{@feedback.get_priority_word}."
+      redirect_to @feedback, notice: "Feedback was successfully updated. Time updated: #{@feedback.display_timestamp}. Priority Level: #{@feedback.get_priority_word}."
     else
       render :edit
     end
@@ -78,7 +84,7 @@ class FeedbacksController < ApplicationController
         set_feedback
 
         if (@current_user.feedbacks.exclude? @feedback) or !(@feedback.is_from_this_week?)
-          flash[:notice] = "You do not have permission to access this feedback."
+          flash[:error] = "You do not have permission to access this feedback."
           redirect_to root_url
         end
       end

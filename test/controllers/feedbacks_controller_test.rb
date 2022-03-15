@@ -56,7 +56,7 @@ class FeedbacksControllerTest < ActionDispatch::IntegrationTest
         #not passing in a priority value results in default value of 2, which represents low priority
         post feedbacks_url, params: { feedback: { comments: "test comment", participation_rating: 1, effort_rating: 4, punctuality_rating: 2 } }
     end
-    assert_redirected_to root_url
+    assert_redirected_to feedback_url(Feedback.last)
   end
   
   test "should create feedback with selected priority" do
@@ -67,7 +67,7 @@ class FeedbacksControllerTest < ActionDispatch::IntegrationTest
         #student selects a priority of 0, meaning it's urgent
         post feedbacks_url, params: { feedback: { comments: "test comment", participation_rating: 1, effort_rating: 4, punctuality_rating: 2, priority: 0 } }
     end
-    assert_redirected_to root_url
+    assert_redirected_to feedback_url(Feedback.last)
   end
 
   test "should show feedback" do

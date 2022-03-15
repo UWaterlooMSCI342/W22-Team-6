@@ -2,6 +2,7 @@ require 'csv'
 
 class StaticPagesController < ApplicationController
 
+  before_action :require_login
   before_action :get_teams, :current_week
   helper_method :rating_reminders, :has_submitted
   helper_method :days_till_end_week
@@ -77,12 +78,17 @@ class StaticPagesController < ApplicationController
     @teams = Team.all
     @unsubmitted = {current_week: {}, previous_week: {}}
     @teams.each do |team| 
-      @unsubmitted[:current_week][team.id] = team.users_not_submitted(team.current_feedback).map{|user| user.full_name }
-      @unsubmitted[:previous_week][team.id] = team.users_not_submitted(team.current_feedback(now - 7.days)).map{|user| user.full_name}
+      @unsubmitted[:current_week][team.id] = team.users_not_submitted(team.current_feedback)
+      @unsubmitted[:previous_week][team.id] = team.users_not_submitted(team.current_feedback(now - 7.days))
+      #@unsubmitted[:current_week][team.id] = team.users_not_submitted(team.current_feedback).map{|user| user.name}
+      #@unsubmitted[:previous_week][team.id] = team.users_not_submitted(team.current_feedback(now - 7.days)).map{|user| user.name}
     end
   end 
   
   def show_reset_password 
+    unless logged_in?
+      redirect_to login_path 
+    end
   end
   
   def reset_password
@@ -92,7 +98,7 @@ class StaticPagesController < ApplicationController
       @user = current_user 
       if @user.authenticate(params[:existing_password])
         if @user.update(password: params[:password], password_confirmation: params[:password_confirmation])
-          flash[:message] = 'Password successfully updated!'
+          flash[:notice] = 'Password successfully updated!'
           redirect_to root_url 
         else 
           flash[:error] = 'Password and password confirmation do not meet specifications'
@@ -111,7 +117,5 @@ class StaticPagesController < ApplicationController
     @cwyear = @now.cwyear
     @week_range = week_range(@cwyear, @cweek)
   end
-  
- 
 
 end

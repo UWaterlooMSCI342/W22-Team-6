@@ -29,8 +29,10 @@
     <tbody>
       <% @team.users.each do |user| %>
         <tr>
+
           <td><%= user.full_name %></td>
           <td><%= user.email %></td>
+
           <% if current_user.is_admin %>
             <td><%= link_to 'Remove User From Team', team_confirm_delete_delete_user_from_team_path(user_id: user.id, team_id: @team.id) %></td>
           <% end %>
@@ -60,7 +62,8 @@
             <p>Avg. Effort Rating of Period (Out of 5): <%= effort_rating %></p>
             <p>Avg. Punctuality Rating of Period (Out of 5): <%= punctuality_rating %></p>
             <p>Weighted Priority: <%= priority %></p>
-            <p>Missing Feedback: <%= missing.join(", ") %></p>
+            <p>Missing Feedback: <%= missing.map{ |user| link_to(user.full_name, user) }.join(", ").html_safe %></p>
+            
             <table>
               <thead>
                 <tr>
@@ -77,7 +80,8 @@
               <tbody>
                 <% period.each do |fb| %>
                   <tr>
-                    <td><%= fb.user.full_name %></td>
+
+                    <td><%= link_to fb.user.full_name, fb.user %></td>
                     <td><%= fb.participation_rating %></td>
                     <td><%= fb.effort_rating %></td>
                     <td><%= fb.punctuality_rating %></td>
@@ -87,7 +91,7 @@
                     <%else%>
                       <td><%= fb.comments %></td>
                     <%end%>
-                    <td><%= fb.timestamp.strftime('%Y-%m-%d %H:%M EST') %></td>
+                    <td><%= fb.display_timestamp %></td>
                   </tr>
                 <% end %>
               </tbody>

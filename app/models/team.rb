@@ -17,6 +17,10 @@ class Team < ApplicationRecord
       errors.add(:team_code, 'not unique')
     end
   end
+
+  def self.team_names
+    return self.order(:team_name).all.map{ |team| team.team_name }
+  end
   
   def student_names 
     students = Array.new

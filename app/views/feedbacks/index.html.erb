@@ -1,5 +1,41 @@
 <h1>Feedbacks</h1>
+
 <p>You can find a history of all feedbacks submitted below.</p>
+
+<%= render 'filter', path: feedbacks_path %>
+
+<!-- show the applied filters -->
+<div>
+  <% if request.query_string.present? %>
+    <% params = CGI.parse(URI.parse(request.original_url).query) %>
+    <% if params["sort"].empty? %>
+      <p><b>Applied filters:</b></p>
+      
+      <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
+        <% param = params[Feedback::FILTERABLE_PARAMS[index].name].first %>
+        <% if !param.empty? %>
+          <p><%= filter %>: <%= param %></p>
+        <% end %>
+      <% end %>
+
+      <% param = params['priority'].first %>
+      <% if !param.empty? %>
+        <p>Priority: <%= Feedback::PRIORITY_LEVEL[param.to_i] %></p>
+      <% end %>
+
+      <% sdate = params['start_date'].first %>
+      <% if !sdate.empty? %>
+        <% edate = params['end_date'].first %>
+        <p>Timestamp: <%= sdate %> to <%= edate %></p>
+      <% end %>
+
+      <p><%= link_to 'Reset', feedbacks_path %></p>
+    <% end %>
+  <% end %>
+</div>
+
+<br>
+
 <table>
   <thead>
     <tr>
@@ -19,9 +55,11 @@
   <tbody>
     <% @feedbacks.each do |feedback| %>
       <tr>
-        <td><%= feedback.user.first_name %></td>
-        <td><%= feedback.user.last_name %></td>
+
+        <td><%= link_to feedback.user.first_name, feedback.user %></td>
+        <td><%= link_to feedback.user.last_name, feedback.user %></td>
         <td><%= link_to feedback.team.team_name, team_path(feedback.team) %></td>
+
         <td><%= feedback.participation_rating %></td>
         <td><%= feedback.effort_rating %></td>
         <td><%= feedback.punctuality_rating %></td>
@@ -31,7 +69,7 @@
         <%else%>
           <td><%= feedback.comments %></td>
         <%end%>
-        <td><%= feedback.timestamp.strftime('%Y-%m-%d %H:%M EST') %></td>
+        <td><%= feedback.display_timestamp %></td>
         <td><%= link_to 'Show', feedback %></td>
         <td><%= link_to 'Edit', edit_feedback_path(feedback) %></td>
         <td>

@@ -109,6 +109,47 @@ class TeamTest < ActiveSupport::TestCase
     end
   end
 
+  def test_get_team_names_with_multiple_teams
+    user1 = User.create(email: 'user1@user1.com', password: 'password', password_confirmation: 'password', first_name: 'User1', last_name: 'User1', is_admin: false)
+    user2 = User.create(email: 'user2@user2.com', password: 'password', password_confirmation: 'password', first_name: 'User2', last_name: 'User2', is_admin: false)
+    user3 = User.create(email: 'user3@user3.com', password: 'password', password_confirmation: 'password', first_name: 'User3', last_name: 'User3', is_admin: false)
+    user4 = User.create(email: 'user4@user4.com', password: 'password', password_confirmation: 'password', first_name: 'User4', last_name: 'User4', is_admin: false)
+
+    teamB = Team.new(team_code: 'TeamB', team_name: 'B Team')
+    teamB.user = @prof
+    teamB.users = [user1, user2]
+    teamB.save!
+
+    teamC = Team.new(team_code: 'TeamC', team_name: 'C Team')
+    teamC.user = @prof
+    teamC.users = [user3]
+    teamC.save!
+
+    teamA = Team.new(team_code: 'TeamA', team_name: 'A Team')
+    teamA.user = @prof
+    teamA.users = [user4]
+    teamA.save!
+
+    # Values should be returned in sorted order.
+    assert_equal ['A Team', 'B Team', 'C Team'], Team.team_names
+  end
+
+  def test_get_team_names_with_one_team
+    user1 = User.create(email: 'user1@user1.com', password: 'password', password_confirmation: 'password', first_name: 'User1', last_name: 'User1', is_admin: false)
+    user2 = User.create(email: 'user2@user2.com', password: 'password', password_confirmation: 'password', first_name: 'User1', last_name: 'User1', is_admin: false)
+
+    team = Team.new(team_code: 'Team', team_name: 'Team')
+    team.user = @prof
+    team.users = [user1, user2]
+    team.save!
+
+    assert_equal ['Team'], Team.team_names
+  end
+
+  def test_get_team_names_with_no_teams
+    assert_equal [], Team.team_names
+  end
+
   def test_get_student_names
     user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', is_admin: false)
     user1.save!

@@ -2,8 +2,7 @@ require 'test_helper'
 
 class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    # SPRINT 3 UPDATE: Seed database with default option of reports_toggled = true
-    Option.create(reports_toggled: true)
+    Option.create
   end
   
   def test_should_redirect_to_login

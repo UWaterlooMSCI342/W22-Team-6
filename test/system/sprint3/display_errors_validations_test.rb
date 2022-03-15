@@ -4,7 +4,7 @@ require "application_system_test_case"
 
 class DisplayErrorsValidationsTest < ApplicationSystemTestCase
   setup do
-    Option.create(reports_toggled: true)
+    Option.create
     # create prof, team, and user
     @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     user1 = User.create(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)

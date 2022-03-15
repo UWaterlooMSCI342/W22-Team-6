@@ -56,5 +56,4 @@ class ViewPreviousWeekTeamSummariesTest < ApplicationSystemTestCase
     assert_text 'High'
     assert_text 2.0.to_s
   end
-  
 end

@@ -236,9 +236,14 @@ class FeedbackTest < ActiveSupport::TestCase
   end
 
   def test_sort_data_valid_teams_column
-    feedbacks = create_many_feedbacks
-    expected = [@u2_fb_w3, @u2_fb_w1, @u1_fb_w3, @u1_fb_w2, @u1_fb_w1, @u3_fb_w3, @u3_fb_w2]
-    assert_equal(expected, feedbacks.sort_data("team_name", "ASC"))
+    # When multiple students on same team, sorting order within feedbacks of same team will not always be exact same.
+    # Hence, test just checks if first, middle, and last feedbacks are sorted correctly by team name.
+    sorted_feedbacks = create_many_feedbacks.sort_data("team_name", "ASC")
+    sorted_feedback_team_names = sorted_feedbacks.map{ |fb| fb.team.team_name }
+    assert_equal("Team1", sorted_feedback_team_names.first)
+    assert_equal("Team1", sorted_feedback_team_names[4])
+    assert_equal("Team2", sorted_feedback_team_names[5])
+    assert_equal("Team2", sorted_feedback_team_names.last)
   end
 
   def test_sort_data_invalid_direction

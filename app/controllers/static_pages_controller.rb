@@ -77,7 +77,7 @@ class StaticPagesController < ApplicationController
       @user = current_user 
       if @user.authenticate(params[:existing_password])
         if @user.update(password: params[:password], password_confirmation: params[:password_confirmation])
-          flash[:message] = 'Password successfully updated!'
+          flash[:notice] = 'Password successfully updated!'
           redirect_to root_url 
         else 
           flash[:error] = 'Password and password confirmation do not meet specifications'
@@ -96,7 +96,5 @@ class StaticPagesController < ApplicationController
     @cwyear = @now.cwyear
     @week_range = week_range(@cwyear, @cweek)
   end
-  
- 
 
 end

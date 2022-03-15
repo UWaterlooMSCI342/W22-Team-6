@@ -1,23 +1,25 @@
 class User < ApplicationRecord
-  has_secure_password
-  validates_presence_of :password
+
+  validates_presence_of :first_name, :last_name
+  validates_length_of :first_name, maximum: 40
+
+  validates_length_of :last_name, maximum: 40
+
+  has_many :teams
+  has_and_belongs_to_many :teams
+  has_many :feedbacks
     
   before_save { self.email = email.downcase }    
   validates_presence_of :email
   validates_length_of :email, maximum: 255    
   validates_uniqueness_of :email, case_sensitive: false    
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i 
-    
-  validates_presence_of :first_name, :last_name
-  validates_length_of :first_name, maximum: 40
-  validates_length_of :last_name, maximum: 40
-  validates_length_of :password, minimum: 6
-  validates_presence_of :password_confirmation
   validates_uniqueness_of :email
     
-  has_many :teams
-  has_and_belongs_to_many :teams
-  has_many :feedbacks
+  has_secure_password
+  validates_presence_of :password
+  validates_length_of :password, minimum: 6
+  validates_presence_of :password_confirmation
   
   include FeedbacksHelper
     

@@ -243,3 +243,8 @@ li.dropdown {
 #error {
   color: red;
 }
+
+#checkbox
+{
+  display: inline-block;
+}

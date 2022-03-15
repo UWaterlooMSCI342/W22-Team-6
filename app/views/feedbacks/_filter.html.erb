@@ -20,7 +20,9 @@
     <%= form.label :participation_rating %>
     <!-- <%= form.select :participation_rating, Feedback::CHOICES, :include_blank => true %> -->
     
-    <%= form.collection_check_boxes :participation_rating, Feedback.choices, :first, :last, :include_hidden => false %>
+    <%= form.collection_check_boxes :participation_rating, Feedback.choices, :first, :last, :include_hidden => false do |pr| %>
+      <div id="checkbox"><%= pr.check_box %><%= pr.label {pr.text} %></div>
+    <% end %>
   </div>
 
   <div class="field">

@@ -74,7 +74,6 @@ class CreateSummaryPageViewOfTeamsTest < ApplicationSystemTestCase
     
     #check to see landing page summary view of team's average ratings
     assert_text "Test Team"
-    assert_text "TEAM01"
     assert_text "Bob"
     assert_text "Andy"
     assert_text "Sarah"

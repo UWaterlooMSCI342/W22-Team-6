@@ -25,7 +25,7 @@ class CreateGenerateTeamFunctionsTest < ApplicationSystemTestCase
     assert_text "Team was successfully created."
     click_on "Home"
     assert_text "Test Team"
-    assert_text "TEAM01"
+   
     
     # log professor out
     visit root_url

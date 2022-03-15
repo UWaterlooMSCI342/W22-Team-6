@@ -6,41 +6,21 @@
 
   <!-- form starts here -->
   <div class="field">
-    <% if is_invalid %>
-      <div class="field_with_errors">
-    <% end %>
-
-    <%= form.label :email %>
-
-    <% if is_invalid %>
-      </div>
-      <div class="field_with_errors">
-    <% end %>
-
-    <%= form.text_field :email %>
-
-    <% if is_invalid %>
-      </div>
-    <% end %>
+    <div class=<%= is_invalid ? "field_with_errors" : "" %>>
+      <%= form.label :email %>
+    </div>
+    <div class=<%= is_invalid ? "field_with_errors" : "" %>>
+      <%= form.text_field :email %>
+    </div>
   </div>
 
   <div class="field">
-    <% if is_invalid %>
-      <div class="field_with_errors">
-    <% end %>
-
-    <%= form.label :password %>
-
-    <% if is_invalid %>
-      </div>
-      <div class="field_with_errors">
-    <% end %>
-
-    <%= form.password_field :password %>
-
-    <% if is_invalid %>
-      </div>
-    <% end %>
+    <div class=<%= is_invalid ? "field_with_errors" : "" %>>
+      <%= form.label :password %>
+    </div>
+    <div class=<%= is_invalid ? "field_with_errors" : "" %>>
+      <%= form.password_field :password %>
+    </div>
   </div>
 
   <div class="actions">

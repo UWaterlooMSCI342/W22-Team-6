@@ -13,7 +13,7 @@
       
       <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
         <% param = params[Feedback::FILTERABLE_PARAMS[index].name].first %>
-        <% if !param.empty? %>
+        <% if !param.blank? %>
           <p><%= filter %>: <%= param %></p>
         <% end %>
       <% end %>

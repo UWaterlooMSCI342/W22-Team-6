@@ -18,7 +18,9 @@
   
   <div class="field">
     <%= form.label :participation_rating %>
-    <%= form.select :participation_rating, Feedback::CHOICES, :include_blank => true %>
+    <!-- <%= form.select :participation_rating, Feedback::CHOICES, :include_blank => true %> -->
+    
+    <%= form.collection_check_boxes :participation_rating, Feedback.choices, :first, :last, :include_hidden => false %>
   </div>
 
   <div class="field">

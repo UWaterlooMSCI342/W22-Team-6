@@ -23,7 +23,7 @@ class Feedback < ApplicationRecord
   scope :filter_by_first_name, -> (first_name) { left_joins(:user).where("UPPER(first_name) LIKE ?", "#{first_name.upcase}%") }
   scope :filter_by_last_name, -> (last_name) { left_joins(:user).where("UPPER(last_name) LIKE ?", "#{last_name.upcase}%") }
   scope :filter_by_team_name, -> (team_name) { left_joins(:team).where("team_name = ?", team_name) }
-  scope :filter_by_participation_rating, -> (participation_rating) { where(participation_rating: participation_rating) }
+  scope :filter_by_participation_rating, -> (participation_rating) { where("participation_rating BETWEEN ? AND ?", "#{participation_rating.first}", "#{participation_rating.last}") }
   scope :filter_by_effort_rating, -> (effort_rating) { where(effort_rating: effort_rating) }
   scope :filter_by_punctuality_rating, -> (punctuality_rating) { where(punctuality_rating: punctuality_rating) }
   scope :filter_by_priority, -> (priority) { where(priority: priority) }
@@ -44,11 +44,25 @@ class Feedback < ApplicationRecord
     filtering_params = params.slice(*Feedback::FILTERABLE_PARAMS)
 
     feedbacks = self.all
+
     filtering_params.each do |key, value|
-      feedbacks = feedbacks.public_send("filter_by_#{key}", value) if value.present?
+      if key.to_s.include? "participation_rating"
+        feedbacks = feedbacks.public_send("filter_by_#{key}", value) if !value.empty?
+      else
+        feedbacks = feedbacks.public_send("filter_by_#{key}", value) if value.present?
+      end
     end
+
     feedbacks = feedbacks.filter_by_timestamp(params[:start_date], params[:end_date]) if (params[:start_date].present? and params[:end_date].present?)
     return feedbacks
+  end
+
+  def self.choices # checkboxes in filter form require a hash
+    choices_hash = {}
+    CHOICES.each do |c|
+      choices_hash[c] = c.to_s
+    end
+    return choices_hash
   end
 
   def self.filter_and_sort(params, column, direction)

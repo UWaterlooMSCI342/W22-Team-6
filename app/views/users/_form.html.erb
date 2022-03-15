@@ -27,22 +27,12 @@
   </div>
 
   <div class="field">
-    <% if is_team_code_invalid %>
-        <div class="field_with_errors">
-    <% end %>
-
-    <%= form.label :team_code, 'Team/Admin Code' %>
-
-    <% if is_team_code_invalid %>
-        </div>
-        <div class="field_with_errors">
-    <% end %>
-
-    <%= form.text_field :team_code %>
-
-    <% if is_team_code_invalid %>
-        </div>
-    <% end %>
+    <div class=<%= is_team_code_invalid ? "field_with_errors" : "" %>>
+      <%= form.label :team_code, 'Team/Admin Code' %>
+    </div>
+    <div class=<%= is_team_code_invalid ? "field_with_errors" : "" %>>
+      <%= form.text_field :team_code %>
+    </div>
   </div>
 
   <div class="field">

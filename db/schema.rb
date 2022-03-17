@@ -71,6 +71,9 @@ ActiveRecord::Schema.define(version: 2021_04_04_164701) do
     t.string "email", limit: 255, null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
+    t.string "security_q_one", limit: 255
+    t.string "security_q_two", limit: 255
+    t.string "security_q_three", limit: 255
     t.boolean "is_admin", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

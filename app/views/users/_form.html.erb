@@ -41,6 +41,23 @@
     <%= form.password_field :password_confirmation %>
   </div>
 
+  <br>
+
+  <div class="field">
+    <%= form.label "What was the name of the city you were born in?" %>
+    <%= form.text_field :security_q_one %>
+  </div>
+
+  <div class="field">
+    <%= form.label "What is the name of the highschool you attended?" %>
+    <%= form.text_field :security_q_two %>
+  </div>
+
+  <div class="field">
+    <%= form.label "What was your favorite food as a child?" %>
+    <%= form.text_field :security_q_three %>
+  </div>
+
   <div class="actions">
     <%= form.submit "Create account"%>
   </div>

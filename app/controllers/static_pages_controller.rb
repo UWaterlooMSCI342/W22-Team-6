@@ -2,7 +2,6 @@ require 'csv'
 
 class StaticPagesController < ApplicationController
 
-  before_action :require_login
   before_action :get_teams, :current_week
   helper_method :rating_reminders, :has_submitted
   helper_method :days_till_end_week
@@ -69,7 +68,7 @@ class StaticPagesController < ApplicationController
       redirect_to login_path 
     end
   end
-  
+
   def reset_password
     unless logged_in?
       redirect_to login_path 

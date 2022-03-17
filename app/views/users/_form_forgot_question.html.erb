@@ -1,0 +1,14 @@
+<%= form_with(method: :post, local: true) do |form| %>
+
+  <div class="field">
+    <%= form.label 'What is the name of the city you were from?' %>
+    <%= form.text_field :security_q_one %>
+  </div>
+
+  <%= form.hidden_field :email, value: @user_email  %>
+
+  <div class="actions">
+    <%= form.submit "Submit" , email: @user.first.email %>
+  </div>
+
+<% end %>

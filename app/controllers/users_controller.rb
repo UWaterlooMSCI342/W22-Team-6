@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
-  before_action :require_login, except: [:new, :create]
-  before_action :require_admin, except: [:show, :new, :create]
+  before_action :require_login, except: [:new, :create, :forgot_show, :forgot_password, :forgot_password_reset, :forgot_password_reset_show, :forgot_password_new_pass_show, :forgot_password_new_pass]
+  before_action :require_admin, except: [:show, :new, :create, :forgot_show, :forgot_password, :forgot_password_reset, :forgot_password_reset_show, :forgot_password_new_pass_show, :forgot_password_new_pass]
   before_action :require_access, only: [:show, :edit]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+
   # GET /users
   def index
     @users = User.all
@@ -86,23 +87,101 @@ class UsersController < ApplicationController
   
   def confirm_delete
     @user = User.find(params[:id])
-    
   end 
 
+  # GET for show password page
+  def forgot_show
+    render :forgot_show
+  end
 
+  # POST for reset password
+  def forgot_password
+    email = params[:email]
+    @user = User.where(email: email)
+    if email.empty?
+      flash[:error] = "Email can't be blank!"
+      redirect_to forgot_pass_show_path_path
+    elsif @user.empty?
+      flash[:error] = "Email doesn't exist!"
+      redirect_to forgot_pass_show_path_path
+    else
+      redirect_to forgot_pass_reset_show_path_path(email: email)
+    end
 
+  end
   
+  # POST for show security question page
+  def forgot_password_reset
+    user_email = params[:email]
+    # user_email = 'msmucker@gmail.com'    
+  
+    question = params[:security_q_one]
+    puts question
+
+    @user = User.where(email: user_email)
+    puts @user
+    answer_one = @user.first.security_q_one
+
+    if answer_one == question
+      redirect_to forgot_password_new_pass_show_path_path(email: user_email)
+    else
+      redirect_to root_url
+      flash[:error] = "It seems that you have forgotten your password and security question. Please contact you professor for a new password."
+    end 
+  end
+
+  def forgot_password_new_pass_show
+    @user_email = params[:email]
+    @user = User.where(email: @user_email)
+
+    render :forgot_password_new_pass
+  end
+
+  def forgot_password_new_pass
+    
+    email = params[:email]
+    @user = User.where(email: email) 
+    pass = params[:password]
+    pass_conform = params[:password_confirmation]
+    
+    if pass != pass_conform
+      flash[:error] = 'Password and password confirmation do not meet specifications'
+      redirect_to forgot_password_new_pass_show_path_url(email: email)
+
+    elsif pass.length <6
+      flash[:error] = 'Password and password confirmation do not meet specifications'
+        redirect_to forgot_password_new_pass_show_path_url(email: email)
+
+    elsif @user.update(password: pass, password_confirmation: pass_conform)
+      flash[:notice] = 'Password successfully updated! Please log in.'
+      redirect_to root_url 
+    else 
+      flash[:error] = 'Password and password confirmation do not meet specifications'
+      redirect_to forgot_password_new_pass_show_path_url(email: email)
+    end 
+  end
+
+
+  # GET for show security question page
+  def forgot_password_reset_show
+   
+    @user_email = params[:email]
+    # puts user_email
+    @user = User.where(email: @user_email)
+    render :forgot_password_reset
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
     end
-    
 
     # Only allow a trusted parameter "white list" through.
     # Should use later (ignoring this for now)
     def user_params
-      params.require(:user).permit(:email, :first_name, :last_name, :password, :password_confirmation, :team_code)
+      params.require(:user).permit(:email, :first_name, :last_name, :password, :password_confirmation, :team_code, :security_q_three, :security_q_two, :security_q_one)
     end
 
     def require_access

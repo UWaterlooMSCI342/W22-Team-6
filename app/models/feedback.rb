@@ -23,9 +23,12 @@ class Feedback < ApplicationRecord
   scope :filter_by_first_name, -> (first_name) { left_joins(:user).where("UPPER(first_name) LIKE ?", "#{first_name.upcase}%") }
   scope :filter_by_last_name, -> (last_name) { left_joins(:user).where("UPPER(last_name) LIKE ?", "#{last_name.upcase}%") }
   scope :filter_by_team_name, -> (team_name) { left_joins(:team).where("team_name = ?", team_name) }
+  #scope :filter_by_participation_rating, -> (participation_rating) { where(participation_rating: participation_rating) }
   scope :filter_by_participation_rating, -> (participation_rating) { where("participation_rating BETWEEN ? AND ?", "#{participation_rating.first}", "#{participation_rating.last}") }
-  scope :filter_by_effort_rating, -> (effort_rating) { where(effort_rating: effort_rating) }
-  scope :filter_by_punctuality_rating, -> (punctuality_rating) { where(punctuality_rating: punctuality_rating) }
+  #scope :filter_by_effort_rating, -> (effort_rating) { where(effort_rating: effort_rating) }
+  scope :filter_by_effort_rating, -> (effort_rating) { where("effort_rating BETWEEN ? AND ?", "#{effort_rating.first}", "#{effort_rating.last}") }
+  #scope :filter_by_punctuality_rating, -> (punctuality_rating) { where(punctuality_rating: punctuality_rating) }
+  scope :filter_by_punctuality_rating, -> (punctuality_rating) { where("punctuality_rating BETWEEN ? AND ?", "#{punctuality_rating.first}", "#{punctuality_rating.last}") }
   scope :filter_by_priority, -> (priority) { where(priority: priority) }
   scope :filter_by_timestamp, -> (start_date, end_date) { where(timestamp: self.string_date_to_EST(start_date).beginning_of_day..self.string_date_to_EST(end_date).end_of_day) }
 
@@ -46,11 +49,7 @@ class Feedback < ApplicationRecord
     feedbacks = self.all
 
     filtering_params.each do |key, value|
-      if key.to_s.include? "participation_rating"
-        feedbacks = feedbacks.public_send("filter_by_#{key}", value) if !value.empty?
-      else
-        feedbacks = feedbacks.public_send("filter_by_#{key}", value) if value.present?
-      end
+      feedbacks = feedbacks.public_send("filter_by_#{key}", value) if !value.empty?
     end
 
     feedbacks = feedbacks.filter_by_timestamp(params[:start_date], params[:end_date]) if (params[:start_date].present? and params[:end_date].present?)

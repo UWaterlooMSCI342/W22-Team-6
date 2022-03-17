@@ -19,20 +19,31 @@
   <div class="field">
     <%= form.label :participation_rating %>
     <!-- <%= form.select :participation_rating, Feedback::CHOICES, :include_blank => true %> -->
-    
+    <!-- <%= form.select :participation_rating_to, Feedback::CHOICES, :include_blank => true %> -->
+
+
     <%= form.collection_check_boxes :participation_rating, Feedback.choices, :first, :last, :include_hidden => false do |pr| %>
+      <div id="checkbox"><%= pr.check_box %><%= pr.label {pr.text} %></div>
+    <% end %>
+  </div>
+  
+
+  <div class="field">
+    <%= form.label :effort_rating %>
+    <!-- <%= form.select :effort_rating, Feedback::CHOICES, :include_blank => true %> -->
+
+    <%= form.collection_check_boxes :effort_rating, Feedback.choices, :first, :last, :include_hidden => false do |pr| %>
       <div id="checkbox"><%= pr.check_box %><%= pr.label {pr.text} %></div>
     <% end %>
   </div>
 
   <div class="field">
-    <%= form.label :effort_rating %>
-    <%= form.select :effort_rating, Feedback::CHOICES, :include_blank => true %>
-  </div>
-
-  <div class="field">
     <%= form.label :punctuality_rating %>
-    <%= form.select :punctuality_rating, Feedback::CHOICES, :include_blank => true %>
+    <!-- <%= form.select :punctuality_rating, Feedback::CHOICES, :include_blank => true %> -->
+
+    <%= form.collection_check_boxes :punctuality_rating, Feedback.choices, :first, :last, :include_hidden => false do |pr| %>
+      <div id="checkbox"><%= pr.check_box %><%= pr.label {pr.text} %></div>
+    <% end %>
   </div>
 
   <div class="field">

@@ -98,6 +98,7 @@ class UsersController < ApplicationController
   def forgot_password
     email = params[:email]
     @user = User.where(email: email)
+
     if email.empty?
       flash[:error] = "Email can't be blank!"
       redirect_to forgot_pass_show_path_path
@@ -113,13 +114,9 @@ class UsersController < ApplicationController
   # POST for show security question page
   def forgot_password_reset
     user_email = params[:email]
-    # user_email = 'msmucker@gmail.com'    
-  
     question = params[:security_q_one]
-    puts question
 
     @user = User.where(email: user_email)
-    puts @user
     answer_one = @user.first.security_q_one
 
     if answer_one == question
@@ -150,7 +147,7 @@ class UsersController < ApplicationController
 
     elsif pass.length <6
       flash[:error] = 'Password and password confirmation do not meet specifications'
-        redirect_to forgot_password_new_pass_show_path_url(email: email)
+      redirect_to forgot_password_new_pass_show_path_url(email: email)
 
     elsif @user.update(password: pass, password_confirmation: pass_conform)
       flash[:notice] = 'Password successfully updated! Please log in.'

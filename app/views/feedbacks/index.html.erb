@@ -8,12 +8,15 @@
 <div>
   <% if request.query_string.present? %>
     <% params = CGI.parse(URI.parse(request.original_url).query) %>
-    <% if params["sort"].empty? %>
+
+    <!-- does not show filters if sorting or no filters selected -->
+    <% if params["sort"].empty? && params.except("end_date", "commit").values.any?{|i| !i.last.empty?}%>
       <p><b>Applied filters:</b></p>
-      
+
       <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
         <% param = params[Feedback::FILTERABLE_PARAMS[index].name].first %>
         <% if !param.blank? %>
+        
           <p><%= filter %>: <%= param %></p>
         <% end %>
       <% end %>

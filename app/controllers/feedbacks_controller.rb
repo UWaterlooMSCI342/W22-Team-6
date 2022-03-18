@@ -19,7 +19,12 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks/new
   def new
-    @feedback = Feedback.new
+    if @user.has_submitted
+      redirect_to root_url
+      flash[:error] = "You cannot acces this page after submitting your feedback for the week."
+    else 
+      @feedback = Feedback.new
+    end 
   end
 
   # GET /feedbacks/1/edit

@@ -22,8 +22,10 @@
 
 
 <p>
-  <strong>Team:</strong>
-  <%= @user.teams.empty? ? "" : (link_to @user.teams.first.team_name, team_path(@user.teams.first)) %>
+  <% if !@user.teams.empty? %>
+    <strong>Team:</strong>
+    <%= link_to @user.teams.first.team_name, team_path(@user.teams.first) %> 
+  <% end %>
 </p>
 
 <%= link_to 'Back', :back %>

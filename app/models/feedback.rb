@@ -11,9 +11,9 @@ class Feedback < ApplicationRecord
   OKAY_RATING = ((2 * Feedback::BAD_RATING) - Feedback::CHOICES.min).freeze
   # FILTERABLE_PARAMS = [:first_name, :last_name, :team_name, :participation_rating, :effort_rating, :punctuality_rating, :priority].freeze
   FILTERABLE_PARAMS = [:first_name, :last_name, :team_name, :priority]
-  MULTI_OPTION_FILTERABLE_PARAMS = [:participation_rating, :effort_rating, :punctuality_rating]
+  RATING_FILTERABLE_PARAMS = [:participation_rating, :effort_rating, :punctuality_rating]
   FILTERABLE_PARAMS_STRINGS = ["First Name", "Last Name", "Team"].freeze
-  MULTI_OPTION_FILTERABLE_PARAMS_STRINGS = ["Participation Rating", "Effort Rating", "Punctuality Rating"]
+  RATING_FILTERABLE_PARAMS_STRINGS = ["Participation Rating", "Effort Rating", "Punctuality Rating"]
 
   belongs_to :user
   belongs_to :team
@@ -53,7 +53,7 @@ class Feedback < ApplicationRecord
   def self.filter_data(params)
     # filtering_params = params.slice(*Feedback::FILTERABLE_PARAMS)
     single_option_filtering_params = params.slice(*Feedback::FILTERABLE_PARAMS)
-    multi_option_filtering_params = params.slice(*Feedback::MULTI_OPTION_FILTERABLE_PARAMS)
+    rating_filtering_params = params.slice(*Feedback::RATING_FILTERABLE_PARAMS)
 
     feedbacks = self.all
 

@@ -7,6 +7,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   Capybara.app_host = 'http://127.0.0.1'
   
   Option.delete_all
-  option = Option.create(reports_toggled: true)
+  option = Option.create
   option.generate_admin_code(6)
 end

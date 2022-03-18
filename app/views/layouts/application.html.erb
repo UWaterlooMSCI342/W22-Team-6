@@ -53,12 +53,6 @@
             <li><%= link_to 'Manage Users', users_path %></li>
           <% end %>
 
-          <% if current_page?(reports_path) %>
-            <li><%= link_to 'Reports', reports_path, class: "active" %></li>
-          <% else %>
-            <li><%= link_to 'Reports', reports_path %></li>
-          <% end %>
-
           <% if current_page?(feedbacks_path) %>
             <li><%= link_to 'Feedback & Ratings', feedbacks_path, class: "active" %></li>
           <% else %>
@@ -75,18 +69,6 @@
             <% end %>
           <% end %>
         <% else %>
-          <% if Option.first.reports_toggled %>
-            <% if current_page?(new_report_path) %>
-              <li><%= link_to 'Submit a Report', new_report_path, class: "active" %></li>
-            <% else %>
-              <li><%= link_to 'Submit a Report', new_report_path %></li>
-            <% end %>
-            <% if current_page?(reports_path) %>
-              <li><%= link_to 'View Reports', reports_path, class: "active" %></li>
-            <% else %>
-              <li><%= link_to 'View Reports', reports_path %></li>
-            <% end %>
-          <% end %>
           <% if request.path =~ /teams\/\d+/ %>
             <li class="navlast"><%= link_to 'Help', '/team_view/help' %></li>
           <% end %>

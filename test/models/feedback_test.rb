@@ -125,35 +125,44 @@ class FeedbackTest < ActiveSupport::TestCase
 
   def test_filter_by_participation_rating_value_not_found
     feedbacks = create_many_feedbacks
-    assert_equal([], feedbacks.filter_by_participation_rating(7))
+    assert_equal([], feedbacks.filter_by_participation_rating(2, 2))
+    assert_equal([], feedbacks.filter_by_participation_rating(7, 1))
   end
 
   def test_filter_by_participation_rating_value_found
     feedbacks = create_many_feedbacks
-    expected = [@u1_fb_w3, @u3_fb_w2, @u3_fb_w3]
-    assert_equal(expected, feedbacks.filter_by_participation_rating(1))
+    expected1 = [@u1_fb_w3, @u3_fb_w2, @u3_fb_w3]
+    expected2 = [@u1_fb_w1, @u1_fb_w2, @u2_fb_w1, @u2_fb_w3]
+    assert_equal(expected1, feedbacks.filter_by_participation_rating(1, 1))
+    assert_equal(expected2, feedbacks.filter_by_participation_rating(3, 5))
   end
 
   def test_filter_by_effort_rating_value_not_found
     feedbacks = create_many_feedbacks
-    assert_equal([], feedbacks.filter_by_effort_rating(7))
+    assert_equal([], feedbacks.filter_by_effort_rating(2, 2))
+    assert_equal([], feedbacks.filter_by_effort_rating(7, 1))
   end
 
   def test_filter_by_effort_rating_value_found
     feedbacks = create_many_feedbacks
-    expected = [@u1_fb_w3, @u3_fb_w2, @u3_fb_w3]
-    assert_equal(expected, feedbacks.filter_by_effort_rating(1))
+    expected1 = [@u1_fb_w3, @u3_fb_w2, @u3_fb_w3]
+    expected2 = [@u1_fb_w1, @u1_fb_w2, @u2_fb_w1, @u2_fb_w3]
+    assert_equal(expected1, feedbacks.filter_by_effort_rating(1, 1))
+    assert_equal(expected2, feedbacks.filter_by_effort_rating(3, 5))
   end
 
   def test_filter_by_punctuality_rating_value_not_found
     feedbacks = create_many_feedbacks
-    assert_equal([], feedbacks.filter_by_punctuality_rating(7))
+    assert_equal([], feedbacks.filter_by_punctuality_rating(2, 2))
+    assert_equal([], feedbacks.filter_by_punctuality_rating(7, 1))
   end
 
   def test_filter_by_punctuality_rating_value_found
     feedbacks = create_many_feedbacks
-    expected = [@u1_fb_w3, @u3_fb_w2, @u3_fb_w3]
-    assert_equal(expected, feedbacks.filter_by_punctuality_rating(1))
+    expected1 = [@u1_fb_w3, @u3_fb_w2, @u3_fb_w3]
+    expected2 = [@u1_fb_w1, @u1_fb_w2, @u2_fb_w1, @u2_fb_w3]
+    assert_equal(expected1, feedbacks.filter_by_punctuality_rating(1, 1))
+    assert_equal(expected2, feedbacks.filter_by_punctuality_rating(3, 5))
   end
 
   def test_filter_by_priority_value_not_found
@@ -254,13 +263,13 @@ class FeedbackTest < ActiveSupport::TestCase
 
   def test_filter_data_all_valid_params
     feedbacks = create_many_feedbacks
-    params = { first_name: "User1", last_name: "User1", team_name: "Team1", participation_rating: 5, effort_rating: 5, punctuality_rating: 5, priority: 2, start_date: DateTime.civil_from_format(:local, 2022, 1, 18), end_date: DateTime.civil_from_format(:local, 2022, 1, 22) }
+    params = { first_name: "User1", last_name: "User1", team_name: "Team1", participation_rating_start: 5, participation_rating_end: 5, effort_rating_start: 5, effort_rating_end: 5, punctuality_rating_start: 5, punctuality_rating_end: 5, priority: '2', start_date: DateTime.civil_from_format(:local, 2022, 1, 18), end_date: DateTime.civil_from_format(:local, 2022, 1, 22) }
     assert_equal([@u1_fb_w1], feedbacks.filter_data(params))
   end
 
   def test_filter_data_some_valid_some_invalid_params
     feedbacks = create_many_feedbacks
-    params = { effort_rating: 5, first_name: "Us", invalid: 4, bad: "Bad" }
+    params = { effort_rating_start: 5, effort_rating_end: 5, first_name: "Us", invalid: 4, bad: "Bad" }
     assert_equal([@u1_fb_w1], feedbacks.filter_data(params))
   end
 
@@ -295,14 +304,14 @@ class FeedbackTest < ActiveSupport::TestCase
 
   def test_filter_and_sort_valid_params
     feedbacks = create_many_feedbacks
-    params = { participation_rating: 1, effort_rating: 1, punctuality_rating: 1 }
+    params = { participation_rating_start: 1, participation_rating_end: 1, effort_rating_start: 1, effort_rating_end: 1, punctuality_rating_start: 1, punctuality_rating_end: 1 }
     expected = [@u3_fb_w2, @u3_fb_w3, @u1_fb_w3]
     assert_equal(expected, feedbacks.filter_and_sort(params, "team_name", "DESC"))
   end
 
   def test_filter_and_sort_only_filtering
     feedbacks = create_many_feedbacks
-    params = { participation_rating: 1, effort_rating: 1, punctuality_rating: 1 }
+    params = { participation_rating_start: 1, participation_rating_end: 1, effort_rating_start: 1, effort_rating_end: 1, punctuality_rating_start: 1, punctuality_rating_end: 1 }
     expected = [@u1_fb_w3, @u3_fb_w2, @u3_fb_w3]
     assert_equal(expected, feedbacks.filter_and_sort(params, "first_name", "ASC"))
   end

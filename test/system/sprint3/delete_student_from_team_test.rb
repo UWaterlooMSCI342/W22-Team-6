@@ -6,7 +6,7 @@ require "application_system_test_case"
 
 class DeleteStudentFromTeamTest < ApplicationSystemTestCase
   setup do
-    Option.create(reports_toggled: true)
+    Option.create
     @generated_code = Team.generate_team_code
     @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
     @team = Team.create(team_name: 'Test Team', team_code: @generated_code.to_s, user: @prof)

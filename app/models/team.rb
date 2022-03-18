@@ -4,6 +4,7 @@ class Team < ApplicationRecord
   validates_uniqueness_of :team_code, :case_sensitive => false
   validate :code_unique
   validates_presence_of :team_name
+  validates_presence_of :team_code
     
   belongs_to :user
   has_and_belongs_to_many :users
@@ -159,10 +160,6 @@ class Team < ApplicationRecord
     
     while team_code.length != length or (Team.exists?(:team_code=>team_code) or Option.exists?(:admin_code=>team_code))
       team_code = rand(36**length).to_s(36).upcase
-    end
-    
-    if team_code.empty?
-      validates_presence_of :team_code
     end
 
     return team_code.upcase

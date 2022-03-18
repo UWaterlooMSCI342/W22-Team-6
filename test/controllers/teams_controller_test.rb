@@ -123,7 +123,7 @@ class TeamsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_create_team_blank_code
-    assert_difference 'Team.count' do
+    assert_no_difference 'Team.count' do
       post '/teams', 
         params: {team: {team_name: "Team 3", team_code: ''}}
       get new_team_url

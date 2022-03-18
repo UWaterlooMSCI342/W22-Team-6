@@ -48,7 +48,7 @@ class TeamTest < ActiveSupport::TestCase
         # try creating team with blank code
         team2 = Team.new(team_name: 'Team 2')
         team2.user = @prof
-        assert team2.valid?
+        assert_not team2.valid?
     end
     
     def test_create_team_blank_team_name

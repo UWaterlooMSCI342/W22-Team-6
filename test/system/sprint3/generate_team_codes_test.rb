@@ -6,9 +6,8 @@ require "application_system_test_case"
 
 class GenerateTeamCodesTest < ApplicationSystemTestCase
   setup do
-    # SPRINT 3 UPDATE: Seed database with default option of reports_toggled = true
-    Option.create(reports_toggled: true)
-    
+    Option.create
+
     #Create a generated team code
     @generated_code = Team.generate_team_code
   end

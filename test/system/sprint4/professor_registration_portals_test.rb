@@ -9,7 +9,7 @@ class ProfessorRegistrationPortalsTest < ApplicationSystemTestCase
   #(1)
   def test_signup_prof 
     Option.destroy_all
-    Option.create(reports_toggled: true, admin_code: 'ADmin')
+    Option.create(admin_code: 'ADmin')
     Team.create(team_name: 'Test Team', team_code: 'TEAM01')
     
     # register new student
@@ -37,7 +37,7 @@ class ProfessorRegistrationPortalsTest < ApplicationSystemTestCase
   #(2)
   def test_cannot_signup_prof 
     Option.destroy_all
-    Option.create(reports_toggled: true, admin_code: 'ADMIN')
+    Option.create(admin_code: 'ADMIN')
     Team.create(team_name: 'Test Team', team_code: 'TEAM01')
     
     # register new student

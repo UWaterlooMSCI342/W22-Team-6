@@ -15,7 +15,7 @@ class AddAdminCodesTest < ApplicationSystemTestCase
     @bob.teams << @team
     
     Option.destroy_all
-    Option.create(reports_toggled: true, admin_code: 'admin_CODE')
+    Option.create(admin_code: 'admin_CODE')
   end 
   
   # (1)

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class TeamsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    Option.create(reports_toggled: true)
+    Option.create
     # create test admin
     @prof = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: true)
     @prof.save

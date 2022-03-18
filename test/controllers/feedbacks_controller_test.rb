@@ -40,7 +40,7 @@ class FeedbacksControllerTest < ActionDispatch::IntegrationTest
   end 
 
   test "should get new" do
-    Option.create(reports_toggled: true, admin_code: 'ADMIN')
+    Option.create(admin_code: 'ADMIN')
     # login user
     post('/login', params: { email: 'test2@gmail.com', password: '123456789'})
     

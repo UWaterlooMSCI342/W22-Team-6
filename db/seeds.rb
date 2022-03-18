@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-option = Option.create(reports_toggled: false)
+option = Option.create
 option.generate_admin_code(6)
 
 email = 'msmucker@gmail.com'

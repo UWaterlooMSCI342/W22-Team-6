@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resources :reports
-
   resources :teams
 
   resources :feedbacks
@@ -26,10 +24,7 @@ Rails.application.routes.draw do
   get '/signup', to: 'users#new'
  
 
-  resources :users, except: [:new]
-  resources :options do
-    post :toggle_reports
-  end  
+  resources :users, except: [:new] 
   resources :teams do
     post :remove_user_from_team
   end  

@@ -144,8 +144,10 @@ T15: Export Previous Week Missing Feedback
 T16: Filter Feedbacks with Aligned Options
 1. Select 'Feedback & Ratings'
 2. Enter the following filter fields:
-    Participation rating: 1
-    Effort rating: 1
+    Participation rating start: 1
+    Participation rating end: 3
+    Effort rating start: 1
+    Effort rating end: 1
 3. Select 'Filter'
 4. Assert only feedbacks displayed are ones that align with options selected
 

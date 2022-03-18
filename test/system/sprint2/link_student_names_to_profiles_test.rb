@@ -1,4 +1,8 @@
 require "application_system_test_case"
+
+# Acceptance Criteria: 
+# 1. As a professor, I should be able to click on a given student name, and be taken to the respective student's profile anywhere in the app.
+
 class StudentLinks < ApplicationSystemTestCase
     def setup
       

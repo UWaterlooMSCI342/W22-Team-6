@@ -1,5 +1,8 @@
 require "application_system_test_case"
 
+# Acceptance Criteria: 
+# 1. As a logged in user, I should be able to access the "Help" page.
+
 class RedirectHelpPathStudentTest < ApplicationSystemTestCase
   setup do
     Option.destroy_all

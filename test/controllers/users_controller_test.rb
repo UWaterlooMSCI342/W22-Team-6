@@ -150,11 +150,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_forgot_password
     post '/forgot_password', 
     params: {email: 'msmucker@gmail.com'}
+    assert :success
   end 
 
   def test_forgot_reset_password
     post '/forgot_password/reset', 
     params: {email: 'msmucker@gmail.com', security_q_one: 'hello'}
+    assert :success
   end
 
   # def test_forgot_reset_password_page
@@ -168,12 +170,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_forgot_reset_password_success
     post '/forgot_password/reset/new_pass', 
     params: {email: 'msmucker@gmail.com', password: 'helloo23', password_confirmation: 'helloo23'}
+    assert :success
   end
 
   def test_forgot_reset_password_done_wrong_password
     post '/forgot_password/reset/new_pass', 
     params: {email: 'msmucker@gmail.com', password: 'h', password_confirmation: 'hell3'}
     assert 'Password and password confirmation do not meet specifications'
+      
   end
 
   def test_forgot_reset_password_done_incorrect_password_length

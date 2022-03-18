@@ -20,8 +20,6 @@ class User < ApplicationRecord
   validates_length_of :password, minimum: 6
   validates_presence_of :password_confirmation
   
-    
-  
   
   include FeedbacksHelper
     

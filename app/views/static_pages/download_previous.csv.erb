@@ -1,0 +1,10 @@
+<%- headers = ['Name:', 'Email:', 'Team:', 'Start Date:', 'End Date:'] -%>
+
+<%= CSV.generate_line(headers).strip -%>
+
+<%- @missing.each do |f| -%>
+    <%- f[1].each do |user_data| -%>
+        <%- row = [user_data.full_name, user_data.email, user_data.teams.first.team_name, @start_date, @end_date] %>
+         <%= CSV.generate_line(row).html_safe.strip %>
+    <%- end -%>
+<%- end -%>

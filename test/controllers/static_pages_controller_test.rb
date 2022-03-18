@@ -115,4 +115,44 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
         params: {email: 'charles@gmail.com', password: 'banana'}
     assert :success
   end
+
+  def test_previous_week_missing_feedback_csv
+    prof = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: true)
+    prof.save!
+
+    #students that haven't submitted
+    user2 = User.new(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
+    user2.save
+    user3 = User.new(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
+    user3.save
+
+    post '/login',
+      params: {email: 'charles@gmail.com', password: 'banana'}
+
+    get '/download_previous.csv'
+
+    assert :success
+    # expect( DownloadHelpers::download_content ).to include download_previous
+  end
+
+  def test_previous_week_current_feedback_csv
+    prof = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: true)
+    prof.save!
+
+    #students that haven't submitted
+    user2 = User.new(email: 'charles2@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
+    user2.save
+    user3 = User.new(email: 'charles3@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
+    user3.save
+
+    post '/login',
+      params: {email: 'charles@gmail.com', password: 'banana'}
+
+    get '/download_current.csv'
+
+    assert :success
+    # expect( DownloadHelpers::download_content ).to include download_previous
+  end
+
+
 end

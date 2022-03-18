@@ -243,3 +243,8 @@ li.dropdown {
 #error {
   color: red;
 }
+
+#rating_select
+{
+  display: inline-block;
+}

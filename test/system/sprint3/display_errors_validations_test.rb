@@ -52,7 +52,7 @@ class DisplayErrorsValidationsTest < ApplicationSystemTestCase
     assert_text "First name can't be blank"
     assert_text "Last name can't be blank"
     assert_text "Password confirmation can't be blank"
-    assert_text "Teams cannot be blank"
+    assert_text "Teams code cannot be blank"
   end
   #Team signup errors 
   def test_invalid_team_signup

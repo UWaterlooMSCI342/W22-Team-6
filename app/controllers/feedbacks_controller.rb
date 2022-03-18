@@ -19,7 +19,12 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks/new
   def new
-    @feedback = Feedback.new
+    if @user.has_submitted
+      redirect_to root_url
+      flash[:error] = "You cannot acces this page after submitting your feedback for the week."
+    else 
+      @feedback = Feedback.new
+    end 
   end
 
   # GET /feedbacks/1/edit
@@ -79,7 +84,7 @@ class FeedbacksController < ApplicationController
         set_feedback
 
         if (@current_user.feedbacks.exclude? @feedback) or !(@feedback.is_from_this_week?)
-          flash[:notice] = "You do not have permission to access this feedback."
+          flash[:error] = "You do not have permission to access this feedback."
           redirect_to root_url
         end
       end

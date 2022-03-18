@@ -1,12 +1,26 @@
 <%= form_with(url: login_path, method: :post, local: true) do |form| %>
+  <!-- invalid login error -->
+  <% if !flash[:error].nil? %>
+    <% is_invalid = flash[:error].include? 'Invalid' %>
+  <% end %>
+
+  <!-- form starts here -->
   <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
+    <div class=<%= is_invalid ? "field_with_errors" : "" %>>
+      <%= form.label :email %>
+    </div>
+    <div class=<%= is_invalid ? "field_with_errors" : "" %>>
+      <%= form.text_field :email %>
+    </div>
   </div>
 
   <div class="field">
-    <%= form.label :password %>
-    <%= form.password_field :password %>
+    <div class=<%= is_invalid ? "field_with_errors" : "" %>>
+      <%= form.label :password %>
+    </div>
+    <div class=<%= is_invalid ? "field_with_errors" : "" %>>
+      <%= form.password_field :password %>
+    </div>
   </div>
 
   <div class="actions">

@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 
     #team_code is blank
     if user_params[:team_code].nil? or user_params[:team_code].size==0 
-      @user.errors.add :teams, :invalid, message: "cannot be blank" 
+      @user.errors.add :teams, :invalid, message: "code cannot be blank" 
     else
       if user_params[:team_code] == Option.first.admin_code
         @user.is_admin = true

@@ -8,7 +8,7 @@
 <div>
   <% if request.query_string.present? %>
     <% params = CGI.parse(URI.parse(request.original_url).query) %>
-    <% if params["sort"].empty? %>
+    <% if params["sort"].empty? and params["page"].empty? %>
       <p><b>Applied filters:</b></p>
       
       <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
@@ -82,7 +82,9 @@
   </tbody>
 </table>
 
+<div style="text-align: center;">
+  <%= will_paginate @teams %>
+</div>
+
 <br>
-
-
 <%= link_to 'Back', :back %>

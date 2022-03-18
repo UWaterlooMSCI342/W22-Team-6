@@ -10,7 +10,7 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks
   def index
-    @feedbacks = Feedback.filter_and_sort(params, sort_column, sort_direction)
+    @feedbacks = Feedback.filter_and_sort(params, sort_column, sort_direction).paginate(page: params[:page], per_page: 10)
   end
 
   # GET /feedbacks/1

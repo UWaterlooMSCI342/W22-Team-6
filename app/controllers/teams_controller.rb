@@ -5,7 +5,7 @@ class TeamsController < ApplicationController
 
   # GET /teams
   def index
-    @teams = Team.all
+    @teams = Team.paginate(page: params[:page], per_page: 10)
   end
 
   # GET /teams/1

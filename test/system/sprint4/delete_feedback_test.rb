@@ -1,5 +1,8 @@
 require "application_system_test_case"
 
+# Acceptance Criteria: 
+# 1. As a professor, I should be able to delete a student's feedback.
+# 2. As a professor, I should be able to edit a student's feedback.
 
 class DeleteFeedbackTest < ApplicationSystemTestCase
   setup do 

@@ -1,5 +1,8 @@
 require "application_system_test_case"
 
+# Acceptance Criteria: 
+# 1. As a professor, I should not be able to edit a user's profile, except my own.
+
 class RemoveEditLinkFromUsersTest < ApplicationSystemTestCase
   setup do
     Option.create(reports_toggled: true, admin_code: 'ADMIN')

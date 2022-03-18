@@ -1,5 +1,8 @@
 require "application_system_test_case"
 
+# Acceptance Criteria: 
+# 1. As a professor, I should be given a confirmation message when deleting a user from a team.
+
 class ConfirmDeleteUserFromTeamsTest < ApplicationSystemTestCase
   setup do 
     @prof = User.new(email: 'msmucker@gmail.com', password: 'professor', password_confirmation: 'professor', first_name: 'Mark', last_name: 'Smucker', is_admin: true)

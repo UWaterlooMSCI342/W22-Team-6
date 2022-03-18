@@ -1,5 +1,8 @@
 require "application_system_test_case"
 
+# Acceptance Criteria: 
+# 1. As a user, The "Back" button should return me to the correct page regardless of the button's location.
+
 class ConsistentBackButtonsTest < ApplicationSystemTestCase
   include FeedbacksHelper
   

@@ -3,7 +3,7 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     Option.destroy_all
-    Option.create(reports_toggled: true, admin_code: 'ADMIN')
+    Option.create(admin_code: 'ADMIN')
     # create test user
     @user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     @user.save

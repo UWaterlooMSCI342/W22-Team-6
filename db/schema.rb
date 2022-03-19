@@ -31,21 +31,9 @@ ActiveRecord::Schema.define(version: 2021_04_04_164701) do
   end
 
   create_table "options", force: :cascade do |t|
-    t.boolean "reports_toggled", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "admin_code", limit: 10, default: "admin"
-  end
-
-  create_table "reports", force: :cascade do |t|
-    t.integer "reporter_id", null: false
-    t.integer "reportee_id", null: false
-    t.string "description", limit: 2048
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "priority", default: 2, null: false
-    t.index ["reportee_id"], name: "index_reports_on_reportee_id"
-    t.index ["reporter_id"], name: "index_reports_on_reporter_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -83,8 +71,6 @@ ActiveRecord::Schema.define(version: 2021_04_04_164701) do
 
   add_foreign_key "feedbacks", "teams"
   add_foreign_key "feedbacks", "users", on_delete: :cascade
-  add_foreign_key "reports", "users", column: "reportee_id", on_delete: :cascade
-  add_foreign_key "reports", "users", column: "reporter_id", on_delete: :cascade
   add_foreign_key "teams", "users", on_delete: :cascade
   add_foreign_key "teams_users", "teams"
   add_foreign_key "teams_users", "users"

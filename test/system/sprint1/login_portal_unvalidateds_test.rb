@@ -29,13 +29,9 @@ class LoginPortalUnvalidatedsTest < ApplicationSystemTestCase
     visit signup_url 
     assert_current_path root_url 
     
-    # test urls to see if they can be accessed 
-    urls = [new_report_url, new_feedback_url]
-    
-    for url in urls
-      visit url
-      assert_current_path url
-    end
+    # Test url to see if it can be accessed.
+    visit new_feedback_url
+    assert_current_path new_feedback_url
   end
   
   # Test login with invalid credentials (2, 3)
@@ -46,10 +42,7 @@ class LoginPortalUnvalidatedsTest < ApplicationSystemTestCase
     assert_current_path login_url 
     
     # test urls to see if they can be accessed without logging in
-    urls = [users_url, teams_url, 
-            new_team_url, new_feedback_url, 
-            feedbacks_url, reports_url,
-            new_report_url]
+    urls = [users_url, teams_url, new_team_url, new_feedback_url, feedbacks_url]
     
     for url in urls
       visit url
@@ -59,7 +52,6 @@ class LoginPortalUnvalidatedsTest < ApplicationSystemTestCase
   
   # Test admin security as student (4)
   def test_admin_security 
-    # SPRINT 2 UPDATE: Since students are now able to see reports they were involved in, this test has been modified to allow reports_url to be accessed without admin status.
     
     # login as student 
     prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
@@ -90,7 +82,7 @@ class LoginPortalUnvalidatedsTest < ApplicationSystemTestCase
     
     # test urls to see if they can be accessed without admin status
       
-    urls = [new_team_url, teams_url, feedbacks_url, reports_url]
+    urls = [new_team_url, teams_url, feedbacks_url]
     
     for url in urls
       visit url

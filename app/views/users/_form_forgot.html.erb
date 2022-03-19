@@ -1,11 +1,22 @@
 <%= form_with(model: user, local: true) do |form| %>
 
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
-  </div>
+<% if !flash[:error].nil? %>
+    <% is_invalid = flash[:error].include? "Email can't be blank!" %>
+    <% is_exist = flash[:error].include? "Email doesn't exist!" %>
+    <% if (is_invalid or is_exist) %>
+    <% is_invalid_or_exists = true %>
+    <% end %>
+<% end %>
 
-  <div class="actions">
+    <div class=<%= is_invalid_or_exists ? "field_with_errors" : "" %>>
+      <%= form.label :email %>
+    </div>
+
+    <div class=<%= is_invalid_or_exists ? "field_with_errors" : "" %>>
+      <%= form.text_field :email %>
+    </div>
+
+  <div class="actions" style="margin-top: 10px;" >
     <%= form.submit "Next"%>
   </div>
 

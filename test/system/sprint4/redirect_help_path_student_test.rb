@@ -1,8 +1,12 @@
 require "application_system_test_case"
 
+# Acceptance Criteria: 
+# 1. As a logged in user, I should be able to access the "Help" page.
+
 class RedirectHelpPathStudentTest < ApplicationSystemTestCase
   setup do
-    Option.create(reports_toggled: true, admin_code: 'ADMIN')
+    Option.destroy_all
+    Option.create(admin_code: 'ADMIN')
     @generated_code = Team.generate_team_code
     @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'password', password_confirmation: 'password')
     @team = Team.create(team_name: 'Test Team', team_code: @generated_code.to_s, user: @prof)
@@ -11,9 +15,6 @@ class RedirectHelpPathStudentTest < ApplicationSystemTestCase
   end
   
   def test_access_help_as_professor
-    Option.destroy_all
-    Option.create(reports_toggled: true, admin_code: 'ADMIN')
-    
     visit root_url 
     # Login as professor
     login 'msmucker@gmail.com', 'password'
@@ -24,9 +25,6 @@ class RedirectHelpPathStudentTest < ApplicationSystemTestCase
   end
 
   def test_access_help_as_student
-    Option.destroy_all
-    Option.create(reports_toggled: true, admin_code: 'ADMIN')
-    
     visit root_url 
     # Login as student
     login 'bob@gmail.com', 'testpassword'

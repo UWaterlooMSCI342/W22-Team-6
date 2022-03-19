@@ -9,7 +9,7 @@ class TeamTest < ActiveSupport::TestCase
 
     def test_unique_team_code_admin
       Option.destroy_all
-      Option.create(reports_toggled: true, admin_code: 'admin')
+      Option.create(admin_code: 'admin')
       
       team2 = Team.new(team_code: 'admin', team_name: 'Team 2')
       team2.user = @prof

@@ -8,13 +8,24 @@
 <div>
   <% if request.query_string.present? %>
     <% params = CGI.parse(URI.parse(request.original_url).query) %>
-    <% if params["sort"].empty? %>
+
+    <!-- does not show filters if sorting or no filters selected -->
+    <% if params["sort"].empty? and params["page"].empty? and params.except("end_date", "commit").values.any?{|i| !i.last.empty?}%>
       <p><b>Applied filters:</b></p>
-      
+
       <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
         <% param = params[Feedback::FILTERABLE_PARAMS[index].name].first %>
-        <% if !param.empty? %>
+        <% if !param.blank? %>
           <p><%= filter %>: <%= param %></p>
+        <% end %>
+      <% end %>
+
+      <% Feedback::RATING_FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
+        <% rating_start = params[(Feedback::RATING_FILTERABLE_PARAMS[index].name + "_start")].first %>
+        <% rating_end = params[(Feedback::RATING_FILTERABLE_PARAMS[index].name + "_end")].first %>
+
+        <% if !rating_start.empty? && !rating_end.empty? %>
+         <p><%= filter %>: <%= rating_start %>-<%= rating_end %></p>
         <% end %>
       <% end %>
 
@@ -82,7 +93,9 @@
   </tbody>
 </table>
 
+<div style="text-align: center;">
+  <%= will_paginate @teams %>
+</div>
+
 <br>
-
-
 <%= link_to 'Back', :back %>

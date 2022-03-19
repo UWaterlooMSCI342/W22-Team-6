@@ -31,7 +31,7 @@ class StaticPagesController < ApplicationController
     end
   end
 
-  def download
+  def download_previous
     teams = Team.all
     @missing = {}
     @start_date = @week_range[:start_date] - 7.days
@@ -47,7 +47,28 @@ class StaticPagesController < ApplicationController
       format.html
       format.csv do
         response.headers['Content-Type'] = 'text/csv'
-        response.headers['Content-Disposition'] = "attachment; filename=download.csv"
+        response.headers['Content-Disposition'] = "attachment; filename=download_previous.csv"
+      end 
+    end 
+  end 
+
+  def download_current
+    teams = Team.all
+    @missing = {}
+    @start_date = @week_range[:start_date]
+    @end_date = @week_range[:end_date]
+    
+    teams.each do |team| 
+      # @unsubmitted[:current_week][team.id] = team.users_not_submitted(team.current_feedback).map{|user| user.name}
+      @missing[team.id] = team.users_not_submitted(team.current_feedback(now))
+      
+    end
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        response.headers['Content-Type'] = 'text/csv'
+        response.headers['Content-Disposition'] = "attachment; filename=download_current.csv"
       end 
     end 
   end 

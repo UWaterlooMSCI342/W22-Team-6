@@ -1,5 +1,8 @@
 require "application_system_test_case"
 
+# Acceptance Criteria: 
+# 1. As a professor, I should be able to view a team's aggregated feedback.
+
 class TimeZoneTests
   setup do
     # create prof, team, and user

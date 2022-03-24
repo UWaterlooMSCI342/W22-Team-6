@@ -3,7 +3,7 @@ require "application_system_test_case"
 # Acceptance Criteria:
 # As a professor, I should be able to use the guidance from the 'Help' page to navigate through the application.
 
-class PaginateTablesTest < ApplicationSystemTestCase
+class HelpPageTest < ApplicationSystemTestCase
     setup do
         @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', password: 'professor', password_confirmation: 'professor', is_admin: true)
     end

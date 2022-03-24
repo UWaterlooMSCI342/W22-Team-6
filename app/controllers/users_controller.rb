@@ -91,6 +91,7 @@ class UsersController < ApplicationController
 
   # GET for show password page
   def forgot_show
+    
     render :forgot_show
   end
 
@@ -111,20 +112,46 @@ class UsersController < ApplicationController
 
   end
   
-  # POST for show security question page
-  def forgot_password_reset
-    user_email = params[:email]
-    question = params[:security_q_one]
-
-    @user = User.where(email: user_email)
-    answer_one = @user.first.security_q_one
-
-    if answer_one == question
+  def check_for_correct_pass(question1, question2, answer_1, answer_2, user_email)
+ 
+    if answer_1 == question1 and answer_2 == question2
       redirect_to forgot_password_new_pass_show_path_path(email: user_email)
     else
       redirect_to root_url
       flash[:error] = "It seems that you have forgotten your password and security question. Please contact you professor for a new password."
     end 
+
+  end
+
+
+  # POST for show security question page
+  def forgot_password_reset
+    user_email = params[:email]
+   
+    @user = User.where(email: user_email)
+    answer_one = @user.first.security_q_one
+    answer_two = @user.first.security_q_two
+    answer_three = @user.first.security_q_three
+
+    if !(params[:security_q_one].present?)
+      question_2 = params[:security_q_two]
+      question_3 = params[:security_q_three]
+
+      check_for_correct_pass(question_2, question_3, answer_two, answer_three, user_email)
+
+    elsif !(params[:security_q_two].present?)
+      question_1 = params[:security_q_one]
+      question_3 = params[:security_q_three]
+
+      check_for_correct_pass(question_1, question_3, answer_one, answer_three, user_email)
+
+    elsif !(params[:security_q_three].present?)
+      question_1 = params[:security_q_one]
+      question_2 = params[:security_q_two]
+  
+      check_for_correct_pass(question_1, question_2, answer_one, answer_two, user_email)
+    end 
+
   end
 
   def forgot_password_new_pass_show
@@ -165,6 +192,26 @@ class UsersController < ApplicationController
     @user_email = params[:email]
     # puts user_email
     @user = User.where(email: @user_email)
+
+    q_list = [:security_q_one, :security_q_two, :security_q_three]
+    @random_q_1 = q_list.sample
+    @random_q_2 = q_list.sample
+
+    while @random_q_1 == @random_q_2
+      @random_q_2 = q_list.sample
+    end
+
+    question_1 = params[@random_q_1]
+    question_2 = params[@random_q_2]
+    
+
+    question_text = {"security_q_one" => "What is the name of the city you were from?", 
+                    "security_q_two" => "What is the name of the high school you attended?",
+                    "security_q_three" => "What was your favourite food as a child?"}
+
+    @q_1_text = question_text[@random_q_1.to_s]
+    @q_2_text = question_text[@random_q_2.to_s]
+
     render :forgot_password_reset
   end
 

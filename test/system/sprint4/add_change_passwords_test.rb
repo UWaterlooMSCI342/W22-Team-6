@@ -6,7 +6,7 @@ require "application_system_test_case"
 
 class AddChangePasswordsTest < ApplicationSystemTestCase
   setup do 
-    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', security_q_one: 'hello', security_q_two: "d", security_q_three: 'S', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', security_q_one: 'toronto', security_q_two: "waterloo", security_q_three: 'pizza', is_admin: true, password: 'professor', password_confirmation: 'professor')
   end 
 
   def test_change_password 
@@ -84,7 +84,18 @@ class AddChangePasswordsTest < ApplicationSystemTestCase
     fill_in "email", with: 'msmucker@gmail.com'
     click_on 'Next'
 
-    fill_in "security_q_one", with: 'svxcvsdf'
+    if page.has_css?('#security_q_one')
+      fill_in "security_q_one", with: "ds;lkfjsdf"
+    end 
+
+    if page.has_css?('#security_q_two')
+      fill_in "security_q_two", with: "sldkfjsdf"
+    end 
+
+    if page.has_css?('#security_q_three') 
+      fill_in "security_q_three", with: "olksdjflsdkfjk"
+    end 
+    
     click_on "Submit"
     assert_current_path login_url 
     assert_text "It seems that you have forgotten your password and security question. Please contact you professor for a new password."
@@ -98,7 +109,18 @@ class AddChangePasswordsTest < ApplicationSystemTestCase
     fill_in "email", with: 'msmucker@gmail.com'
     click_on 'Next'
 
-    fill_in "security_q_one", with: 'hello'
+    if page.has_css?('#security_q_one')
+      fill_in "security_q_one", with: "toronto"
+    end 
+
+    if page.has_css?('#security_q_two')
+      fill_in "security_q_two", with: "waterloo"
+    end 
+
+    if page.has_css?('#security_q_three') 
+      fill_in "security_q_three", with: "pizza"
+    end 
+
     click_on "Submit"
     # assert_current_path forgot_password_new_pass_show_url
 
@@ -111,7 +133,18 @@ class AddChangePasswordsTest < ApplicationSystemTestCase
     fill_in "email", with: 'msmucker@gmail.com'
     click_on 'Next'
 
-    fill_in "security_q_one", with: "hello"
+    if page.has_css?('#security_q_one')
+      fill_in "security_q_one", with: "toronto"
+    end 
+
+    if page.has_css?('#security_q_two')
+      fill_in "security_q_two", with: "waterloo"
+    end 
+
+    if page.has_css?('#security_q_three') 
+      fill_in "security_q_three", with: "pizza"
+    end 
+
     click_on "Submit"
     
     fill_in "password", with: "s"
@@ -134,9 +167,20 @@ class AddChangePasswordsTest < ApplicationSystemTestCase
     fill_in "email", with: 'msmucker@gmail.com'
     click_on 'Next'
 
-    fill_in "security_q_one", with: "hello"
+    if page.has_css?('#security_q_one')
+      fill_in "security_q_one", with: "toronto"
+    end 
+
+    if page.has_css?('#security_q_two')
+      fill_in "security_q_two", with: "waterloo"
+    end 
+
+    if page.has_css?('#security_q_three') 
+      fill_in "security_q_three", with: "pizza"
+    end 
+
     click_on "Submit"
-    
+
     fill_in "password", with: "testing123"
     fill_in "password_confirmation", with: "testing123"
     click_on "Submit"

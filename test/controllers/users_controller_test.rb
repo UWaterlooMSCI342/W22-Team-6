@@ -151,11 +151,28 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post '/forgot_password', 
     params: {email: 'msmucker@gmail.com'}
     assert :success
+
+
+    post '/forgot_password', 
+    params: {email: ''}
+    assert :success
+
+    post '/forgot_password', 
+    params: {email: 'lsdkfjsdfkj'}
+    assert :success
   end 
 
   def test_forgot_reset_password
     post '/forgot_password/reset', 
-    params: {email: 'msmucker@gmail.com', security_q_one: 'hello'}
+    params: {email: 'msmucker@gmail.com', security_q_one: 'toronto', security_q_two: 'waterloo'}
+    assert :success
+    
+    post '/forgot_password/reset', 
+    params: {email: 'msmucker@gmail.com', security_q_one: 'waterloo', security_q_three: 'pizza'}
+    assert :success
+
+    post '/forgot_password/reset', 
+    params: {email: 'msmucker@gmail.com', security_q_three: 'pizza', security_q_two: 'waterloo'}
     assert :success
   end
 
@@ -168,6 +185,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   # end
 
   def test_forgot_reset_password_success
+
+    get '/forgot_password/reset/new_pass', 
+    params: {email: 'msmucker@gmail.com'}
+    assert :success
+
+
     post '/forgot_password/reset/new_pass', 
     params: {email: 'msmucker@gmail.com', password: 'helloo23', password_confirmation: 'helloo23'}
     assert :success

@@ -14,5 +14,5 @@ first_name = 'Mark'
 last_name = 'Smucker'
 password = 'professor'
 
-prof = User.create(email: email, first_name: first_name, last_name: last_name, is_admin: true, password: password, password_confirmation: password, security_q_one: 'hello', security_q_two: 'there', security_q_three: 'ok')
+prof = User.create(email: email, first_name: first_name, last_name: last_name, is_admin: true, password: password, password_confirmation: password, security_q_one: 'toronto', security_q_two: 'waterloo', security_q_three: 'pizza')
 

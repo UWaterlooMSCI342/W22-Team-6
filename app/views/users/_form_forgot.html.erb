@@ -4,7 +4,7 @@
     <% is_invalid = flash[:error].include? "Email can't be blank!" %>
     <% is_exist = flash[:error].include? "Email doesn't exist!" %>
     <% if (is_invalid or is_exist) %>
-    <% is_invalid_or_exists = true %>
+      <% is_invalid_or_exists = true %>
     <% end %>
 <% end %>
 

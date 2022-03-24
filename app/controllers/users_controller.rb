@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_login, except: [:new, :create, :forgot_show, :forgot_password, :forgot_password_reset, :forgot_password_reset_show, :forgot_password_new_pass_show, :forgot_password_new_pass]
-  before_action :require_admin, except: [:show, :new, :create, :forgot_show, :forgot_password, :forgot_password_reset, :forgot_password_reset_show, :forgot_password_new_pass_show, :forgot_password_new_pass]
+  before_action :require_login, only: [:index, :edit, :show, :update, :destroy]
+  before_action :require_admin, only: [:index, :edit, :update, :destroy]
   before_action :require_access, only: [:show, :edit]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 

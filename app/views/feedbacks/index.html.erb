@@ -10,7 +10,7 @@
     <% params = CGI.parse(URI.parse(request.original_url).query) %>
 
     <!-- does not show filters if sorting or no filters selected -->
-    <% if params["sort"].empty? and params["page"].empty? and params.except("end_date", "commit").values.any?{|i| !i.last.empty?}%>
+    <% if params["sort"].empty? and (params["page"].empty? and params["per_page"].empty?) and params.except("end_date", "commit").values.any?{|i| !i.last.empty?}%>
       <p><b>Applied filters:</b></p>
 
       <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
@@ -93,9 +93,7 @@
   </tbody>
 </table>
 
-<div style="text-align: center;">
-  <%= will_paginate @teams %>
-</div>
+<%= render 'static_pages/paginate', model: @feedbacks %>
 
 <br>
 <%= link_to 'Back', :back %>

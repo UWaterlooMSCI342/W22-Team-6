@@ -31,15 +31,7 @@
   </table>
 <% end %>
 
-<div style="text-align: center;">
-  <%= will_paginate @teams %>
-</div>
-
-<%= form_with(url: teams_path, method: :get, local: true) do |form| %>
-  <div class='form-group'>
-    <%= form.select :per_page, options_for_select([1, 5, 10, 20, 100], @teams.per_page), {}, { onchange: 'this.form.submit();' } %>
-  </div>
-<% end %>
+<%= render 'static_pages/paginate', model: @teams %>
 
 <br>
 <%# Use id to prevent capybara getting confused about which "new team" link to click %>

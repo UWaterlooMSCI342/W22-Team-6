@@ -7,7 +7,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # create test user
     @user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     @user.save
-    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', security_q_one: 'toronto', security_q_two: 'waterloo', security_q_three: 'pizza', is_admin: true, password: 'professor', password_confirmation: 'professor')
     @team = Team.new(team_code: 'Code2', team_name: 'Team 1')
   end
   
@@ -175,10 +175,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_forgot_reset_password
-    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, security_q_one: 'toronto', security_q_two: 'waterloo', security_q_three: 'pizza', password: 'professor', password_confirmation: 'professor')
 
     get '/forgot_password/reset',
     params: {email: 'msmucker@gmail.com'}
+    assert :success
+
+    get '/forgot_password/reset',
+    params: {email: 'charles@gmail.com'}
     assert :success
 
     post '/forgot_password/reset', 

@@ -3,6 +3,9 @@ require "application_system_test_case"
 # Acceptance Criteria:
 # 1. User should be able to change their password given the correct existing password 
 # 2. User should not be able to change their password without the correct existing password
+# 3. User should be not be able to change their password if they do not have security questions
+# 4. User should be able to change their password if they click on forgot password. 
+# 5. User should be able to change their passowrd if they rememeber their security question
 
 class AddChangePasswordsTest < ApplicationSystemTestCase
   setup do 

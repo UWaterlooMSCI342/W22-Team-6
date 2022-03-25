@@ -91,8 +91,7 @@ class UsersController < ApplicationController
 
   # GET for show password page
   def forgot_show
-    
-    render :forgot_show
+
   end
 
   # POST for reset password

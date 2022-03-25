@@ -186,6 +186,6 @@ class AddChangePasswordsTest < ApplicationSystemTestCase
     click_on "Submit"
 
     assert_current_path login_url
-    assert_text "Password successfully updated! Please log in."
+    assert_text "Password successfully updated!"
   end
 end

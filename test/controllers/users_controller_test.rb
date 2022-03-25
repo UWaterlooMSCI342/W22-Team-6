@@ -90,7 +90,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_template :new
     end
   end
-  
+
   def test_create_user_missing_team_code
     assert_no_difference 'User.count' do
       post '/users', 
@@ -148,10 +148,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
   
   def test_forgot_password
+
+    User.create(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
+    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, security_q_one: 'toronto', security_q_two: 'waterloo', security_q_three: 'pizza', password: 'professor', password_confirmation: 'professor')
+
     post '/forgot_password', 
     params: {email: 'msmucker@gmail.com'}
     assert :success
-
 
     post '/forgot_password', 
     params: {email: ''}
@@ -162,7 +165,22 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert :success
   end 
 
+  def test_create_user_missing_security_question
+
+    User.create(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
+
+    post '/forgot_password', 
+    params: {email: 'charles@gmail.com'}
+    assert :success
+  end
+
   def test_forgot_reset_password
+    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, security_q_one: 'toronto', security_q_two: 'waterloo', security_q_three: 'pizza', password: 'professor', password_confirmation: 'professor')
+
+    get '/forgot_password/reset',
+    params: {email: 'msmucker@gmail.com'}
+    assert :success
+
     post '/forgot_password/reset', 
     params: {email: 'msmucker@gmail.com', security_q_one: 'toronto', security_q_two: 'waterloo'}
     assert :success
@@ -174,6 +192,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post '/forgot_password/reset', 
     params: {email: 'msmucker@gmail.com', security_q_three: 'pizza', security_q_two: 'waterloo'}
     assert :success
+
   end
 
   # def test_forgot_reset_password_page

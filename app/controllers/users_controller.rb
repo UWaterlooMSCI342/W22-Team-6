@@ -177,7 +177,7 @@ class UsersController < ApplicationController
       redirect_to forgot_password_new_pass_show_path_url(email: email)
 
     elsif @user.update(password: pass, password_confirmation: pass_conform)
-      flash[:notice] = 'Password successfully updated! Please log in.'
+      flash[:notice] = 'Password successfully updated! Please .'
       redirect_to root_url 
     else 
       flash[:error] = 'Password and password confirmation do not meet specifications'
@@ -192,6 +192,16 @@ class UsersController < ApplicationController
     @user_email = params[:email]
     # puts user_email
     @user = User.where(email: @user_email)
+
+    answer_one = @user.first.security_q_one
+    answer_two = @user.first.security_q_two
+    answer_three = @user.first.security_q_three
+
+    if !(answer_one.present? and answer_two.present? and answer_three.present?)
+      redirect_to root_url 
+      flash[:error] = "It seems that you do not have security questions setup. Please try contacting your professor for a new password"
+      return
+    end
 
     q_list = [:security_q_one, :security_q_two, :security_q_three]
     @random_q_1 = q_list.sample

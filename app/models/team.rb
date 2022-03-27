@@ -161,7 +161,7 @@ class Team < ApplicationRecord
     while team_code.length != length or (Team.exists?(:team_code=>team_code) or Option.exists?(:admin_code=>team_code))
       team_code = rand(36**length).to_s(36).upcase
     end
-    
+
     return team_code.upcase
   end
 

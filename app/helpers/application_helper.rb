@@ -5,7 +5,7 @@ module ApplicationHelper
   # Unicode arrows.
   UP_ARROW = "&#9650".freeze
   DOWN_ARROW = "&#9660".freeze
-  PER_PAGE_OPTIONS = ['1', '5', '10', '20', '100']
+  PER_PAGE_OPTIONS = ['5', '10', '20', '50', '100']
 
   def sortable(column, title=nil)
     title ||= column.titleize

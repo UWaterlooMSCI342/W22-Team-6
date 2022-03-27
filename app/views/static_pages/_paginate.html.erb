@@ -3,5 +3,6 @@
 </div>
 
 <%= form_with(method: :get, local: true) do |form| %>
-  <%= form.select :per_page, options_for_select(ApplicationHelper::PER_PAGE_OPTIONS, model.per_page), {}, { onchange: 'this.form.submit();' } %>
+  <%= form.select :per_page, options_for_select(ApplicationHelper::PER_PAGE_OPTIONS, model.per_page) %>
+  <%= form.submit %>
 <% end %>

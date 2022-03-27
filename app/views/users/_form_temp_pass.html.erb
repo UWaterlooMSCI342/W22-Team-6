@@ -1,0 +1,30 @@
+<%= form_with(method: :post, local: true) do |form| %>
+  <% if user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+        <% user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<br>
+<br>
+
+  <div class="field">
+    <%= form.label "Temporary Password" %>
+    <%= form.text_field :temp_pass, value: code %>
+  </div>
+
+  <%= form.hidden_field :password, value: :temp_pass  %>
+  <%= form.hidden_field :password_confirmation, value: :temp_pass  %>
+  <%= form.hidden_field :email, value: user.email  %>
+
+  <div class="actions">
+    <%= form.submit "Update " + user.first_name + "'s password" %>
+  </div>
+
+<% end %>

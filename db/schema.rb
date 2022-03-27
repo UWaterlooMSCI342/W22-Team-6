@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2021_04_04_164701) do
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.boolean "is_admin", default: false
+    t.boolean "has_to_reset_password", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "password_digest"

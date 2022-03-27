@@ -125,4 +125,14 @@ class User < ApplicationRecord
 
   end
 
+  def self.generate_temp_pass(length = 6)
+    temp_pass = rand(36**length).to_s(36).upcase
+    
+    while temp_pass.length != length
+      temp_pass = rand(36**length).to_s(36).upcase
+    end
+
+    return temp_pass
+  end
+
 end

@@ -16,6 +16,13 @@ class StaticPagesController < ApplicationController
       @rating_reminders = @user.rating_reminders
       @has_submitted = @user.has_submitted
       @days_till_end_week = days_till_end(@now, @cweek, @cwyear)
+      
+      if (@user.has_to_reset_password and !@user.is_admin?)
+        flash[:notice] = "Please reset your password with the temporary password that the professor provided."
+        redirect_to reset_password_path
+        return
+      end
+
       render :home
     end
   end
@@ -100,6 +107,7 @@ class StaticPagesController < ApplicationController
         if @user.update(password: params[:password], password_confirmation: params[:password_confirmation])
           flash[:notice] = 'Password successfully updated!'
           redirect_to root_url 
+          @user.update(has_to_reset_password: false)
         else 
           flash[:error] = 'Password and password confirmation do not meet specifications'
           redirect_to reset_password_path

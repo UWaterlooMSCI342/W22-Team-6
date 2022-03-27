@@ -28,4 +28,8 @@
   <% end %>
 </p>
 
-<%= link_to 'Back', :back %>
+
+<p><%= link_to 'Reset ' + @user.first_name.titleize + "'s Password" , user_temp_password_path %></p>
+
+<p><%= link_to 'Back', :back %></p>
+

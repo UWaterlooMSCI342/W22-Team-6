@@ -176,7 +176,7 @@ class UsersController < ApplicationController
       redirect_to forgot_password_new_pass_show_path_url(email: email)
 
     elsif @user.update(password: pass, password_confirmation: pass_conform)
-      flash[:notice] = 'Password successfully updated! Please .'
+      flash[:notice] = 'Password successfully updated! Please Login.'
       redirect_to root_url 
     else 
       flash[:error] = 'Password and password confirmation do not meet specifications'

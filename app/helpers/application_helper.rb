@@ -21,7 +21,8 @@ module ApplicationHelper
       end
     end
 
+    per_page = params[:per_page] if params[:per_page].present?
     header_with_arrow = (direction_arrow + title).html_safe
-    return link_to header_with_arrow, { :sort => column, :direction => direction }
+    return link_to header_with_arrow, { :sort => column, :direction => direction, :per_page => per_page }
   end
 end

@@ -9,8 +9,8 @@
   <% if request.query_string.present? %>
     <% params = CGI.parse(URI.parse(request.original_url).query) %>
 
-    <!-- does not show filters if sorting or no filters selected -->
-    <% if params["sort"].empty? and (params["page"].empty? and params["per_page"].empty?) and params.except("end_date", "commit").values.any?{|i| !i.last.empty?}%>
+    <!-- Only shows applied filters if filter form submitted with some non-empty values -->
+    <% if params["commit"] == ["Filter"] and params.except("end_date", "commit").values.any?{|i| !i.last.empty?}%>
       <p><b>Applied filters:</b></p>
 
       <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>

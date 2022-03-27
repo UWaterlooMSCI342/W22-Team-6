@@ -27,8 +27,8 @@ module ApplicationHelper
     return link_to header_with_arrow, { :sort => column, :direction => direction, :per_page => per_page }
   end
 
-  # Sanitizes per_page to stop user from specifing unrealistic page limits.
+  # Sanitizes per_page to stop user from specifying unrealistic page limits.
   def per_page
-    return PER_PAGE_OPTIONS.include?(params[:per_page]) ? params[:per_page] : 10
+    return PER_PAGE_OPTIONS.include?(params[:per_page]) ? params[:per_page] : '10'
   end
 end

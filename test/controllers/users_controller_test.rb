@@ -7,7 +7,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # create test user
     @user = User.new(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
     @user.save
-    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+    @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', security_q_one: 'toronto', security_q_two: 'waterloo', security_q_three: 'pizza', is_admin: true, password: 'professor', password_confirmation: 'professor')
     @team = Team.new(team_code: 'Code2', team_name: 'Team 1')
   end
   
@@ -90,7 +90,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_template :new
     end
   end
-  
+
   def test_create_user_missing_team_code
     assert_no_difference 'User.count' do
       post '/users', 
@@ -147,7 +147,90 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
   end
   
+  def test_forgot_password
+
+    User.create(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
+    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, security_q_one: 'toronto', security_q_two: 'waterloo', security_q_three: 'pizza', password: 'professor', password_confirmation: 'professor')
+
+    post '/forgot_password', 
+    params: {email: 'msmucker@gmail.com'}
+    assert :success
+
+    post '/forgot_password', 
+    params: {email: ''}
+    assert :success
+
+    post '/forgot_password', 
+    params: {email: 'lsdkfjsdfkj'}
+    assert :success
+  end 
+
+  def test_create_user_missing_security_question
+
+    User.create(email: 'charles@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
+
+    post '/forgot_password', 
+    params: {email: 'charles@gmail.com'}
+    assert :success
+  end
+
+  def test_forgot_reset_password
+
+    get '/forgot_password/reset',
+    params: {email: 'msmucker@gmail.com'}
+    assert :success
+
+    get '/forgot_password/reset',
+    params: {email: 'charles@gmail.com'}
+    assert :success
+
+    post '/forgot_password/reset', 
+    params: {email: 'msmucker@gmail.com', security_q_one: 'toronto', security_q_two: 'waterloo'}
+    assert :success
     
+    post '/forgot_password/reset', 
+    params: {email: 'msmucker@gmail.com', security_q_one: 'waterloo', security_q_three: 'pizza'}
+    assert :success
+
+    post '/forgot_password/reset', 
+    params: {email: 'msmucker@gmail.com', security_q_three: 'pizza', security_q_two: 'waterloo'}
+    assert :success
+
+  end
+
+  # def test_forgot_reset_password_page
+  #   post '/forgot_password/reset' 
+  #   assert_response :success
+
+  #   post '/forgot_password/reset/new_pass'
+  #   assert_response :success
+  # end
+
+  def test_forgot_reset_password_success
+
+    get '/forgot_password/reset/new_pass', 
+    params: {email: 'msmucker@gmail.com'}
+    assert :success
+
+
+    post '/forgot_password/reset/new_pass', 
+    params: {email: 'msmucker@gmail.com', password: 'helloo23', password_confirmation: 'helloo23'}
+    assert :success
+  end
+
+  def test_forgot_reset_password_done_wrong_password
+    post '/forgot_password/reset/new_pass', 
+    params: {email: 'msmucker@gmail.com', password: 'h', password_confirmation: 'hell3'}
+    assert 'Password and password confirmation do not meet specifications'
+      
+  end
+
+  def test_forgot_reset_password_done_incorrect_password_length
+    post '/forgot_password/reset/new_pass', 
+    params: {email: 'msmucker@gmail.com', password: 'h', password_confirmation: 'h'}
+    assert 'Password and password confirmation do not meet specifications'
+  end
+
   def test_get_signup
     get '/signup'
     assert_response :success

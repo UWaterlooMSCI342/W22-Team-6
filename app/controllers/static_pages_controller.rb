@@ -83,7 +83,7 @@ class StaticPagesController < ApplicationController
   
   def show_reset_password 
   end
-  
+
   def reset_password
     @user = current_user
     if @user.authenticate(params[:existing_password])

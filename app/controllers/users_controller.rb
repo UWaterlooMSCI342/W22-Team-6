@@ -67,7 +67,7 @@ class UsersController < ApplicationController
   def update
     # update only the first_name, last_name, and email attributes
     # (ignore password validations because those are not being changed)
-    if @user.update_attribute(:first_name, user_params[:first_name]) and @user.update_attribute(:last_name, user_params[:last_name]) and @user.update_attribute(:email, user_params[:email])
+    if @user.update({ skip_password: true, first_name: user_params[:first_name], last_name: user_params[:last_name], email: user_params[:email] })
       redirect_to @user, notice: 'User was successfully updated.'
     else
       render :edit

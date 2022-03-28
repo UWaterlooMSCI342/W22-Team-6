@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-
+  attr_accessor :skip_password
+  
   validates_presence_of :first_name, :last_name
   validates_length_of :first_name, maximum: 40
 
@@ -16,9 +17,9 @@ class User < ApplicationRecord
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, if: -> { email.nil? || !email.empty? }
   validates_uniqueness_of :email
   has_secure_password
-  validates_presence_of :password
-  validates_length_of :password, minimum: 6
-  validates_presence_of :password_confirmation
+  validates_presence_of :password, unless: :skip_password
+  validates_length_of :password, minimum: 6, unless: :skip_password
+  validates_presence_of :password_confirmation, unless: :skip_password
 
 
   

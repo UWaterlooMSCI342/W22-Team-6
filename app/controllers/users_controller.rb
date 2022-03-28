@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:index, :edit, :show, :update, :destroy]
   before_action :require_admin, only: [:index, :destroy]
-  before_action :require_access, only: [:show, :edit]
+  before_action :require_access, only: [:show]
+  before_action :require_access_edit, only: [:edit]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -248,6 +249,16 @@ class UsersController < ApplicationController
           flash[:notice] = "You do not have permission to access someone else's profile."
           redirect_to root_url
         end
+      end
+    end
+
+    def require_access_edit
+      # user can edit only their own profile
+      set_user
+      
+      if @user.attributes != @current_user.attributes
+        flash[:notice] = "You do not have permission to edit someone else's profile."
+        redirect_to root_url
       end
     end
 end

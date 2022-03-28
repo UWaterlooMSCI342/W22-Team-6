@@ -26,4 +26,7 @@
   <% end %>
 </p>
 
-<%= link_to 'Back', :back %> | <%= link_to 'Edit', edit_user_path(@user) %>
+<%= link_to 'Back', :back %>
+<% if @user == current_user %>
+   | <%= link_to 'Edit', edit_user_path(@user) %>
+<% end %>

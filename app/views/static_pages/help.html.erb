@@ -20,34 +20,7 @@
 
   <div class="help-div">
     <h2>Team Summary View </h2>
-    <p><b>Urgency/Intervention Level</b> - This displays the overall urgency of the Teams's feedback.<br>
-                                           The Team's urgency was calcuated based on their participation, effort, and punctuality ratings.<br>
-                                           Values can be either <i>"No feedback", "High","Medium", or "Low" </i> and the status colour reflects the urgency as blue, red, yellow, or green respectively.<br>
-                                           <br>
-                                           Scenarios that can result in a <i>"High"</i> and status of red:
-                                           <ul>
-                                           <li>If more than half of the team does not submit feedback for the week </li>
-                                           <li>If at least one member of the team has an individual priority of "High"</li>
-                                           <li>If any of the average participation, effort, or punctuality ratings are on the lower end of the scale (between 1 and 2.333)</li>
-                                           </ul>
-                                           <br>
-                                           Scenarios that can result in a <i>"Medium"</i> and status of yellow:
-                                           <ul>
-                                           <li>If less than half the team did not submit feedback, but at least one member still has not submitted</li>
-                                           <li>If any of the average participation, effort, or punctuality ratings are in the middle of the scale (between 2.333 and 3.666)</li>
-                                           </ul>
-                                           <br>
-                                           Scenarios that can result in a <i>"Low"</i> and status of green:
-                                           <ul>
-                                           <li>If all team members have submitted their feedback and their average participation, effort, or punctuality ratings are in the higher end of the scale (between 3.666 and 5)</li>
-                                           </ul>
-                                           <br>
-                                           Scenarios that can result in <i>"No feedback"</i> and status of blue:
-                                           <ul>
-                                           <li>If there are no team members on the team</li>
-                                           </ul> 
-    </p>
-    <p><b>Average Rating (Out of 5)</b> - Average rating from team members feedback.</p>
+    <%= render 'priority_ratings_help' %>
     <p><b>Team Name</b> - The assigned name to the team.</p>
     <p><b>Team Code</b> - Provide this code to students prior to signup, and instruct them to enter the code into the 
       'Team/admin code' field upon signup so they are added to the appropriate team.</p>
@@ -74,9 +47,12 @@
             <li>Select a team name from the dropdown</li>
             <li>All team names are within the dropdown selection</li>
           </ul>
-        <li><b>Participation Rating</b> - Filters for selected participation rating</li>
-        <li><b>Effort Rating</b> - Filters for selected effort rating</li>
-        <li><b>Punctuality Rating</b> - Filters for selected punctuality rating</li>
+        <li><b>Participation Rating</b> - Filters for selected range of participation ratings</li>
+          <ul>
+            <li>For example, if 2 and 4 are selected in the 'start' and 'end' dropdowns respectively, any feedback with a participation rating of 2, 3 or 4 will be shown.</li>
+          </ul>
+        <li><b>Effort Rating</b> - Filters for selected range of effort ratings</li>
+        <li><b>Punctuality Rating</b> - Filters for selected range of punctuality ratings</li>
         <li><b>Priority</b> - Filters for selected priority</li>
         <li><b>Timestamp</b> - Filters for all timestamps within the selected time range</li>
           <ul>
@@ -86,7 +62,7 @@
       </ul>
     </p>
     <p>
-      Click the filter button to apply the filters. Click the clear button to clear the selected filters.
+      Click the filter button to apply the filters.
     </p>
     <p>
       After filters are applied, they will show underneath. Click the reset button to clear the applied filters.

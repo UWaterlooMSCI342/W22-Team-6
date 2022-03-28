@@ -9,8 +9,15 @@
   <% if request.query_string.present? %>
     <% params = CGI.parse(URI.parse(request.original_url).query) %>
 
+    <% no_rating_filter = false %>
+    <% if !params.slice("participation_rating_start", "participation_rating_end").values.any?{|i| i.last.empty?} or !params.slice("effort_rating_start", "effort_rating_end").values.any?{|i| i.last.empty?} or !params.slice("punctuality_rating_start", "punctuality_rating_end").values.any?{|i| i.last.empty?} %>
+      <% no_rating_filter = true %>
+    <% end %>
+
+    <% excluded_params = ["end_date", "commit", "participation_rating_start", "participation_rating_end", "effort_rating_start", "effort_rating_end", "punctuality_rating_start", "punctuality_rating_end"] %>
+
     <!-- Only shows applied filters if filter form submitted with some non-empty values -->
-    <% if params["commit"] == ["Filter"] and params.except("end_date", "commit").values.any?{|i| !i.last.empty?}%>
+    <% if params["commit"] == ["Filter"] and (params.except(*excluded_params).values.any?{|i| !i.last.empty?} or no_rating_filter) %>
       <p><b>Applied filters:</b></p>
 
       <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
@@ -25,7 +32,7 @@
         <% rating_end = params[(Feedback::RATING_FILTERABLE_PARAMS[index].name + "_end")].first %>
 
         <% if !rating_start.empty? && !rating_end.empty? %>
-         <p><%= filter %>: <%= rating_start %>-<%= rating_end %></p>
+          <p><%= filter %>: <%= rating_start %>-<%= rating_end %></p>
         <% end %>
       <% end %>
 

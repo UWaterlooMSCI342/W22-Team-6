@@ -8,10 +8,13 @@ class UserVerification < ApplicationRecord
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, if: -> { email.nil? || !email.empty? }
 
   # TODO: Implement testing.
+  # https://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html
   def self.import(file)
-    CSV.foreach(file.path, headers: true) do |row|
-      team = Team.find_by(team_code: row["team"])
-      UserVerification.create!(team: team, email: row["email"])
+    UserVerification.transaction do
+      CSV.foreach(file.path, headers: true) do |row|
+        team = Team.find_by(team_code: row["team"])
+        UserVerification.create!(team: team, email: row["email"])
+      end
     end
   end
 end

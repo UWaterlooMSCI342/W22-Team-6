@@ -1,7 +1,7 @@
 <h1>User Verifications</h1>
 
 <%= form_tag import_user_verifications_path, multipart: true do %>
-  <%= file_field_tag :file %>
+  <%= file_field_tag :file, required: true %>
   <%= submit_tag "Import CSV" %>
 <% end %>
 

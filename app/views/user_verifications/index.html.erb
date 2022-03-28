@@ -1,0 +1,36 @@
+<h1>User Verifications</h1>
+
+<%= form_tag import_user_verifications_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import CSV" %>
+<% end %>
+
+<% if @user_verifications.size == 0 %>
+  <p>No user verifications yet!</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Team Code</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @user_verifications.each do |uv| %>
+        <tr id=user_verification<%= uv.id %>>
+          <td><%= link_to uv.team.team_name, team_path(uv.team) %></td>
+          <td><%= uv.team.team_code %></td>
+          <td><%= uv.email %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<div style="text-align: center;">
+  <%= will_paginate @user_verifications %>
+</div>
+
+<%= link_to 'Back', :back %>

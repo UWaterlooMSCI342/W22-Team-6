@@ -2,7 +2,10 @@ Rails.application.routes.draw do
   resources :teams
 
   resources :user_verifications do
-    collection { post :import }
+    collection do
+      post :import
+      get :index
+    end
   end
 
   resources :feedbacks

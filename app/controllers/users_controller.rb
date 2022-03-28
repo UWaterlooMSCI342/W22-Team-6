@@ -51,6 +51,12 @@ class UsersController < ApplicationController
         else 
           @user.teams = [team]
         end    
+
+        # Verify student is signing up for correct team.
+        uv = UserVerification.find_by(team: team, email: user_params[:email])
+        if uv.nil?
+          @user.errors.add :teams, :invalid, message: "code incorrect for provided email"
+        end
       end
     end 
 

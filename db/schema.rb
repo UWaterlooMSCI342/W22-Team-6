@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2022_03_28_014013) do
     t.bigint "team_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_user_verifications_on_email", unique: true
+    t.index ["email", "team_id"], name: "index_user_verifications_on_email_and_team_id", unique: true
     t.index ["team_id"], name: "index_user_verifications_on_team_id"
   end
 

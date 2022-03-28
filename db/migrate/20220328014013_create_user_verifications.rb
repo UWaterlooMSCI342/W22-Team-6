@@ -5,6 +5,6 @@ class CreateUserVerifications < ActiveRecord::Migration[6.1]
       t.belongs_to :team, foreign_key: true
       t.timestamps
     end
-    add_index :user_verifications, :email, unique: true
+    add_index :user_verifications, [:email, :team_id], unique: true
   end
 end

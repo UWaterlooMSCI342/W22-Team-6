@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :teams
 
+  resources :user_verifications do
+    collection { post :import }
+  end
+
   resources :feedbacks
   root 'static_pages#home'
   get '/help', to: 'static_pages#help'

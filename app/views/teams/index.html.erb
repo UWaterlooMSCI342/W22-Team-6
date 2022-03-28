@@ -1,5 +1,13 @@
 <h1>Teams</h1>
 
+<div>
+  <h4>Import that data!</h4>
+  <%= form_tag import_user_verifications_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import CSV" %>
+  <% end %>
+</div>
+
 <% if @teams.size == 0 %>
   <p>No teams yet!</p>
 <% else %>

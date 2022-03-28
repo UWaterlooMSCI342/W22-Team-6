@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
   resources :teams
 
-  resources :user_verifications do
-    collection do
-      post :import
-      get :index
-    end
+  resources :user_verifications, only: :index
+  namespace :user_verifications do
+    post :import
   end
 
   resources :feedbacks

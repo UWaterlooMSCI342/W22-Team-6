@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:index, :edit, :show, :update, :destroy]
-  before_action :require_admin, only: [:index, :edit, :update, :destroy]
+  before_action :require_admin, only: [:index, :destroy]
   before_action :require_access, only: [:show, :edit]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -65,7 +65,9 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
+    # update only the first_name, last_name, and email attributes
+    # (ignore password validations because those are not being changed)
+    if @user.update_attribute(:first_name, user_params[:first_name]) and @user.update_attribute(:last_name, user_params[:last_name]) and @user.update_attribute(:email, user_params[:email])
       redirect_to @user, notice: 'User was successfully updated.'
     else
       render :edit

@@ -1,4 +1,11 @@
 class UserVerificationsController < ApplicationController
+  before_action :require_login
+  before_action :require_admin
+
+  def index
+    @user_verifications = UserVerification.paginate(page: params[:page], per_page: 10)
+  end
+
   # https://www.mattmorgante.com/technology/csv
   def import
     # Assumes CSV file imported is correctly formatted.
@@ -10,9 +17,5 @@ class UserVerificationsController < ApplicationController
       redirect_to user_verifications_url
       flash[:error] = "#{exception} for a row."
     end
-  end
-
-  def index
-    @user_verifications = UserVerification.paginate(page: params[:page], per_page: 10)
   end
 end

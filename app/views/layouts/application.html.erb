@@ -59,6 +59,12 @@
             <li><%= link_to 'Feedback & Ratings', feedbacks_path %></li>
           <% end %>
 
+          <% if current_page?(user_verifications_path) %>
+            <li><%= link_to 'User Verifications', user_verifications_path, class: "active" %></li>
+          <% else %>
+            <li><%= link_to 'User Verifications', user_verifications_path %></li>
+          <% end %>
+
           <% if current_page?('/help') or current_page?('team_view/help') %>
             <li class="navlast"><%= link_to 'Help', '/help', class: "active" %></li>
           <% else %>

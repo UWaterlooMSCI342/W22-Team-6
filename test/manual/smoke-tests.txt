@@ -72,7 +72,19 @@ T7: View Own Profile
     Role: Student
     Team: Test Team
 
-T8: View Own Team Profile
+T8: Edit Own Profile
+1. Select 'Edit'
+2. Enter the following in each field:
+    First name: Student
+    Last name: Test
+    Email: newtest@student.com
+3. Select 'Update account'
+4. Assert that profile is updated with:
+    First name: Student
+    Last name: Test
+    Email: newtest@student.com
+
+T9: View Own Team Profile
 1. Hover over 'Account'
 2. Select 'Team Profile'
 3. Assert that you are viewing the student's team profile including 'Historical Feedback':
@@ -83,7 +95,7 @@ T8: View Own Team Profile
     Avg. Punctuality Rating (Out of 5): 1.0
     Weighted Priority: High
 
-T9: Change Password
+T10: Change Password
 1. Hover over 'Account'
 2. Select 'Change Password'
 3. Enter the following in each field:
@@ -95,7 +107,7 @@ T9: Change Password
 6. Hover over 'Account'
 7. Select 'Logout'
 
-T10: Login as Student
+T11: Login as Student
 1. Enter the following in each field:
     Email: test@student.com
     Password: password
@@ -109,14 +121,14 @@ T10: Login as Student
 7. Hover over 'Account'
 8. Select 'Logout'
 
-T11: View Team Summary
+T12: View Team Summary
 1. Enter the following in each field:
     Email: msmucker@gmail.com
     Password: professor
 2. Select 'Login'
 3. Assert that the 'Test Team' appears in the 'Team Summary View' with priority level 'High'
 
-T12: View Student Profile
+T13: View Student Profile
 1. Select 'Test Student' from 'Team Summary View' table
 2. Assert that you are viewing the student's profile:
     Email: test@student.com
@@ -125,23 +137,23 @@ T12: View Student Profile
     Role: Student
     Team: Test Team
 
-T13: View Student's Team Profile
+T14: View Student's Team Profile
 1. Select 'Test Team'
 2. Assert that you are viewing the student's team profile including 'Historical Feedback':
     Team Name: Test Team
     Team Members: Test Student
     Weighted Priority: High
 
-T14: Export Current Week Missing Feedback
+T15: Export Current Week Missing Feedback
 1. Select 'Home'
 2. Select 'Export Current Week Missing Feedback'
 3. Assert a blank Excel CSV file is downloaded
 
-T15: Export Previous Week Missing Feedback
+T16: Export Previous Week Missing Feedback
 1. Select 'Export Previous Week Missing Feedback'
 2. Assert an Excel CSV file is downloaded with 'Test Student' as a row
 
-T16: Filter Feedbacks with Aligned Options
+T17: Filter Feedbacks with Aligned Options
 1. Select 'Feedback & Ratings'
 2. Enter the following filter fields:
     Participation rating start: 1
@@ -151,17 +163,17 @@ T16: Filter Feedbacks with Aligned Options
 3. Select 'Filter'
 4. Assert only feedbacks displayed are ones that align with options selected
 
-T17: Filter Feedbacks with Unaligned Options
+T18: Filter Feedbacks with Unaligned Options
 1. Enter the following filter fields:
     Priority: Low
 2. Select 'Filter'
 3. Assert no feedbacks are displayed
 
-T18: Reset Feedback Filters
+T19: Reset Feedback Filters
 1. Select 'Reset'
 2. Assert all feedbacks are displayed again
 
-T19: Delete Student
+T20: Delete Student
 1. Select 'Manage Users'
 2. Select 'Delete User' for 'Test Student'
 3. Select 'Delete User'
@@ -169,7 +181,7 @@ T19: Delete Student
 5. Select 'Feedback & Ratings'
 6. Assert feedback from 'Test Student' has also been deleted
 
-T20: Delete Team
+T21: Delete Team
 1. Select 'Manage Teams'
 2. Select 'Delete Team' for 'Test Team'
 3. Select 'Delete Team'
@@ -178,7 +190,7 @@ T20: Delete Team
 6. Select 'Logout'
 
 
-T21: Forgot Password
+T22: Forgot Password
 
 1. Visit root url
 2. Click on 'Forgot Password' Enter'msmucker@gmail.com in the email field

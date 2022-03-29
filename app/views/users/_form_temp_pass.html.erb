@@ -1,19 +1,12 @@
 <%= form_with(method: :post, local: true) do |form| %>
-<% if !flash[:error].nil? %>
-    <% is_invalid = flash[:error].include? "Password and password confirmation do not meet specifications" %>
-<% end %>
 
 <br>
 <br>
 
-  <div class=<%= is_invalid ? "field_with_errors" : "" %>>
+  <div class="field">
     <%= form.label "Temporary Password" %>
     <%= form.text_field :temp_pass, value: code, readonly:true %>
   </div>
-
-  <%= form.hidden_field :password, value: :temp_pass  %>
-  <%= form.hidden_field :password_confirmation, value: :temp_pass  %>
-  <%= form.hidden_field :email, value: user.email  %>
 
   <div class="actions">
     <%= form.submit "Update " + user.first_name + "'s password" %>

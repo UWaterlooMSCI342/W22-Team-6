@@ -18,6 +18,7 @@ class TeamsController < ApplicationController
     end 
     
     @periods = @team.feedback_by_period
+    
     if !@periods.nil?
       @periods.each do |period| 
         period << week_range(period[0][:year], period[0][:week])

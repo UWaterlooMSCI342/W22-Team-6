@@ -105,16 +105,22 @@ class Team < ApplicationRecord
   # first element of each row is year and week, second element is the list of feedback
   def feedback_by_period
     periods = {}
+    date = DateTime.now
+    current_week = date.cweek
     feedbacks = self.feedbacks
     if feedbacks.count > 0
       feedbacks.each do |feedback| 
         week = feedback.timestamp.to_date.cweek 
         year = feedback.timestamp.to_date.cwyear
-        if periods.empty? || !periods.has_key?({year: year, week: week})
-          periods[{year: year, week: week}] = [feedback]
+        if week == current_week
+
         else 
-          periods[{year: year, week: week}] << feedback
-        end
+          if periods.empty? || !periods.has_key?({year: year, week: week})
+            periods[{year: year, week: week}] = [feedback]
+          else 
+            periods[{year: year, week: week}] << feedback
+          end
+        end 
       end
       periods.sort_by do |key, value| 
         [-key[:year], -key[:week]]

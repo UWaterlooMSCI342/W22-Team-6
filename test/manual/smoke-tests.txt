@@ -82,6 +82,7 @@ T8: View Own Team Profile
     Avg. Effort Rating (Out of 5): 1.0
     Avg. Punctuality Rating (Out of 5): 1.0
     Weighted Priority: High
+4. Assert that the 'Historical Feedback' does not include the currents week's feedback
 
 T9: Change Password
 1. Hover over 'Account'

@@ -28,14 +28,15 @@ class UsersController < ApplicationController
 
     if temp_pass.length < 6
       flash[:error] = 'Password and password confirmation do not meet specifications'
-
+      redirect_to request.path, :params => params #redirect_to current url
     elsif @user_temp.update(password: temp_pass, password_confirmation: temp_pass)
       @user_temp.update(has_to_reset_password: true)
       flash[:notice] = 'Password successfully updated!'
       redirect_to root_url 
-      # byebug
+
     else 
       flash[:error] = 'Password and password confirmation do not meet specifications'
+      redirect_to request.path, :params => params #redirect_to current url
     end 
 
   end

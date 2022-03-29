@@ -1,20 +1,12 @@
 <%= form_with(method: :post, local: true) do |form| %>
-  <% if user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
-        <% user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<% if !flash[:error].nil? %>
+    <% is_invalid = flash[:error].include? "Password and password confirmation do not meet specifications" %>
+<% end %>
 
 <br>
 <br>
 
-  <div class="field">
+  <div class=<%= is_invalid ? "field_with_errors" : "" %>>
     <%= form.label "Temporary Password" %>
     <%= form.text_field :temp_pass, value: code %>
   </div>

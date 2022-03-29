@@ -28,6 +28,9 @@ T4: Signup
     Email: test@student.com
     Password: password
     Confirm password: password
+    What was the name of the city you were born in?: toronto
+    What is the name of the highschool you attended?: ECI 
+    What was your favorite food as a child?: pizza
 3. Select 'Create account'
 4. Assert you have created a student and logged in (should display 'User was successfully created.')
 

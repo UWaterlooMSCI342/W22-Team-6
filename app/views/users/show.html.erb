@@ -28,8 +28,8 @@
   <% end %>
 </p>
 
-
-<p><%= link_to 'Reset ' + @user.first_name.titleize + "'s Password" , user_temp_password_path %></p>
-
+<% if !@user.is_admin? %>
+  <p><%= link_to 'Reset ' + @user.first_name + "'s Password" , user_temp_password_path %></p>
+<% end %>
 <p><%= link_to 'Back', :back %></p>
 

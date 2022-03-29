@@ -92,24 +92,19 @@ class StaticPagesController < ApplicationController
   end
 
   def reset_password
-
-    unless logged_in?
-      redirect_to login_path 
-    else 
-      @user = current_user 
-      if @user.authenticate(params[:existing_password])
-        if @user.update(password: params[:password], password_confirmation: params[:password_confirmation])
-          flash[:notice] = 'Password successfully updated!'
-          redirect_to root_url 
-          @user.update(has_to_reset_password: false)
-        else 
-          flash[:error] = 'Password and password confirmation do not meet specifications'
-          redirect_to reset_password_path
-        end 
-      else
-        flash[:error] = 'Incorrect existing password'
+    @user = current_user 
+    if @user.authenticate(params[:existing_password])
+      if @user.update(password: params[:password], password_confirmation: params[:password_confirmation])
+        flash[:notice] = 'Password successfully updated!'
+        redirect_to root_url 
+        @user.update(has_to_reset_password: false)
+      else 
+        flash[:error] = 'Password and password confirmation do not meet specifications'
         redirect_to reset_password_path
-      end
+      end 
+    else
+      flash[:error] = 'Incorrect existing password'
+      redirect_to reset_password_path
     end
   end
   

@@ -140,8 +140,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_temp_password_reset
-      get user_temp_password_url(@user.id)
-      assert :success
+    get user_temp_password_url(@user.id)
+    assert :success
   end
 
   def test_temp_password_reset_matching_password
@@ -152,7 +152,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_temp_password_reset_incorrect
     post user_temp_password_reset_url(@user.id),
-    params: {temp_pass: "hello", password: "hello", password_confirmation: "hello"}
+      params: {temp_pass: "hello123", password: "hello123", password_confirmation: "hello123"}
     assert :success
     
     post user_temp_password_reset_url(@user.id),

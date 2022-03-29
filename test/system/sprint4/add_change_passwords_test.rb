@@ -215,15 +215,23 @@ class AddChangePasswordsTest < ApplicationSystemTestCase
     login "msmucker@gmail.com", "professor"
     assert_current_path root_url
 
+    name = @user1.full_name
     visit  user_temp_password_url(@user1.id)
     click_on "Update " + @user1.first_name + "'s password"
+    assert_current_path root_url
+    assert_text name + "'s temporary password has been successfully updated. Please provide this password to them."
 
-    visit  user_temp_password_url(@user1.id)
-    fill_in "temp_pass", with: "h"
-    click_on "Update " + @user1.first_name + "'s password"
+    # visit  user_temp_password_url(@user1.id)
+    # fill_in "temp_pass", with: "h"
+    # click_on "Update " + @user1.first_name + "'s password"
+    # assert_current_path root_url
+    # assert_text name + "'s temporary password has been successfully updated. Please provide this password to them."
 
     visit  user_temp_password_url(@user1.id)
     fill_in "temp_pass", with: "hello123"
     click_on "Update " + @user1.first_name + "'s password"
+    assert_current_path root_url
+    assert_text name + "'s temporary password has been successfully updated. Please provide this password to them."
+    
   end
 end

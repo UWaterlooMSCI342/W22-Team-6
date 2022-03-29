@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: [:index, :edit, :show, :update, :destroy]
-  before_action :require_admin, only: [:index, :edit, :update, :destroy]
+  before_action :require_login, only: [:index, :edit, :show, :update, :destroy, :temp_password, :temp_password_reset ]
+  before_action :require_admin, only: [:index, :edit, :update, :destroy, :temp_password, :temp_password_reset]
   before_action :require_access, only: [:show, :edit]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :temp_password, :temp_password_reset]
 
   # GET /users
   def index
@@ -13,33 +13,28 @@ class UsersController < ApplicationController
   def show
   end
 
-
+  # GET /users/1/temp_password
   def temp_password
-    @user = User.find(params[:id])
-
-    render :temp_password
   end
 
   def temp_password_reset
     temp_pass = params[:temp_pass]
-    user_email = params[:email]
-    user_id = params[:id]
-    @user_temp = User.where(email: user_email)
 
-    if temp_pass.length < 6
-      flash[:error] = 'Password and password confirmation do not meet specifications'
-      redirect_to request.path, :params => params #redirect_to current url
-    elsif @user_temp.update(password: temp_pass, password_confirmation: temp_pass)
-      @user_temp.update(has_to_reset_password: true)
-      flash[:notice] = 'Password successfully updated!'
+    # if temp_pass.length < 6
+    #   flash[:error] = 'Temporary password does not meet specifications.'
+    #   redirect_to request.path, :params => params #redirect_to current url
+    if @user.update(password: temp_pass, password_confirmation: temp_pass)
+      @user.update(has_to_reset_password: true)
+      name = @user.full_name
+      flash[:notice] = name + "'s temporary password has been successfully updated. Please provide this password to them."
       redirect_to root_url 
+    end
+    # else 
+    #   flash[:error] = 'Temporary password does not meet specifications.'
+    #   redirect_to request.path, :params => params #redirect_to current url
+    # end 
 
-    else 
-      flash[:error] = 'Password and password confirmation do not meet specifications'
-      redirect_to request.path, :params => params #redirect_to current url
-    end 
-
-  end
+  end 
 
   # GET /signup
   def new

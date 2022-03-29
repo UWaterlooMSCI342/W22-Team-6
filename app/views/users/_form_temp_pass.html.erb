@@ -8,7 +8,7 @@
 
   <div class=<%= is_invalid ? "field_with_errors" : "" %>>
     <%= form.label "Temporary Password" %>
-    <%= form.text_field :temp_pass, value: code %>
+    <%= form.text_field :temp_pass, value: code, readonly:true %>
   </div>
 
   <%= form.hidden_field :password, value: :temp_pass  %>

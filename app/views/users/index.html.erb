@@ -34,8 +34,6 @@
   </tbody>
 </table>
 
-<div style="text-align: center;">
-  <%= will_paginate @users %>
-</div>
+<%= render 'static_pages/paginate', model: @users %>
 
 <%= link_to 'Back', :back %>

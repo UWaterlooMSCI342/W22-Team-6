@@ -1,4 +1,5 @@
 class FeedbacksController < ApplicationController
+  include ApplicationHelper
   helper_method :sort_column, :sort_direction
 
   before_action :require_login
@@ -10,7 +11,7 @@ class FeedbacksController < ApplicationController
 
   # GET /feedbacks
   def index
-    @feedbacks = Feedback.filter_and_sort(params, sort_column, sort_direction).paginate(page: params[:page], per_page: 10)
+    @feedbacks = Feedback.filter_and_sort(params, sort_column, sort_direction).paginate(page: params[:page], per_page: per_page)
   end
 
   # GET /feedbacks/1

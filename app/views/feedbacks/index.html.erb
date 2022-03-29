@@ -1,6 +1,11 @@
 <h1>Feedbacks</h1>
 
 <p>You can find a history of all feedbacks submitted below.</p>
+<p>
+  If you would like to view a specific number of feedbacks per page, please specify the number of 
+  rows to display using the dropdown at the bottom of the page <b>before</b> applying the desired 
+  filtering/sorting.
+</p>
 
 <%= render 'filter', path: feedbacks_path %>
 
@@ -16,8 +21,8 @@
 
     <% excluded_params = ["end_date", "commit", "participation_rating_start", "participation_rating_end", "effort_rating_start", "effort_rating_end", "punctuality_rating_start", "punctuality_rating_end"] %>
 
-    <!-- does not show filters if sorting or no filters selected -->
-    <% if params["sort"].empty? and params["page"].empty? and (params.except(*excluded_params).values.any?{|i| !i.last.empty?} or no_rating_filter) %>
+    <!-- Only shows applied filters if filter form submitted with some non-empty values -->
+    <% if params["commit"] == ["Filter"] and (params.except(*excluded_params).values.any?{|i| !i.last.empty?} or no_rating_filter) %>
       <p><b>Applied filters:</b></p>
 
       <% Feedback::FILTERABLE_PARAMS_STRINGS.each_with_index do |filter, index| %>
@@ -100,9 +105,7 @@
   </tbody>
 </table>
 
-<div style="text-align: center;">
-  <%= will_paginate @teams %>
-</div>
+<%= render 'static_pages/paginate', model: @feedbacks %>
 
 <br>
 <%= link_to 'Back', :back %>

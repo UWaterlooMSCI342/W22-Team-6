@@ -176,3 +176,16 @@ T20: Delete Team
 4. Assert 'Test Team' has been deleted (should display 'Team was successfully destroyed.')
 5. Hover over 'Account'
 6. Select 'Logout'
+
+
+T21: Forgot Password
+
+1. Visit root url
+2. Click on 'Forgot Password' Enter'msmucker@gmail.com in the email field
+3. Click 'Next'Answer the two security questions that show up
+  - If question asks for city you were born in, type "toronto"
+  - If question asks about which high school you went to, type in "waterloo"
+  - If question asks you about your favourite food as child, type in 'pizza'
+4. Click 'Submit'You should arrive on reset password.
+5. Type in 'reset123' for password field and password confirmation field
+6. Click on 'Submit'

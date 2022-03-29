@@ -2,7 +2,7 @@ require 'csv'
 
 class StaticPagesController < ApplicationController
 
-  before_action :require_login
+  before_action :require_login, except: [:home]
   before_action :get_teams, :current_week
   helper_method :rating_reminders, :has_submitted
   helper_method :days_till_end_week
@@ -28,14 +28,10 @@ class StaticPagesController < ApplicationController
   end
   
   def help
-    unless logged_in?
-      redirect_to login_path
+    if current_user.is_admin
+      render :help
     else
-       if current_user.is_admin
-         render :help
-       else
-         redirect_to root_url
-       end
+      redirect_to root_url
     end
   end
 
@@ -93,12 +89,10 @@ class StaticPagesController < ApplicationController
   end 
   
   def show_reset_password 
-    unless logged_in?
-      redirect_to login_path 
-    end
   end
-  
+
   def reset_password
+
     unless logged_in?
       redirect_to login_path 
     else 
@@ -112,8 +106,8 @@ class StaticPagesController < ApplicationController
           flash[:error] = 'Password and password confirmation do not meet specifications'
           redirect_to reset_password_path
         end 
-      else 
-        flash[:error] = 'Incorrect existing password' 
+      else
+        flash[:error] = 'Incorrect existing password'
         redirect_to reset_password_path
       end
     end

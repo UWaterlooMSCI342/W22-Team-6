@@ -9,6 +9,7 @@ require "application_system_test_case"
 #    other than the registration page or the login page
 # 4. Given I am not an admin, I should not be able to access any pages that 
 #    are restricted to admins only
+# 5. Given that I first access the application, I should not see a "Please log in" error message displayed.
 
 class LoginPortalUnvalidatedsTest < ApplicationSystemTestCase
   # (1)
@@ -89,4 +90,9 @@ class LoginPortalUnvalidatedsTest < ApplicationSystemTestCase
       assert_current_path url
     end
   end    
+
+  def test_please_log_in_message
+    visit root_url
+    assert_no_text "Please log in."
+  end
 end

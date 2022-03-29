@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+
+  include ApplicationHelper
+
   before_action :require_login, only: [:index, :edit, :show, :update, :destroy, :temp_password, :temp_password_reset ]
   before_action :require_admin, only: [:index, :edit, :update, :destroy, :temp_password, :temp_password_reset]
   before_action :require_access, only: [:show, :edit]
@@ -6,7 +9,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.paginate(page: params[:page], per_page: 10)
+    @users = User.paginate(page: params[:page], per_page: per_page)
   end
 
   # GET /users/1

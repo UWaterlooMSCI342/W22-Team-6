@@ -1,11 +1,13 @@
 class TeamsController < ApplicationController
+  include ApplicationHelper
+
   before_action :require_login
   before_action :require_admin, except: [:show, :help]
   before_action :set_team, only: [:show, :edit, :update, :destroy]
 
   # GET /teams
   def index
-    @teams = Team.paginate(page: params[:page], per_page: 10)
+    @teams = Team.paginate(page: params[:page], per_page: per_page)
   end
 
   # GET /teams/1

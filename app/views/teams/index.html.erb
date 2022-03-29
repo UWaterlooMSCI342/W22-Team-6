@@ -31,9 +31,7 @@
   </table>
 <% end %>
 
-<div style="text-align: center;">
-  <%= will_paginate @teams %>
-</div>
+<%= render 'static_pages/paginate', model: @teams %>
 
 <br>
 <%# Use id to prevent capybara getting confused about which "new team" link to click %>

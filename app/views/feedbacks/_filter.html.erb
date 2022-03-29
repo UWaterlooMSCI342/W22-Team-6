@@ -53,6 +53,8 @@
     <%= form.date_field :end_date, value: Date.today %>
   </div>
 
+  <%= (form.hidden_field :per_page, value: params[:per_page]) if params[:per_page].present? %>
+
   <div class="actions">
     <%= form.submit "Filter" %>
   </div>

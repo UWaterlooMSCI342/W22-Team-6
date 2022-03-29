@@ -23,11 +23,11 @@ class UsersController < ApplicationController
   def temp_password_reset
     temp_pass = params[:temp_pass]
     user_email = params[:email]
+    user_id = params[:id]
     @user_temp = User.where(email: user_email)
 
     if temp_pass.length < 6
       flash[:error] = 'Password and password confirmation do not meet specifications'
-      redirect_to temp_password_path_url
 
     elsif @user_temp.update(password: temp_pass, password_confirmation: temp_pass)
       @user_temp.update(has_to_reset_password: true)
@@ -36,7 +36,6 @@ class UsersController < ApplicationController
       # byebug
     else 
       flash[:error] = 'Password and password confirmation do not meet specifications'
-      redirect_to forgot_password_new_pass_show_path_url(email: email)
     end 
 
   end

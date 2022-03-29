@@ -12,7 +12,7 @@ class UserVerification < ApplicationRecord
   def self.import(file)
     UserVerification.transaction do
       CSV.foreach(file.path, headers: true) do |row|
-        team = Team.find_by(team_code: row["team"])
+        team = Team.find_by(team_code: row["team_code"])
         UserVerification.create!(team: team, email: row["email"])
       end
     end

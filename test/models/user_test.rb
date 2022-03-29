@@ -125,5 +125,20 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, array.size
   end
 
+  def test_generate_temp_pass
+    user = User.new(email: 'charles42@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Charles', last_name: 'Olivera', is_admin: false)
+    user.save!
+
+    team = Team.new(team_name: 'Hello World', team_code: 'Code', user: user)
+    team.save!
+    team2 = Team.new(team_name: 'Team Name', team_code: 'Code2', user: user)
+    team2.save!
+    user.teams << [team, team2]
+    user.save!
+    
+    pass = User.generate_temp_pass
+    assert_equal(pass.length, 6)
+  end
+
 
 end

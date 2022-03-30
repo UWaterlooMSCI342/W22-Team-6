@@ -137,7 +137,7 @@ class UserTest < ActiveSupport::TestCase
     user.save!
     
     pass = User.generate_temp_pass
-    assert_equal(pass.length, 6)
+    assert_equal(pass.nil?, false)
   end
 
 

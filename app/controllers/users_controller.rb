@@ -46,18 +46,14 @@ class UsersController < ApplicationController
         @user.is_admin = false
         @user.valid?
         team = Team.find_by(team_code: user_params[:team_code])
-
-        #team_code is not valid 
-        if team.nil?
-          @user.errors.add :teams, :invalid, message: "code does not exist"
-        else 
-          @user.teams = [team]
-        end    
-
-        # Verify student is signing up for correct team.
         uv = UserVerification.find_by(team: team, email: user_params[:email])
-        if uv.nil?
+
+        if team.nil? # Invalid team code.
+          @user.errors.add :teams, :invalid, message: "code does not exist"
+        elsif uv.nil? # Invalid user-team combination.
           @user.errors.add :teams, :invalid, message: "code incorrect for provided email"
+        else
+          @user.teams = [team]
         end
       end
     end 

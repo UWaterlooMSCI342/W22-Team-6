@@ -8,14 +8,15 @@ class UserVerificationsController < ApplicationController
 
   # https://www.mattmorgante.com/technology/csv
   def import
-    # Assumes CSV file imported is correctly formatted.
     begin
+      # Easiest way to allow for a reupload in case a mistake was made.
       UserVerification.delete_all
+
       UserVerification.import(params[:file])
       redirect_to user_verifications_url, notice: "User Verifications succesfully imported!"
-    rescue ActiveRecord::RecordInvalid => exception
+    rescue ActiveRecord::RecordInvalid, RuntimeError => exception
       redirect_to user_verifications_url
-      flash[:error] = "#{exception} for a row."
+      flash[:error] = "#{exception}."
     end
   end
 end

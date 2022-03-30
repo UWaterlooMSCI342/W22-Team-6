@@ -25,8 +25,9 @@
     <tbody>
       <% @user_verifications.each do |uv| %>
         <tr id=user_verification<%= uv.id %>>
-          <td><%= link_to uv.team.team_name, team_path(uv.team) %></td>
-          <td><%= uv.team.team_code %></td>
+          <% team = uv.team %>
+          <td><%= link_to team.team_name, team_path(team) %></td>
+          <td><%= team.team_code %></td>
           <td><%= uv.email %></td>
         </tr>
       <% end %>

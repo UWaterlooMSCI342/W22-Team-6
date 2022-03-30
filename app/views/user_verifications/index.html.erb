@@ -35,8 +35,6 @@
   </table>
 <% end %>
 
-<div style="text-align: center;">
-  <%= will_paginate @user_verifications %>
-</div>
+<%= render 'static_pages/paginate', model: @user_verifications %>
 
 <%= link_to 'Back', :back %>

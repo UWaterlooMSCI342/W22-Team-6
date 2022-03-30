@@ -1,9 +1,11 @@
 class UserVerificationsController < ApplicationController
+  include ApplicationHelper
+
   before_action :require_login
   before_action :require_admin
 
   def index
-    @user_verifications = UserVerification.paginate(page: params[:page], per_page: 10)
+    @user_verifications = UserVerification.paginate(page: params[:page], per_page: per_page)
   end
 
   # https://www.mattmorgante.com/technology/csv

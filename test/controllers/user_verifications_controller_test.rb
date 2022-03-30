@@ -29,6 +29,6 @@ class UserVerificationsControllerTest < ActionDispatch::IntegrationTest
     file = Rack::Test::UploadedFile.new("#{@file_path}row_with_invalid_email.csv", "text/csv")
     post(user_verifications_import_url, params: { file: file })
     assert_redirected_to user_verifications_url
-    assert "Validation Failed:"
+    assert "Validation failed:"
   end
 end

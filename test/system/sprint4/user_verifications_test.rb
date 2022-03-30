@@ -12,15 +12,21 @@ class UserVerificationsTest < ApplicationSystemTestCase
     @team2 = Team.create(team_name: "Team 2", team_code: "abcdef", user: @prof)
   end
 
-  def test_upload_user_verifications_csv_file
+  def test_upload_user_verifications_csv_file_fail_then_success
     visit root_url
     login 'msmucker@gmail.com', 'professor'
 
     click_on "User Verifications"
 
+    # As professor, submit CSV with invalid data.
+    attach_file("file", "#{Rails.root}/test/fixtures/files/row_with_invalid_email.csv")
+    click_on "Import CSV"
+    assert_current_path user_verifications_url
+    assert_text "Validation failed:"
+
+    # As professor, submit CSV with valid data.
     attach_file("file", "#{Rails.root}/test/fixtures/files/all_valid_data.csv")
     click_on "Import CSV"
-
     assert_current_path user_verifications_url
     assert_text "User Verifications successfully imported!"
     assert_text "abcdef test3@test.com"

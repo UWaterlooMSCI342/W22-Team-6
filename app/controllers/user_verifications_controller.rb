@@ -5,7 +5,7 @@ class UserVerificationsController < ApplicationController
   before_action :require_admin
 
   def index
-    @user_verifications = UserVerification.paginate(page: params[:page], per_page: per_page)
+    @user_verifications = UserVerification.left_joins(:team).order("team_name ASC").paginate(page: params[:page], per_page: per_page)
   end
 
   # https://www.mattmorgante.com/technology/csv

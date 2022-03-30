@@ -3,6 +3,7 @@ require 'csv'
 class StaticPagesController < ApplicationController
 
   before_action :require_login, except: [:home]
+  before_action :require_temp_pass, only: [:home, :help, :get_teams ]
   before_action :get_teams, :current_week
   helper_method :rating_reminders, :has_submitted
   helper_method :days_till_end_week
@@ -16,12 +17,6 @@ class StaticPagesController < ApplicationController
       @rating_reminders = @user.rating_reminders
       @has_submitted = @user.has_submitted
       @days_till_end_week = days_till_end(@now, @cweek, @cwyear)
-      
-      if (@user.has_to_reset_password and !@user.is_admin?)
-        flash[:notice] = "Please reset your password with the temporary password that the professor provided."
-        redirect_to reset_password_path
-        return
-      end
 
       render :home
     end

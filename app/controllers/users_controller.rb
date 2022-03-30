@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   before_action :require_login, only: [:index, :edit, :show, :update, :destroy, :temp_password, :temp_password_reset ]
   before_action :require_admin, only: [:index, :edit, :update, :destroy, :temp_password, :temp_password_reset]
+  before_action :require_temp_pass, only: [:index, :edit, :show, :update, :destroy ]
   before_action :require_access, only: [:show, :edit]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :temp_password, :temp_password_reset]
 

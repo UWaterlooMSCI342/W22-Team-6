@@ -15,7 +15,10 @@ class StudentRegistrationPortalUnvalidatedsTest < ApplicationSystemTestCase
   # (1-7)
   def test_register_student  
     prof = User.create(email: 'msmucker@gmail.com', first_name: 'Elon', last_name: 'Musk', is_admin: true, password: 'professor', password_confirmation: 'professor')
-    Team.create(team_name: 'Test Team', team_code: 'TEam01', user: prof)
+    team = Team.create(team_name: 'Test Team', team_code: 'TEam01', user: prof)
+
+    student_email = "bob@uwaterloo.ca"
+    UserVerification.create(team: team, email: student_email)
     
     # register new student
     visit root_url
@@ -24,7 +27,7 @@ class StudentRegistrationPortalUnvalidatedsTest < ApplicationSystemTestCase
     fill_in "user[first_name]", with: "Bob"
     fill_in "user[last_name]", with: "smith"
     fill_in "user[team_code]", with: "TEam01"
-    fill_in "user[email]", with: "bob@uwaterloo.ca"
+    fill_in "user[email]", with: student_email
     fill_in "user[password]", with: "testpassword"
     fill_in "user[password_confirmation]", with: "testpassword"
     click_on "Create account"

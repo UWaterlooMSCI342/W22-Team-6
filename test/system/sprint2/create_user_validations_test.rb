@@ -9,9 +9,9 @@ require "application_system_test_case"
 class CreateUserValidationsTest < ApplicationSystemTestCase
     def setup
       Option.create
-      prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
-      team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: prof)
-      user = User.create(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Elon', last_name: 'Musk', is_admin: false, teams: [team])
+      @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
+      @team = Team.create(team_name: 'Test Team', team_code: 'TEAM01', user: @prof)
+      @user = User.create(email: 'scottf@gmail.com', password: 'banana', password_confirmation: 'banana', first_name: 'Elon', last_name: 'Musk', is_admin: false, teams: [@team])
     end
     #1) As a user, I cannot create an account with a duplicate email
     def test_create_duplicate_user_email
@@ -80,6 +80,9 @@ class CreateUserValidationsTest < ApplicationSystemTestCase
     end
     
     def test_create_valid 
+      student_email = "larry@gmail.com"
+      UserVerification.create(team: @team, email: student_email)
+
       #valid account
       visit root_url
       click_on "Sign Up"
@@ -87,7 +90,7 @@ class CreateUserValidationsTest < ApplicationSystemTestCase
       fill_in "user[first_name]", with: "Elon"
       fill_in "user[last_name]", with: "Musk"
       fill_in "user[team_code]", with: "TEAM01"
-      fill_in "user[email]", with: "larry@gmail.com"
+      fill_in "user[email]", with: student_email
       fill_in "user[password]", with: "abcdef"
       fill_in "user[password_confirmation]", with: "abcdef"
       click_on "Create account"

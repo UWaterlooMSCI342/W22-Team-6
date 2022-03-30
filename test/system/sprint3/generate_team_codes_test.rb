@@ -45,7 +45,10 @@ class GenerateTeamCodesTest < ApplicationSystemTestCase
   def test_student_account_creation_with_generated_team_code
     #(2) Passes acceptance criteria 2: As a student, I can use the generated team code to register an account associated with the team
     prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
-    Team.create(team_name: 'Test Team', team_code: @generated_code.to_s, user: prof)
+    team = Team.create(team_name: 'Test Team', team_code: @generated_code.to_s, user: prof)
+
+    student_email = "bob@uwaterloo.ca"
+    UserVerification.create(team: team, email: student_email)
     
     # register new student
     visit root_url
@@ -54,7 +57,7 @@ class GenerateTeamCodesTest < ApplicationSystemTestCase
     fill_in "user[first_name]", with: "Elon"
     fill_in "user[last_name]", with: "Musk"
     fill_in "user[team_code]", with: @generated_code.to_s
-    fill_in "user[email]", with: "bob@uwaterloo.ca"
+    fill_in "user[email]", with: student_email
     fill_in "user[password]", with: "testpassword"
     fill_in "user[password_confirmation]", with: "testpassword"
     click_on "Create account"

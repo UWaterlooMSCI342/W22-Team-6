@@ -16,9 +16,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     team = Team.new(team_code: 'Code', team_name: 'Team 1')
     team.user = @prof
     team.save  
+
+    student_email = 'scott@gmail.com'
+    UserVerification.create(team: team, email: student_email)
     
     post '/users', 
-      params: {user: {email: 'scott@gmail.com', password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', team_code: 'Code'}}
+      params: {user: {email: student_email, password: 'banana', password_confirmation: 'banana',first_name: 'Elon', last_name: 'Musk', team_code: 'Code'}}
     assert_redirected_to root_url
   end
   

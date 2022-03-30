@@ -15,7 +15,7 @@ class UserVerificationsController < ApplicationController
       UserVerification.delete_all
 
       UserVerification.import(params[:file])
-      redirect_to user_verifications_url, notice: "User Verifications succesfully imported!"
+      redirect_to user_verifications_url, notice: "User Verifications successfully imported!"
     rescue ActiveRecord::RecordInvalid, RuntimeError => exception
       redirect_to user_verifications_url
       flash[:error] = "#{exception}."

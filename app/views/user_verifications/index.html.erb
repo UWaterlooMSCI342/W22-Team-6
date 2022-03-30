@@ -1,8 +1,9 @@
 <h1>User Verifications</h1>
 
 <p>
-  Upload a CSV file formatted with headers of <b>"team_code,email"</b> along with the subsequent rows
-  stating which <b>Email</b> should be on what <b>Team</b>.
+  If necessary, please head to the
+  <b><%= link_to "Help", help_path(:anchor => "user_verification_help") %></b>
+  page for detailed instructions on the CSV file format.
 </p>
 <%= form_tag user_verifications_import_path, multipart: true do %>
   <%= file_field_tag :file, required: true %>

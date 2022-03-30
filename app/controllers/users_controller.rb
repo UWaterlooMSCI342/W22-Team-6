@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   before_action :require_login, only: [:index, :edit, :show, :update, :destroy, :temp_password, :temp_password_reset ]
   before_action :require_admin, only: [:index, :edit, :update, :destroy, :temp_password, :temp_password_reset]
-  before_action :require_temp_pass, only: [:index, :edit, :show, :update, :destroy ]
+  before_action :require_temp_pass
   before_action :require_access, only: [:show, :edit]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :temp_password, :temp_password_reset]
 
@@ -24,19 +24,12 @@ class UsersController < ApplicationController
   def temp_password_reset
     temp_pass = params[:temp_pass]
 
-    # if temp_pass.length < 6
-    #   flash[:error] = 'Temporary password does not meet specifications.'
-    #   redirect_to request.path, :params => params #redirect_to current url
     if @user.update(password: temp_pass, password_confirmation: temp_pass)
       @user.update(has_to_reset_password: true)
       name = @user.full_name
       flash[:notice] = name + "'s temporary password has been successfully updated. Please provide this password to them."
       redirect_to root_url 
     end
-    # else 
-    #   flash[:error] = 'Temporary password does not meet specifications.'
-    #   redirect_to request.path, :params => params #redirect_to current url
-    # end 
 
   end 
 

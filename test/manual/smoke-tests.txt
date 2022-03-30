@@ -200,4 +200,12 @@ T22: Temp Password
 2. Click on 'Manage Users' 
 3. Click any user
 4. Click the 'Reset Password' for the user name
-6. Click on 'Submit', and provide the password to the user.
+5. Click on 'Submit', and provide the password to the user.
+6. Hover over Account, and Logout.
+7. Visit root url
+8. Login as a user for which the password was reset
+9. Click on 'Login'
+10. Enter the temporary password under the existing_password field
+11. Enter a new password
+12. Confirm the new password
+13. Click on 'Submit'

@@ -3,7 +3,7 @@ require 'csv'
 class StaticPagesController < ApplicationController
 
   before_action :require_login, except: [:home]
-  before_action :require_temp_pass, only: [:home, :help, :get_teams ]
+  before_action :require_temp_pass, except: [:show_reset_password, :reset_password]
   before_action :get_teams, :current_week
   helper_method :rating_reminders, :has_submitted
   helper_method :days_till_end_week

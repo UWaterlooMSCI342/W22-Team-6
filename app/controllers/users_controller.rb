@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   before_action :require_login, only: [:index, :edit, :show, :update, :destroy, :temp_password, :temp_password_reset ]
   before_action :require_admin, only: [:index, :destroy, :temp_password, :temp_password_reset]
+  before_action :only_nonadmin_page, only: [:temp_password, :temp_password_reset]
   before_action :require_access, only: [:show]
   before_action :require_temp_pass
   before_action :require_access_edit, only: [:edit]
@@ -275,6 +276,15 @@ class UsersController < ApplicationController
       
       if @user.attributes != @current_user.attributes
         flash[:error] = "You do not have permission to edit someone else's profile."
+        redirect_to root_url
+      end
+    end
+
+    def only_nonadmin_page
+      set_user
+
+      if @user.is_admin?
+        flash[:error] = "You cannot reset an admin's password."
         redirect_to root_url
       end
     end

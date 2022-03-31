@@ -12,7 +12,7 @@
 
     <% if user.errors.full_messages.include?("Teams code cannot be blank") || %>
       <% user.errors.full_messages.include?("Teams code does not exist") || %>
-      <% user.errors.full_messages.include?("Teams code incorrect for provided email") %>
+      <% user.errors.full_messages.include?("Teams code and email listed have not been verified by the professor") %>
       <% is_team_code_invalid = true %>
     <% end %>
   <% end %>

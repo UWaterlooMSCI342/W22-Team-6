@@ -28,6 +28,12 @@ class UserVerificationTest < ActiveSupport::TestCase
     import_raise_csv_error(path, message)
   end
 
+  def test_import_no_data_provided
+    path = "no_data_provided.csv"
+    message = "No data provided"
+    import_raise_csv_error(path, message)
+  end
+
   def test_import_row_with_blank_email
     path = "row_with_blank_email.csv"
     message = "Validation failed: Email can't be blank, Email is invalid"

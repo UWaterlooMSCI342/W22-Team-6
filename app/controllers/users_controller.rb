@@ -51,7 +51,7 @@ class UsersController < ApplicationController
         if team.nil? # Invalid team code.
           @user.errors.add :teams, :invalid, message: "code does not exist"
         elsif uv.nil? # Invalid user-team combination.
-          @user.errors.add :teams, :invalid, message: "code incorrect for provided email"
+          @user.errors.add :teams, :invalid, message: "code and email listed have not been verified by the professor"
         else
           @user.teams = [team]
         end

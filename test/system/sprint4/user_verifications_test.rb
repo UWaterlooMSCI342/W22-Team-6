@@ -51,7 +51,7 @@ class UserVerificationsTest < ApplicationSystemTestCase
     click_on "Create account"
 
     assert_current_path users_url
-    assert_text "Teams code incorrect for provided email"
+    assert_text "Teams code and email listed have not been verified by the professor"
 
     # As new student, try signing up for "Team 2" (verified to join "Team 2").
     visit root_url

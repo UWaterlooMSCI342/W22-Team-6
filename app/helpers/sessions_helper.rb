@@ -46,7 +46,7 @@ module SessionsHelper
 
   def require_admin
     unless is_admin?
-      flash[:notice] = "You do not have Admin permissions."
+      flash[:error] = "You do not have Admin permissions."
       redirect_to root_url
     end
   end

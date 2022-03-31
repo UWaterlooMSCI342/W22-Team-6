@@ -246,7 +246,7 @@ class UsersController < ApplicationController
         set_user
 
         if @user.attributes != @current_user.attributes
-          flash[:notice] = "You do not have permission to access someone else's profile."
+          flash[:error] = "You do not have permission to access someone else's profile."
           redirect_to root_url
         end
       end
@@ -257,7 +257,7 @@ class UsersController < ApplicationController
       set_user
       
       if @user.attributes != @current_user.attributes
-        flash[:notice] = "You do not have permission to edit someone else's profile."
+        flash[:error] = "You do not have permission to edit someone else's profile."
         redirect_to root_url
       end
     end

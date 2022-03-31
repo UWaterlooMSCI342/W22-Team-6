@@ -47,31 +47,6 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
       assert_equal(@team, feedback.team)
     }
   end
-  
-  # Test that feedback that is added can be viewed (1, 3)
-  def test_view_feedback 
-    feedback = Feedback.new(participation_rating: 1, effort_rating: 5, punctuality_rating: 2, comments: "This team is disorganized", priority: 0)
-    datetime = Time.current
-    feedback.timestamp = feedback.format_time(datetime)
-    feedback.user = @bob
-    feedback.team = @bob.teams.first
-    feedback.save
-    
-    visit root_url 
-    login 'msmucker@gmail.com', 'professor'
-    
-    within('#' + @team.id.to_s) do
-      click_on @team.team_name
-    end
-    assert_current_path team_url(@team)
-    # assert_text "This team is disorganized"
-    # assert_text "1"
-    # assert_text "5"
-    # assert_text "2"
-    # assert_text "High"
-    # assert_text "Test Team"
-    # assert_text datetime.strftime("%Y-%m-%d %H:%M")
-  end
 
   # Test that feedback that is added can be viewed (1, 3)
   def test_view_feedback 
@@ -89,13 +64,13 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
       click_on @team.team_name
     end
     assert_current_path team_url(@team)
-    # assert_text "This team is disorganized"
-    # assert_text "1"
-    # assert_text "5"
-    # assert_text "2"
-    # assert_text "High"
-    # assert_text "Test Team"
-    # assert_text datetime.strftime("%Y-%m-%d %H:%M")
+    assert_text "This team is disorganized"
+    assert_text "1"
+    assert_text "5"
+    assert_text "2"
+    assert_text "High"
+    assert_text "Test Team"
+    assert_text datetime.strftime("%Y-%m-%d %H:%M")
   end
 
   def test_create_and_edit_own_feedback

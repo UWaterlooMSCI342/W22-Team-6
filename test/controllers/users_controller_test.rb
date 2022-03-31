@@ -291,7 +291,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should get edit" do
     post('/login', params: { email: 'msmucker@gmail.com', password: 'professor'})
-    get edit_user_url(@user)
+    get edit_user_url(@prof)
     assert_response :success
   end
 

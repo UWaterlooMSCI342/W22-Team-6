@@ -26,6 +26,50 @@
   <% end %>
 </p>
 
+<br>
+
+<div class="small-line"></div>
+<% if is_admin? %>
+  <h2>Student's Individual Feedback</h2>
+<% else %>
+  <h2>Historical Feedback</h2>
+<% end %>
+
+  <% if @user.feedbacks.size == 0 %>
+    <p>No feedbacks yet!</p>
+  <% else %>
+    <table>
+      <thead>
+        <tr>
+          <th>Participation Rating (Out of 5)</th>
+          <th>Effort Rating (Out of 5)</th>
+          <th>Punctuality Rating (Out of 5)</th>
+          <th>Priority</th>
+          <th>Comments</th>
+          <th>Time Submitted</th>
+          <th colspan="6"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @user.feedbacks.each do |key, participation_rating, effort_rating, punctuality_rating, priority| %>
+          <tr>
+            <td><%= key.participation_rating %></td>
+            <td><%= key.effort_rating %></td>
+            <td><%= key.punctuality_rating %></td>
+            <td><%= key.get_priority_word %></td>
+            <%if key.comments.nil? || key.comments.size == 0 %>
+              <td> No Comments Submitted!</td>
+            <%else%>
+              <td><%= key.comments %></td>
+            <%end%>
+            <td><%= key.display_timestamp %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <br/>
+  <% end %>
+
 <%= link_to 'Back', :back %>
 <% if @user == current_user %>
    | <%= link_to 'Edit', edit_user_path(@user) %>

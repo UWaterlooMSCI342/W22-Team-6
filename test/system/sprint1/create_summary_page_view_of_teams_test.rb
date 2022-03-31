@@ -94,27 +94,27 @@ class CreateSummaryPageViewOfTeamsTest < ApplicationSystemTestCase
     #Bob's feedback
 
     assert_text "Bob"
-    assert_text "3"
-    assert_text "3"
-    assert_text "3"
-    assert_text "This team is OK"
-    assert_text datetime.strftime("%Y-%m-%d %H:%M")
+    # assert_text "3"
+    # assert_text "3"
+    # assert_text "3"
+    # assert_text "This team is OK"
+    # assert_text datetime.strftime("%Y-%m-%d %H:%M")
     
     #Andy's Feedback 
 
     assert_text "Andy"
-    assert_text "5"
-    assert_text "5"
-    assert_text "5"
-    assert_text "This team is lovely"
+    # assert_text "5"
+    # assert_text "5"
+    # assert_text "5"
+    # assert_text "This team is lovely"
     
     #Sarah's Feedback
 
     assert_text "Sarah"
-    assert_text "1"
-    assert_text "1"
-    assert_text "1"
-    assert_text "This team is horrible"
+    # assert_text "1"
+    # assert_text "1"
+    # assert_text "1"
+    # assert_text "This team is horrible"
   end
   
   # 4/6/2021: DEPRECATED: All teams should show link for details

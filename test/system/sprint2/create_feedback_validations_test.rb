@@ -81,4 +81,20 @@ class CreateFeedbackValidationsTest < ApplicationSystemTestCase
     assert_current_path feedback_url(Feedback.last)
     assert_text "Feedback was successfully created."
   end 
+
+  def test_create_invalid_feedback_no_rating
+    #Passes acceptance criteria 1: student cannot submit feedback without a rating
+    #"Sad test", student tries to submit feedback without a rating    
+    visit root_url
+    login 'test@gmail.com', '123456789'
+    assert_current_path root_url
+    
+    click_on "Submit for"
+    fill_in "Comments", with: "I did not select a rating"
+    
+    click_on "Create Feedback"
+    assert_text "Participation rating can't be blank"
+    assert_text "Effort rating can't be blank"
+    assert_text "Punctuality rating can't be blank"
+  end 
 end

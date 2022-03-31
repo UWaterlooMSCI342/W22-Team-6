@@ -4,6 +4,7 @@ require "application_system_test_case"
 # 1. As a professor, I should be able to see team summary of latest period
 # 2. As a professor, I should be able to see detailed team ratings 
 #    for specific teams based on time periods
+# 3. As a student, I should not be able to see my team's current week feedback under the history page.
 
 class GroupFeedbackByPeriodsTest < ApplicationSystemTestCase
   include FeedbacksHelper

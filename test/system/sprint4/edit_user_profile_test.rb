@@ -65,7 +65,8 @@ class EditUserTest < ApplicationSystemTestCase
     login 'msmucker@gmail.com', 'password'
 
     visit edit_user_url(@user)
-    assert_text 'You do not have permission to edit someone else\'s profile.'
+    assert_selector :id, "error", text: "You do not have permission to edit someone else\'s profile."
+    # assert_text 'You do not have permission to edit someone else\'s profile.'
   end
 
   def test_edit_someone_elses_profile_as_student
@@ -73,7 +74,8 @@ class EditUserTest < ApplicationSystemTestCase
     login 'test@gmail.com', 'password'
 
     visit edit_user_url(@prof)
-    assert_text 'You do not have permission to edit someone else\'s profile.'
+    assert_selector :id, "error", text: "You do not have permission to edit someone else\'s profile."
+    # assert_text 'You do not have permission to edit someone else\'s profile.'
   end
 
   def test_invalid_edit

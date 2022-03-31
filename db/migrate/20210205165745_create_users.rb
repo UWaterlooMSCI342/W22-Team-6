@@ -9,6 +9,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :security_q_three, limit: 255
       t.integer :user_id
       t.boolean :is_admin, default: false
+      t.boolean :has_to_reset_password, default: false
       t.timestamps
     end
     add_index :users, :email, unique: true

@@ -34,6 +34,8 @@ Rails.application.routes.draw do
   patch 'feedbacks/:id', to: 'feedbacks#update'
 
   get 'users/:id', to: 'users#show', as: 'user_profile'
+  get 'users/:id/temp_password', to: 'users#temp_password', as: 'user_temp_password'
+  post 'users/:id/temp_password', to: 'users#temp_password_reset', as: 'user_temp_password_reset'
   get 'teams/:id', to: 'teams#show', as: 'team_profile'
 
   get 'forgot_password', to: 'users#forgot_show', as: 'forgot_pass_show_path'

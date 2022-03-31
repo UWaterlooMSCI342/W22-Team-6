@@ -3,6 +3,7 @@ class TeamsController < ApplicationController
 
   before_action :require_login
   before_action :require_admin, except: [:show, :help]
+  before_action :require_temp_pass
   before_action :set_team, only: [:show, :edit, :update, :destroy]
 
   # GET /teams

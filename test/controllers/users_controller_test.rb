@@ -139,6 +139,27 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_temp_password_reset
+    get user_temp_password_url(@user.id)
+    assert :success
+  end
+
+  def test_temp_password_reset_matching_password
+    post user_temp_password_reset_url(@user.id),
+    params: {temp_pass: "hello234", password: "hello234", password_confirmation: "hello234"}
+    assert :success
+  end
+
+  def test_temp_password_reset_incorrect
+    post user_temp_password_reset_url(@user.id),
+      params: {temp_pass: "hello123", password: "hello123", password_confirmation: "hello123"}
+    assert :success
+    
+    post user_temp_password_reset_url(@user.id),
+    params: {temp_pass: "hello236", password: "hello234", password_confirmation: "hello237"}
+    assert :success
+  end 
+
   def test_create_user_nonmatching_passwords
     assert_no_difference 'User.count' do
       post '/users', 

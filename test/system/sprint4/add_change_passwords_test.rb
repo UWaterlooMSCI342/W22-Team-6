@@ -9,8 +9,16 @@ require "application_system_test_case"
 
 class AddChangePasswordsTest < ApplicationSystemTestCase
   setup do 
-    User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', security_q_one: 'toronto', security_q_two: "waterloo", security_q_three: 'pizza', is_admin: true, password: 'professor', password_confirmation: 'professor')
-  end 
+    @prof = User.new(email: 'msmucker@gmail.com', password: 'professor', password_confirmation: 'professor', first_name: 'Mark', last_name: 'Smucker', is_admin: true, security_q_one: "toronto", security_q_two: "waterloo", security_q_three: "pizza")
+    @prof.save
+    @user1 = User.new(email: 'adam@gmail.com', password: '123456789', password_confirmation: '123456789',first_name: 'Elon', last_name: 'Musk', is_admin: false)
+    @user1.save
+
+    @team1 = Team.new(team_code: 'Code', team_name: 'Team 1')
+    @team1.user = @prof
+    @team1.save
+    @user1.teams << @team1
+  end
 
   def test_change_password 
     User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
@@ -191,5 +199,40 @@ class AddChangePasswordsTest < ApplicationSystemTestCase
 
     assert_current_path login_url
     assert_text "Password successfully updated!"
+  end
+
+  def test_temp_password_system
+    visit root_url
+    login "msmucker@gmail.com", "professor"
+    assert_current_path root_url
+
+    visit user_temp_password_url(@user1.id)
+    assert_current_path user_temp_password_url(@user1.id)
+
+  end
+
+  def test_temp_password_system_post
+    visit root_url
+    login "msmucker@gmail.com", "professor"
+    assert_current_path root_url
+
+    name = @user1.full_name
+    visit  user_temp_password_url(@user1.id)
+    click_on "Update " + @user1.first_name + "'s password"
+    assert_current_path root_url
+    assert_text name + "'s temporary password has been successfully updated. Please provide this password to them."
+
+    # visit  user_temp_password_url(@user1.id)
+    # fill_in "temp_pass", with: "h"
+    # click_on "Update " + @user1.first_name + "'s password"
+    # assert_current_path root_url
+    # assert_text name + "'s temporary password has been successfully updated. Please provide this password to them."
+
+    visit  user_temp_password_url(@user1.id)
+    fill_in "temp_pass", with: "hello123"
+    click_on "Update " + @user1.first_name + "'s password"
+    assert_current_path root_url
+    assert_text name + "'s temporary password has been successfully updated. Please provide this password to them."
+    
   end
 end

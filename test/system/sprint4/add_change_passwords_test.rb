@@ -153,13 +153,14 @@ class AddChangePasswordsTest < ApplicationSystemTestCase
     fill_in "password", with: "s"
     fill_in "password_confirmation", with: "fd"
     click_on "Submit"
-    assert_text "Password and password confirmation do not meet specifications"
+    assert_selector :id, "error", text: "Password and password confirmation do not meet specifications"
+    # assert_text "Password and password confirmation do not meet specifications"
 
     fill_in "password", with: "sss"
     fill_in "password_confirmation", with: "sss"
     click_on "Submit"
-
-    assert_text "Password and password confirmation do not meet specifications"
+    assert_selector :id, "error", text: "Password and password confirmation do not meet specifications"
+    # assert_text "Password and password confirmation do not meet specifications"
 
   end
 

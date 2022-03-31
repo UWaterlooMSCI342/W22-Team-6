@@ -107,14 +107,13 @@ class Team < ApplicationRecord
     periods = {}
     date = DateTime.now
     current_week = date.cweek
+    current_year = date.cwyear
     feedbacks = self.feedbacks
     if feedbacks.count > 0
       feedbacks.each do |feedback| 
         week = feedback.timestamp.to_date.cweek 
         year = feedback.timestamp.to_date.cwyear
-        if week == current_week
-
-        else 
+        if !(week == current_week and year == current_year)
           if periods.empty? || !periods.has_key?({year: year, week: week})
             periods[{year: year, week: week}] = [feedback]
           else 

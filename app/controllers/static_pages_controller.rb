@@ -3,6 +3,7 @@ require 'csv'
 class StaticPagesController < ApplicationController
 
   before_action :require_login, except: [:home]
+  before_action :require_temp_pass, except: [:show_reset_password, :reset_password]
   before_action :get_teams, :current_week
   helper_method :rating_reminders, :has_submitted
   helper_method :days_till_end_week
@@ -16,6 +17,7 @@ class StaticPagesController < ApplicationController
       @rating_reminders = @user.rating_reminders
       @has_submitted = @user.has_submitted
       @days_till_end_week = days_till_end(@now, @cweek, @cwyear)
+
       render :home
     end
   end
@@ -85,15 +87,16 @@ class StaticPagesController < ApplicationController
   end
 
   def reset_password
-    @user = current_user
+    @user = current_user 
     if @user.authenticate(params[:existing_password])
       if @user.update(password: params[:password], password_confirmation: params[:password_confirmation])
         flash[:notice] = 'Password successfully updated!'
-        redirect_to root_url
+        redirect_to root_url 
+        @user.update(has_to_reset_password: false)
       else 
         flash[:error] = 'Password and password confirmation do not meet specifications'
         redirect_to reset_password_path
-      end
+      end 
     else
       flash[:error] = 'Incorrect existing password'
       redirect_to reset_password_path

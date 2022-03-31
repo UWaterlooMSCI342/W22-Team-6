@@ -28,6 +28,9 @@ T4: Signup
     Email: test@student.com
     Password: password
     Confirm password: password
+    What was the name of the city you were born in?: toronto
+    What is the name of the highschool you attended?: ECI 
+    What was your favorite food as a child?: pizza
 3. Select 'Create account'
 4. Assert you have created a student and logged in (should display 'User was successfully created.')
 
@@ -201,3 +204,20 @@ T22: Forgot Password
 4. Click 'Submit'You should arrive on reset password.
 5. Type in 'reset123' for password field and password confirmation field
 6. Click on 'Submit'
+
+
+T22: Temp Password
+
+1. Visit root url
+2. Click on 'Manage Users' 
+3. Click any user
+4. Click the 'Reset Password' for the user name
+5. Click on 'Submit', and provide the password to the user.
+6. Hover over Account, and Logout.
+7. Visit root url
+8. Login as a user for which the password was reset
+9. Click on 'Login'
+10. Enter the temporary password under the existing_password field
+11. Enter a new password
+12. Confirm the new password
+13. Click on 'Submit'

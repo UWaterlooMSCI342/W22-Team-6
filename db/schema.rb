@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2021_04_04_164701) do
     t.string "security_q_two", limit: 255
     t.string "security_q_three", limit: 255
     t.boolean "is_admin", default: false
+    t.boolean "has_to_reset_password", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "password_digest"

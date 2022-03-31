@@ -40,6 +40,17 @@ module SessionsHelper
     end
   end
 
+  
+  def require_temp_pass
+    if logged_in?
+      if (@current_user.has_to_reset_password and !@current_user.is_admin?)
+        flash[:error] = "Please reset your password with the temporary password that the professor provided."
+        redirect_to reset_password_path
+        return
+      end
+    end
+  end
+
   def is_admin?
     return @current_user.is_admin
   end

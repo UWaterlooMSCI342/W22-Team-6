@@ -127,4 +127,14 @@ class User < ApplicationRecord
 
   end
 
+  # Create 2 smaller temp passwords of length 5-6, then combine them together for one large temp password ranging in length of 10-12.
+  def self.generate_temp_pass
+    separate_length = 6
+    separate_length_sq = separate_length ** 2
+    temp_pass1 = rand(separate_length_sq**separate_length).to_s(separate_length_sq).upcase
+    temp_pass2 = rand(separate_length_sq**separate_length).to_s(separate_length_sq).upcase
+
+    return temp_pass1 + temp_pass2
+  end
+
 end

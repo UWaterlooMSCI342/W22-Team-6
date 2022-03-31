@@ -1,11 +1,14 @@
 class UsersController < ApplicationController
+
   include ApplicationHelper
 
-  before_action :require_login, only: [:index, :edit, :show, :update, :destroy]
-  before_action :require_admin, only: [:index, :destroy]
+  before_action :require_login, only: [:index, :edit, :show, :update, :destroy, :temp_password, :temp_password_reset ]
+  before_action :require_admin, only: [:index, :destroy, :temp_password, :temp_password_reset]
   before_action :require_access, only: [:show]
+  before_action :require_temp_pass
   before_action :require_access_edit, only: [:edit]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :temp_password, :temp_password_reset]
+
 
   # GET /users
   def index
@@ -15,6 +18,22 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
   end
+
+  # GET /users/1/temp_password
+  def temp_password
+  end
+
+  def temp_password_reset
+    temp_pass = params[:temp_pass]
+
+    if @user.update(password: temp_pass, password_confirmation: temp_pass)
+      @user.update(has_to_reset_password: true)
+      name = @user.full_name
+      flash[:notice] = name + "'s temporary password has been successfully updated. Please provide this password to them."
+      redirect_to root_url 
+    end
+
+  end 
 
   # GET /signup
   def new

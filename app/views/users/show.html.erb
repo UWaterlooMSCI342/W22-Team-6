@@ -26,7 +26,13 @@
   <% end %>
 </p>
 
+
+<% if @current_user.is_admin? %>
+  <p><%= link_to 'Reset ' + @user.first_name + "'s Password" , user_temp_password_path %></p>
+<% end %>
+
 <%= link_to 'Back', :back %>
 <% if @user == current_user %>
    | <%= link_to 'Edit', edit_user_path(@user) %>
 <% end %>
+

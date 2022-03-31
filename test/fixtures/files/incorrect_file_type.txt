@@ -1,2 +1,0 @@
-team_code,email
-1,test1@test.com

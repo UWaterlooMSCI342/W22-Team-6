@@ -22,12 +22,6 @@ class UserVerificationTest < ActiveSupport::TestCase
     assert_equal message, exception.message
   end
 
-  def test_import_incorrect_file_type
-    path = "incorrect_file_type.txt"
-    message = "Invalid file type. Must be of type CSV"
-    import_raise_csv_error(path, message, "text/plain")
-  end
-
   def test_import_invalid_headers
     path = "invalid_headers.csv"
     message = "Invalid headers. Must follow 'team_code,email' format"

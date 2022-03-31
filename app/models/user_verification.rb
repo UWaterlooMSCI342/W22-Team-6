@@ -10,11 +10,12 @@ class UserVerification < ApplicationRecord
   # Assumes that the CSV file imported is correctly formatted, or else just generally catches errors.
   # https://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html
   def self.import(file)
+    # TODO: This error check does not fully work since there are multiple CSV types.
     # If file not of type CSV, throw error.
-    expected_type = "text/csv"
-    if file.content_type != expected_type
-      raise "Invalid file type. Must be of type CSV"
-    end
+    # expected_type = "text/csv"
+    # if file.content_type != expected_type
+    #   raise "Invalid file type. Must be of type CSV"
+    # end
 
     # If file has incorrect headers, throw error.
     correct_headers = ["team_code", "email"]

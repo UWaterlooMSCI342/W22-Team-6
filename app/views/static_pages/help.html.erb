@@ -3,11 +3,10 @@
 
   <div class="help-div">
     <h2>Navigation Bar</h2>
-    <p><b>Manage Teams</b> - Allows you to create and delete teams</p>
-    <p><b>Manage Users</b> - Allows you to create and delete users</p>
-    <p><b>Feedback & Ratings</b> - Takes you to the Feedback & Rating page. Shows 
-                                        Feedback on Team and associated ratings.
-    </p>
+    <p><b>Manage Teams</b> - Allows you to create and delete teams.</p>
+    <p><b>Manage Users</b> - Allows you to create and delete users.</p>
+    <p><b>Feedback & Ratings</b> - Takes you to the Feedback & Rating page. Shows Feedback on Team and associated ratings.</p>
+    <p><b>User Verifications</b> - Allows you to upload a CSV file verifying which users should be on which teams.</p>
   </div>
 
   <div class="help-div">
@@ -69,6 +68,37 @@
     </p>
     <p>
       You may select from any number of filter options. If any options are left blank, they are ignored.
+    </p>
+  </div>
+
+  <div class="help-div" id="user_verification_help">
+    <h2>User Verifications</h2>
+    <p>
+      The uploaded CSV file must precisely follow the format in the attached image, containing headers of
+      <b>"team_code"</b> and <b>"email"</b>, with all subsequent rows listing the data.
+    </p>
+    <div style="text-align: center;">
+      <%= image_tag "user_verification_upload_format.png", :id => "user_verification_upload_format", :style => "border: 1px solid black;" %>
+    </div>
+    <p>
+      If an incorrect user verification is assigned in the CSV file and uploaded, to correct this mistake just
+      update the CSV accordingly and reupload the file; all user verifications are deleted/replaced once a new
+      CSV is uploaded.
+    </p>
+    <p>A few errors that you may encounter when uploading a CSV file:</p>
+    <ul>
+      <li><b>Invalid file type. Must be of type CSV</b> - When an incorrect file type is uploaded</li>
+      <li><b>Email is invalid</b> - When a row in the CSV file does not have a valid email (e.g. test.com)</li>
+      <li><b>Email can't be blank</b> - When a row in the CSV file does not have an email present</li>
+      <li><b>Team must exist</b> - When a row in the CSV file references an invalid team_code</li>
+      <li>
+        <b>Email and Team combination has already been specified</b> -
+        When 2 rows in the CSV file have an identical user-team combination
+      </li>
+    </ul>
+    <p>
+      Once the user verifications are correctly uploaded, only students who are supposed to be on a given team
+      will be able to signup for that specific team.
     </p>
   </div>
 

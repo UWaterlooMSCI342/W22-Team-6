@@ -1,15 +1,16 @@
 require "application_system_test_case"
 
 # Acceptance Criteria
-# 1. As a user, I should be able to view a help page regarding the application
-# 2. As a user, I should be able to view a help page regarding feedback results for detailed
-#    team view
+# 1. As a user, I should be able to view a help page regarding the application.
+# 2. As a user, I should be able to view a help page regarding feedback results for detailed team view.
+# 3. As a professor, I should be able to view detailed instructions on how to use Feedback & Ratings filtering.
+# 3. As a professor, I should be able to view detailed instructions on how to use User Verifications.
 
-class HelpPageTest < ApplicationSystemTestCase
+class HelpPagesTest < ApplicationSystemTestCase
   setup do
     @prof = User.create(email: 'msmucker@gmail.com', first_name: 'Mark', last_name: 'Smucker', is_admin: true, password: 'professor', password_confirmation: 'professor')
   end
-  
+
   # (1)
   def test_home_help
     visit root_url 
@@ -64,5 +65,29 @@ class HelpPageTest < ApplicationSystemTestCase
     ratings.each do |r|
         assert_text("selected range of #{r} ratings")
     end
+  end
+
+  def test_user_verification_instructions
+    visit root_url
+    login 'msmucker@gmail.com', 'professor'
+
+    # Through 'Help' link on user verifications page, confirm taken to correct section.
+    visit user_verifications_url
+    click_on "Help Page"
+    assert_current_path help_url(:anchor => "user_verification_help")
+
+    # Assert CSV column headers are mentioned.
+    assert_text "team_code"
+    assert_text "email"
+
+    # Assert image exists (describing CSV file format).
+    find('#user_verification_upload_format')[:src]
+    status_code = '200'
+
+    # Assert explanation of what happens to incorrectly uploaded data exists.
+    assert_text "deleted/replaced"
+
+    # Assert explanation of possible errors that might be run into.
+    assert_text "few errors that you may encounter"
   end
 end

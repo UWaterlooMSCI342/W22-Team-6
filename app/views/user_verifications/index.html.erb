@@ -1,0 +1,41 @@
+<h1>User Verifications</h1>
+
+<p>
+  If necessary, please head to the
+  <b><%= link_to "Help Page", help_path(:anchor => "user_verification_help") %></b>
+  for detailed instructions on the CSV file format.
+</p>
+<%= form_tag user_verifications_import_path, multipart: true do %>
+  <%= file_field_tag :file, required: true %>
+  <%= submit_tag "Import CSV" %>
+<% end %>
+</br>
+
+<% if @user_verifications.empty? %>
+  <p>No user verifications yet!</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Team Code</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @user_verifications.each do |uv| %>
+        <tr id=user_verification<%= uv.id %>>
+          <% team = uv.team %>
+          <td><%= link_to team.team_name, team_path(team) %></td>
+          <td><%= team.team_code %></td>
+          <td><%= uv.email %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%= render 'static_pages/paginate', model: @user_verifications %>
+
+<%= link_to 'Back', :back %>

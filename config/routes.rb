@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   resources :teams 
   
   get 'users/:id/confirm_delete', to: 'users#confirm_delete', as: 'user_confirm_delete'
+  get 'users/verifications', to: 'user_verifications#index', as: 'user_verifications'
+  post 'users/verifications/import', to: 'user_verifications#import', as: 'user_verifications_import'
   
   get    '/login',  to: 'sessions#new'    
   post   '/login',  to: 'sessions#create'    

@@ -26,14 +26,15 @@
   <% end %>
 </p>
 
-<br>
+<% if !@user.is_admin? %>
+  <br>
 
-<div class="small-line"></div>
-<% if is_admin? %>
-  <h2>Student's Individual Feedback</h2>
-<% else %>
-  <h2>Historical Feedback</h2>
-<% end %>
+  <div class="small-line"></div>
+  <% if is_admin? %>
+    <h2>Student's Individual Feedback</h2>
+  <% else %>
+    <h2>Historical Feedback</h2>
+  <% end %>
 
   <% if @user.feedbacks.size == 0 %>
     <p>No feedbacks yet!</p>
@@ -69,6 +70,7 @@
     </table>
     <br/>
   <% end %>
+<% end %>
 
 <%= link_to 'Back', :back %>
 <% if @user == current_user %>

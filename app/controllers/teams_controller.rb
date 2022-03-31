@@ -14,7 +14,7 @@ class TeamsController < ApplicationController
   def show  
     if !is_admin?
       if !@current_user.teams.include? @team
-        flash[:notice] = "You do not belong to this team!"
+        flash[:error] = "You do not belong to this team!"
         redirect_to root_url
       end
     end 

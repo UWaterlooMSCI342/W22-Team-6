@@ -4,7 +4,8 @@ class OptionsController < ApplicationController
       Option.first.generate_admin_code 
       redirect_to root_path, notice: 'Admin code has successfully been regenerated'
     else
-      redirect_to root_path, notice: 'You do not have permission to update admin code'
+      redirect_to root_path
+      flash[:error] = 'You do not have permission to update admin code'
     end
   end
 end

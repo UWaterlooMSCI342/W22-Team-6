@@ -79,15 +79,11 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    if current_user.is_admin?
-      if @user == current_user
-        log_out
-      end
-      @user.destroy
-      redirect_to users_url, notice: 'User was successfully destroyed.'
-    else
-      redirect_to root_url, notice: 'You do not have permission to delete users.'
+    if @user == current_user
+      log_out
     end
+    @user.destroy
+    redirect_to users_url, notice: 'User was successfully destroyed.'
   end
   
   def confirm_delete

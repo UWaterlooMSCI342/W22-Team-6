@@ -53,7 +53,7 @@ class AddAdminCodesTest < ApplicationSystemTestCase
     assert_no_text 'Regenerate Code'
     
     visit regenerate_admin_code_path
-    assert_text 'You do not have permission to update admin code'
+    assert_selector :id, "error", text: "You do not have permission to update admin code"
     assert_equal 'admin_CODE', Option.first.admin_code 
   end
   

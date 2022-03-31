@@ -81,7 +81,8 @@ class DeleteUserTest < ApplicationSystemTestCase
     visit users_path
     
     assert_current_path root_url
-    assert_text "You do not have Admin permissions."
+    assert_selector :id, "error", text: "You do not have Admin permissions."
+    # assert_text "You do not have Admin permissions."
   end
 
 end

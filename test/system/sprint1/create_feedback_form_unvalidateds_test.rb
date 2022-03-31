@@ -127,7 +127,8 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     # Redirect when attempting to access other user's feedback.
     visit edit_feedback_path(Feedback.last)
     assert_current_path root_url
-    assert_text "You do not have permission to access this feedback."
+    assert_selector :id, "error", text: "You do not have permission to access this feedback."
+    # assert_text "You do not have permission to access this feedback."
   end
 
   def test_viewing_own_feedback_not_from_this_week
@@ -140,6 +141,7 @@ class CreateFeedbackFormUnvalidatedsTest < ApplicationSystemTestCase
     # Redirect when attempting to access own feedback not from this week.
     visit edit_feedback_path(Feedback.last)
     assert_current_path root_url
-    assert_text "You do not have permission to access this feedback."
+    assert_selector :id, "error", text: "You do not have permission to access this feedback."
+    # assert_text "You do not have permission to access this feedback."
   end
 end

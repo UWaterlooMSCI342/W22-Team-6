@@ -23,7 +23,7 @@ class FeedbacksController < ApplicationController
   def new
     if @user.has_submitted
       redirect_to root_url
-      flash[:error] = "You cannot acces this page after submitting your feedback for the week."
+      flash[:error] = "You cannot access this page after submitting your feedback for the week."
     else 
       @feedback = Feedback.new
     end 
@@ -43,8 +43,7 @@ class FeedbacksController < ApplicationController
     @feedback.team = @user.teams.first
     @feedback.priority = @feedback.calculate_priority
     if team_submissions.include?(@feedback.team)
-        redirect_to root_url
-        flash[:error] = 'You have already submitted feedback for this team this week.'
+        redirect_to root_url, notice: 'You have already submitted feedback for this team this week. You cannot submit again.'
     elsif @feedback.save
       redirect_to @feedback, notice: "Feedback was successfully created. Time created: #{@feedback.display_timestamp}. Priority Level: #{@feedback.get_priority_word}."
     else
@@ -56,7 +55,7 @@ class FeedbacksController < ApplicationController
   def update
     if !(@feedback.is_from_this_week?)
       redirect_to root_url
-      flash[:error] = "You cannot edit feedback from previous weeks."
+      flash[:error] = "You cannot edit feedback from previous weeks, except current week."
     elsif @feedback.update(feedback_params)
       @feedback.update({ timestamp: @feedback.format_time(now), priority: @feedback.calculate_priority })
       redirect_to @feedback, notice: "Feedback was successfully updated. Time updated: #{@feedback.display_timestamp}. Priority Level: #{@feedback.get_priority_word}."

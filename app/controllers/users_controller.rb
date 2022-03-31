@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     if @user.update(password: temp_pass, password_confirmation: temp_pass)
       @user.update(has_to_reset_password: true)
       name = @user.full_name
-      flash[:notice] = name + "'s temporary password has been successfully updated. Please provide this password to them."
+      flash[:notice] = name + "'s temporary password has been successfully updated. Please provide this password to them. Please also request them to reset their password once login."
       redirect_to root_url 
     end
 
@@ -191,11 +191,11 @@ class UsersController < ApplicationController
     pass_conform = params[:password_confirmation]
     
     if pass != pass_conform
-      flash[:error] = 'Password and password confirmation do not meet specifications'
+      flash[:error] = 'Password and password confirmation do not meet specifications. Password and password confirmation are not same.'
       redirect_to forgot_password_new_pass_show_path_url(email: email)
 
     elsif pass.length <6
-      flash[:error] = 'Password and password confirmation do not meet specifications'
+      flash[:error] = 'Password and password confirmation do not meet specifications. Password length is less than 6.'
       redirect_to forgot_password_new_pass_show_path_url(email: email)
 
     elsif @user.update(password: pass, password_confirmation: pass_conform)
@@ -221,7 +221,7 @@ class UsersController < ApplicationController
 
     if !(answer_one.present? and answer_two.present? and answer_three.present?)
       redirect_to root_url 
-      flash[:error] = "It seems that you do not have security questions setup. Please try contacting your professor for a new password"
+      flash[:error] = "It seems that you do not have security questions setup. Please try contacting your professor for a new password that is temporary."
       return
     end
 
